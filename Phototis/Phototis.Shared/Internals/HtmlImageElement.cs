@@ -13,19 +13,16 @@ namespace Phototis
     [HtmlElement("img")]
     public sealed class HtmlImageElement : FrameworkElement
     {
-        //private double grayscale = 0;
-        //private double contrast = 100;
-        //private double brightness = 100;
-        //private double saturation = 100;
-        //private double sepia = 0;
-        //private double invert = 0;
-        //private double hue_rotate = 0;
-        //private double blur = 0;
+        #region Ctor
 
         public HtmlImageElement()
         {
 
-        }
+        } 
+
+        #endregion
+
+        #region Properties
 
         private double _Grayscale = 0;
 
@@ -123,6 +120,9 @@ namespace Phototis
             }
         }
 
+        #endregion
+
+        #region Dependency Properties
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));
         //public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnHeightChanged));
@@ -220,7 +220,11 @@ namespace Phototis
         //{
         //    blur = value;
         //    SetFilter();
-        //}
+        //} 
+
+        #endregion
+
+        #region Methods
 
         public void SetDefaults()
         {
@@ -239,6 +243,8 @@ namespace Phototis
         public void SetFilter()
         {
             this.SetCssStyle("filter", $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px) drop-shadow(0 0 0.75rem crimson)");
-        }
+        } 
+
+        #endregion
     }
 }

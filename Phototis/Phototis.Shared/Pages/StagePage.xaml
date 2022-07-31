@@ -15,7 +15,7 @@
             Name="WorkspaceScroller"
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
-            <Canvas
+            <local:WorkSpace
                 Name="Workspace"
                 Grid.Row="0"
                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -30,6 +30,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Vertical">
+
             <ToggleButton
                 Name="WorkSpaceSizeToggle"
                 Width="50"
@@ -43,6 +44,7 @@
                 Foreground="White">
                 <SymbolIcon Symbol="NewWindow" />
             </ToggleButton>
+
             <StackPanel
                 Margin="5"
                 Orientation="Horizontal"
@@ -51,7 +53,7 @@
                     Name="NumberBoxWidth"
                     Margin="20,5"
                     Header="Width"
-                    Maximum="4000"
+                    Maximum="10000"
                     Minimum="400"
                     SpinButtonPlacementMode="Compact"
                     ValueChanged="NumberBoxWidth_ValueChanged" />
@@ -59,11 +61,23 @@
                     Name="NumberBoxHeight"
                     Margin="20,5"
                     Header="Height"
-                    Maximum="4000"
+                    Maximum="10000"
                     Minimum="400"
                     SpinButtonPlacementMode="Compact"
                     ValueChanged="NumberBoxHeight_ValueChanged" />
             </StackPanel>
+
+            <!--<Slider
+                Name="ZoomSlider"
+                Width="200"
+                Margin="5"
+                Header="Zoom"
+                Maximum="3"
+                Minimum="1"
+                ValueChanged="ZoomSlider_ValueChanged"
+                Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}"
+                Value="1" />-->
+
         </StackPanel>
 
         <!--  Tools  -->
@@ -239,7 +253,7 @@
                         Value="0" />
                     <Slider
                         Name="SizeSlider"
-                        Maximum="700"
+                        Maximum="2000"
                         Minimum="50"
                         ValueChanged="SizeSlider_ValueChanged"
                         Visibility="{x:Bind Path=SizeToggleButton.IsChecked, Mode=OneWay}"

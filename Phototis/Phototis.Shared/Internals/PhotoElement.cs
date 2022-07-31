@@ -16,7 +16,7 @@ namespace Phototis
 
         public PhotoElement()
         {
-           
+
         }
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));

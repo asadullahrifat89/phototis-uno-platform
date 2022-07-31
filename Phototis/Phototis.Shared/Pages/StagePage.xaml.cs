@@ -398,6 +398,11 @@ namespace Phototis
             SelectedPhotoElement.HtmlImageElement.SetDefaults();
         }
 
+        //private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    this.Workspace.SetZoom(e.NewValue);
+        //}
+
         #endregion
 
         #region Methods       

@@ -20,6 +20,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\WorkSpace.cs" />
     <Compile Include="..\Phototis.Shared\Internals\HtmlImageElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PhotoElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
