@@ -45,7 +45,7 @@ namespace Phototis
         double _objectLeft;
         double _objectTop;
 
-        private UIElement uIElement;
+        private PhotoElement photoElement;
         private PointerPoint currentPointerPoint;
         private Pointer currentPointer;
 
@@ -118,12 +118,12 @@ namespace Phototis
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isPointerCaptured && uIElement is not null)
+            if (_isPointerCaptured && photoElement is not null)
             {
                 currentPointerPoint = e.GetCurrentPoint(Workspace);
                 currentPointer = e.Pointer;
 
-                DragElement(uIElement);
+                DragElement(photoElement);
             }
 
             //Console.WriteLine("Workspace_PointerMoved");
@@ -162,12 +162,12 @@ namespace Phototis
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
-            if (_isPointerCaptured && uIElement is not null)
+            if (_isPointerCaptured && photoElement is not null)
             {
-                DragElement(uIElement);
+                DragElement(photoElement);
 
-                DragRelease(uIElement);
-                uIElement = null;
+                DragRelease(photoElement);
+                photoElement = null;
             }
 
             Console.WriteLine("Workspace_PointerReleased");
@@ -178,15 +178,15 @@ namespace Phototis
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
-            uIElement = (UIElement)sender;
+            photoElement = (PhotoElement)sender;
 
-            DragStart(uIElement);
+            DragStart(photoElement);
         }
 
         private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            uIElement = (UIElement)sender;
-            DragRelease(uIElement);
+            photoElement = (PhotoElement)sender;
+            DragRelease(photoElement);
         }
 
         private void ImageDrawerToggle_Unchecked(object sender, RoutedEventArgs e)

@@ -39,10 +39,10 @@
                 Background="Red"
                 BorderBrush="DarkRed"
                 BorderThickness="3"
-                Content="S"
                 CornerRadius="100"
-                FontWeight="SemiBold"
-                Foreground="White" />
+                Foreground="White">
+                <SymbolIcon Symbol="NewWindow" />
+            </ToggleButton>
             <StackPanel
                 Margin="5"
                 Orientation="Horizontal"
@@ -63,6 +63,11 @@
                     ValueChanged="NumberBoxHeight_ValueChanged" />
             </StackPanel>
         </StackPanel>
+
+        <Grid
+            Margin="10,10,10,200"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom" />
 
         <!--  Image drawer  -->
         <Grid
@@ -101,11 +106,11 @@
                 Background="Red"
                 BorderBrush="DarkRed"
                 BorderThickness="3"
-                Content="D"
                 CornerRadius="100"
-                FontWeight="SemiBold"
                 Foreground="White"
-                Unchecked="ImageDrawerToggle_Unchecked" />
+                Unchecked="ImageDrawerToggle_Unchecked">
+                <SymbolIcon Symbol="Pictures" />
+            </ToggleButton>
 
         </Grid>
 
