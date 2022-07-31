@@ -171,7 +171,6 @@
                 <Grid Grid.Row="2" Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
                     <Slider
                         Name="GrayScaleSlider"
-                        Header="GrayScale"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="GrayScaleSlider_ValueChanged"
@@ -179,7 +178,6 @@
                         Value="0" />
                     <Slider
                         Name="ContrastSlider"
-                        Header="Contrast"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="ContrastSlider_ValueChanged"
@@ -187,7 +185,6 @@
                         Value="100" />
                     <Slider
                         Name="BrightnessSlider"
-                        Header="Brightness"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="BrightnessSlider_ValueChanged"
@@ -195,7 +192,6 @@
                         Value="100" />
                     <Slider
                         Name="SaturationSlider"
-                        Header="Saturation"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="SaturationSlider_ValueChanged"
@@ -203,7 +199,6 @@
                         Value="100" />
                     <Slider
                         Name="SepiaSlider"
-                        Header="Sepia"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="SepiaSlider_ValueChanged"
@@ -211,7 +206,6 @@
                         Value="0" />
                     <Slider
                         Name="InvertSlider"
-                        Header="Invert"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="InvertSlider_ValueChanged"
@@ -219,7 +213,6 @@
                         Value="0" />
                     <Slider
                         Name="HueRotateSlider"
-                        Header="Hue"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="HueRotateSlider_ValueChanged"
@@ -227,7 +220,6 @@
                         Value="0" />
                     <Slider
                         Name="BlurSlider"
-                        Header="Blur"
                         Maximum="50"
                         Minimum="0"
                         ValueChanged="BlurSlider_ValueChanged"
