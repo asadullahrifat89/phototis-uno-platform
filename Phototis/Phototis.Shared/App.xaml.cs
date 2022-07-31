@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using System;
+using Uno.Foundation;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
+using Windows.UI.ViewManagement;
+using static Phototis.Constants;
 
 namespace Phototis
 {
@@ -13,7 +13,15 @@ namespace Phototis
     /// </summary>
     public sealed partial class App : Application
     {
+        #region Fields
+
         private Window _window;
+
+        private static MainPage _mainPage;
+
+        #endregion
+
+        #region Ctor
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -23,11 +31,59 @@ namespace Phototis
         {
             InitializeLogging();
 
-            this.InitializeComponent();
+            InitializeComponent();
+
+            Uno.UI.ApplicationHelper.RequestedCustomTheme = "Dark";
 
 #if HAS_UNO || NETFX_CORE
-            this.Suspending += OnSuspending;
+            Suspending += OnSuspending;
 #endif
+            UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+#if DEBUG
+            Console.WriteLine(e.Message);
+#endif
+            e.Handled = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public static Account Account { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public static void EnterFullScreen(bool value)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                if (value)
+                {
+                    view.TryEnterFullScreenMode();
+                }
+                else
+                {
+                    view.ExitFullScreenMode();
+                }
+            }
+        }
+     
+        public static void SetAccount()
+        {
+            _mainPage.SetAccount();
+        }
+
+        public static void NavigateToPage(Type page)
+        {
+            _mainPage.Navigate(page);
         }
 
         /// <summary>
@@ -35,66 +91,21 @@ namespace Phototis
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+            _window = Window.Current;
+            _mainPage = _window.Content as MainPage;
+
+            if (_mainPage == null)
             {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-            _window = new Window();
-            _window.Activate();
-#else
-            _window = Microsoft.UI.Xaml.Window.Current;
-#endif
-
-            var rootFrame = _window.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (args.UWPLaunchActivatedEventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                _window.Content = rootFrame;
+                _mainPage = new MainPage();
+                _window.Content = _mainPage;
             }
 
-#if !(NET6_0_OR_GREATER && WINDOWS)
             if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
-#endif
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), args.Arguments);
-                }
-                // Ensure the current window is active
                 _window.Activate();
             }
-        }
-
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new InvalidOperationException($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
         }
 
         /// <summary>
@@ -127,7 +138,7 @@ namespace Phototis
             var factory = LoggerFactory.Create(builder =>
             {
 #if __WASM__
-                builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
+                builder.AddProvider(new Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
 #elif __IOS__
                 builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #elif NETFX_CORE
@@ -135,7 +146,6 @@ namespace Phototis
 #else
                 builder.AddConsole();
 #endif
-
                 // Exclude logs below this level
                 builder.SetMinimumLevel(LogLevel.Information);
 
@@ -144,40 +154,46 @@ namespace Phototis
                 builder.AddFilter("Windows", LogLevel.Warning);
                 builder.AddFilter("Microsoft", LogLevel.Warning);
 
+
                 // Generic Xaml events
-                // builder.AddFilter("Windows.UI.Xaml", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.UIElement", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.FrameworkElement", LogLevel.Trace );
+                //builder.AddFilter("Microsoft.UI.Xaml", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.VisualStateGroup", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.StateTriggerBase", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.UIElement", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.FrameworkElement", LogLevel.Trace);
 
                 // Layouter specific messages
-                // builder.AddFilter("Windows.UI.Xaml.Controls", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.Controls.Panel", LogLevel.Debug );
+                // builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug );
+                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug );
+                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug );
 
-                // builder.AddFilter("Windows.Storage", LogLevel.Debug );
+                builder.AddFilter("Windows.Storage", LogLevel.Debug);
 
                 // Binding related messages
-                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
-                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+                //builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug);
 
                 // Binder memory references tracking
-                // builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
+                builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug);
 
                 // RemoteControl and HotReload related
-                // builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
+                builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
 
                 // Debug JS interop
-                // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
+                builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug);
             });
 
-            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+            Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
 
 #if HAS_UNO
-            global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
+            Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
 #endif
+
 #endif
         }
+
+
+
+        #endregion
     }
 }

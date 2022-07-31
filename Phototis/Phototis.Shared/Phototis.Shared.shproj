@@ -13,11 +13,16 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\LoginPage.xaml" />
     <UpToDateCheckInput Remove="Pages\ProjectsPage.xaml" />
+    <UpToDateCheckInput Remove="Pages\StagePage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <_Globbed_Compile Remove="Constants.cs" />
+    <_Globbed_Compile Remove="Helpers\NavigationHelper.cs" />
     <_Globbed_Compile Remove="Internals\HtmlImage.cs" />
+    <_Globbed_Compile Remove="Models\Account.cs" />
     <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\ProjectsPage.xaml.cs" />
+    <_Globbed_Compile Remove="Pages\StagePage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
@@ -25,5 +30,6 @@
   <ItemGroup>
     <_Globbled_Page Remove="Pages\LoginPage.xaml" />
     <_Globbled_Page Remove="Pages\ProjectsPage.xaml" />
+    <_Globbled_Page Remove="Pages\StagePage.xaml" />
   </ItemGroup>
 </Project>

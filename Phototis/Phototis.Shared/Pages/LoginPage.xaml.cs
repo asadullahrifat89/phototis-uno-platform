@@ -22,9 +22,70 @@ namespace Phototis
     /// </summary>
     public sealed partial class LoginPage : Page
     {
+        #region Ctor
+
         public LoginPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            Loaded += LoginPage_Loaded;
         }
+
+        #endregion
+
+        #region Events
+
+        private void LoginPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            //App.EnterFullScreen(false);
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LoginButton.IsEnabled)
+            {
+                Login();
+            }
+        }
+
+        private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableLoginButton();
+        }
+
+        private void PasswordBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && LoginButton.IsEnabled)
+                Login();
+        }
+
+        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableLoginButton();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void Login()
+        {
+            App.Account = new Account() { UserName = UserNameBox.Text, /*Password = PasswordBox.Password,*/ };
+
+            App.SetAccount();
+
+            App.NavigateToPage(typeof(StagePage));
+        }
+
+        private void EnableLoginButton()
+        {
+            LoginButton.IsEnabled = !UserNameBox.Text.IsNullOrBlank() /*&& !PasswordBox.Text.IsNullOrBlank()*/;
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }
