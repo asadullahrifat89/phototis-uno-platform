@@ -127,6 +127,8 @@ namespace Phototis
 
                 DragElement(uIElement);
             }
+
+            Console.WriteLine("StageEnvironment_PointerMoved");
         }
 
         private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -143,10 +145,12 @@ namespace Phototis
                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
 
                 //photoElement.DoubleTapped += PhotoElement_DoubleTapped;
-
+                
                 photoElement.PointerPressed += PhotoElement_PointerPressed;
-                photoElement.PointerMoved += PhotoElement_PointerMoved;
+                //photoElement.PointerMoved += PhotoElement_PointerMoved;
                 photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+                photoElement.DragStarting += PhotoElement_DragStarting;
 
                 StageEnvironment.Children.Add(photoElement);
 
@@ -158,21 +162,25 @@ namespace Phototis
 #endif
         }
 
+        private void PhotoElement_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            Console.WriteLine("PhotoElement_DragStarting");
+        }
+
         private void StageEnvironment_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
             currentPointer = e.Pointer;
 
-            //            if (_isPointerCaptured && uIElement is not null)
-            //            {
-            //                DragElement(StageEnvironment, e, uIElement);
+            if (_isPointerCaptured && uIElement is not null)
+            {
+                DragElement(uIElement);
 
-            //                DragRelease(e, uIElement);
-            //                uIElement = null;
-            //#if DEBUG
-            //                Console.WriteLine("DragRelease");
-            //#endif
-            //            }
+                DragRelease(uIElement);
+                uIElement = null;
+            }
+
+            Console.WriteLine("StageEnvironment_PointerReleased");
         }
 
         private void PhotoElement_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
