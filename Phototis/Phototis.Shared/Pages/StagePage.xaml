@@ -191,19 +191,27 @@
                         Checked="SizeToggleButton_Checked"
                         Content="Size"
                         CornerRadius="50" />
+                    <ToggleButton
+                        Name="OpacityToggleButton"
+                        Margin="5"
+                        Checked="OpacityToggleButton_Checked"
+                        Content="Opacity"
+                        CornerRadius="50" />
 
                 </WrapPanel>
 
                 <Grid Grid.Row="2" Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
                     <Slider
                         Name="GrayScaleSlider"
+                        Header="{x:Bind Path=GrayScaleSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
-                        Minimum="10"
+                        Minimum="0"
                         ValueChanged="GrayScaleSlider_ValueChanged"
                         Visibility="{x:Bind Path=GrayscaleToggleButton.IsChecked, Mode=OneWay}"
                         Value="0" />
                     <Slider
                         Name="ContrastSlider"
+                        Header="{x:Bind Path=ContrastSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="ContrastSlider_ValueChanged"
@@ -211,6 +219,7 @@
                         Value="100" />
                     <Slider
                         Name="BrightnessSlider"
+                        Header="{x:Bind Path=BrightnessSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
                         Minimum="10"
                         ValueChanged="BrightnessSlider_ValueChanged"
@@ -218,13 +227,15 @@
                         Value="100" />
                     <Slider
                         Name="SaturationSlider"
+                        Header="{x:Bind Path=SaturationSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
-                        Minimum="10"
+                        Minimum="0"
                         ValueChanged="SaturationSlider_ValueChanged"
                         Visibility="{x:Bind Path=SaturationToggleButton.IsChecked, Mode=OneWay}"
                         Value="100" />
                     <Slider
                         Name="SepiaSlider"
+                        Header="{x:Bind Path=SepiaSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="SepiaSlider_ValueChanged"
@@ -232,6 +243,7 @@
                         Value="0" />
                     <Slider
                         Name="InvertSlider"
+                        Header="{x:Bind Path=InvertSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="InvertSlider_ValueChanged"
@@ -239,6 +251,7 @@
                         Value="0" />
                     <Slider
                         Name="HueRotateSlider"
+                        Header="{x:Bind Path=HueRotateSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="200"
                         Minimum="0"
                         ValueChanged="HueRotateSlider_ValueChanged"
@@ -246,6 +259,7 @@
                         Value="0" />
                     <Slider
                         Name="BlurSlider"
+                        Header="{x:Bind Path=BlurSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="50"
                         Minimum="0"
                         ValueChanged="BlurSlider_ValueChanged"
@@ -253,11 +267,23 @@
                         Value="0" />
                     <Slider
                         Name="SizeSlider"
+                        Header="{x:Bind Path=SizeSlider.Value.ToString(), Mode=OneWay}"
                         Maximum="2000"
                         Minimum="50"
                         ValueChanged="SizeSlider_ValueChanged"
                         Visibility="{x:Bind Path=SizeToggleButton.IsChecked, Mode=OneWay}"
                         Value="400" />
+                    <Slider
+                        Name="OpacitySlider"
+                        Header="{x:Bind Path=OpacitySlider.Value.ToString(), Mode=OneWay}"
+                        LargeChange="1"
+                        Maximum="1"
+                        Minimum="0.1"
+                        SmallChange="0.1"
+                        StepFrequency="0.1"
+                        ValueChanged="OpacitySlider_ValueChanged"
+                        Visibility="{x:Bind Path=OpacityToggleButton.IsChecked, Mode=OneWay}"
+                        Value="1" />
                 </Grid>
 
             </Grid>

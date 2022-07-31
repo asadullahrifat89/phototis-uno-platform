@@ -120,6 +120,18 @@ namespace Phototis
             }
         }
 
+        private double _Opacity = 1;
+
+        public new double Opacity
+        {
+            get { return _Opacity; }
+            set
+            {
+                _Opacity = value;
+                SetFilter();
+            }
+        }
+
         #endregion
 
         #region Dependency Properties
@@ -153,7 +165,7 @@ namespace Phototis
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
                 image.SetHtmlAttribute("draggable", "false");
-                image.SetCssStyle(("object-fit", "contain"), ("border-radius", "25px"));
+                image.SetCssStyle("object-fit", "contain");
                 image.SetFilter();
             }
         }
@@ -236,6 +248,7 @@ namespace Phototis
             _Invert = 0;
             _Hue = 0;
             _Blur = 0;
+            _Opacity = 1;
 
             SetFilter();
         }
@@ -243,6 +256,7 @@ namespace Phototis
         public void SetFilter()
         {
             this.SetCssStyle("filter", $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px) drop-shadow(0 0 0.75rem crimson)");
+            this.SetCssStyle("opacity", $"{_Opacity}");
         } 
 
         #endregion

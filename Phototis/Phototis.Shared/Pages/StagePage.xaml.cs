@@ -111,6 +111,8 @@ namespace Phototis
                     HueRotateSlider.Value = _SelectedPhotoElement.HtmlImageElement.Hue;
                     BlurSlider.Value = _SelectedPhotoElement.HtmlImageElement.Blur;
                     SizeSlider.Value = _SelectedPhotoElement.Width;
+                    OpacitySlider.Value = _SelectedPhotoElement.HtmlImageElement.Opacity;
+
 
                     ImageEffectDrawer.Visibility = Visibility.Visible;
                 }
@@ -276,6 +278,11 @@ namespace Phototis
             SelectedPhotoElement.Height = e.NewValue;
         }
 
+        private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Opacity = e.NewValue;
+        }
+
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             ContrastToggleButton.IsChecked = false;
@@ -286,6 +293,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -298,6 +306,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -310,6 +319,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -322,6 +332,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -334,6 +345,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -346,6 +358,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -358,6 +371,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -370,6 +384,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
         }
 
         private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -382,6 +397,20 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
+        }
+
+        private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            GrayscaleToggleButton.IsChecked = false;
+            ContrastToggleButton.IsChecked = false;
+            BrightnessToggleButton.IsChecked = false;
+            SaturationToggleButton.IsChecked = false;
+            SepiaToggleButton.IsChecked = false;
+            InvertToggleButton.IsChecked = false;
+            HueToggleButton.IsChecked = false;
+            BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -394,6 +423,8 @@ namespace Phototis
             InvertSlider.Value = 0;
             HueRotateSlider.Value = 0;
             BlurSlider.Value = 0;
+            SizeSlider.Value = 400;
+            OpacitySlider.Value = 1;
 
             SelectedPhotoElement.HtmlImageElement.SetDefaults();
         }
