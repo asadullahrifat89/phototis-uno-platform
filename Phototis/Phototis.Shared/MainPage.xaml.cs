@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Uno.Storage.Pickers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -41,6 +42,11 @@ namespace Phototis
 
         private async void ChooseButton_Click(object sender, RoutedEventArgs e)
         {
+            await LoadImage();
+        }
+
+        private async Task LoadImage()
+        {
             try
             {
                 if (FileSystemAccessApiInformation.IsOpenPickerSupported)
@@ -54,6 +60,7 @@ namespace Phototis
                     fileOpenPicker.FileTypeFilter.Add(".png");
                     fileOpenPicker.FileTypeFilter.Add(".jpg");
                     fileOpenPicker.FileTypeFilter.Add(".jpeg");
+                    fileOpenPicker.FileTypeFilter.Add(".webp");
                     StorageFile pickedFile = await fileOpenPicker.PickSingleFileAsync();
 
                     if (pickedFile != null)
@@ -76,38 +83,41 @@ namespace Phototis
                             //BitmapImage bitmapImage = new BitmapImage();
                             //bitmapImage.SetSource(ms);
 
-                            //ImageOriginal.Source = bitmapImage;
+                            //Image1.Source = bitmapImage;
 
                             Console.WriteLine("Image set!");
 
                             ms.Seek(0, SeekOrigin.Begin);
                             var base64String = "data:application/octet-stream;base64," + Convert.ToBase64String(ms.ToArray());
 
-                            //ImageEdited.Width = ImageOriginal.ActualWidth.ToString();
-                            //ImageEdited.Height = ImageOriginal.ActualHeight.ToString();
+                            //Image2.Width = Image1.ActualWidth.ToString();
+                            //Image2.Height = Image1.ActualHeight.ToString();
 
-                            Photo photo = new Photo() { Source = base64String, Name = "Ori", };
-                            Photo photo2 = new Photo() { Source = base64String, Name = "Edit", };
+                            //Photo photo = new Photo() { Source = base64String, Name = "Ori", };
+                            //Photo photo2 = new Photo() { Source = base64String, Name = "Edit", };
 
-                            var photos = new List<Photo>();
-                            photos.Add(photo);
-                            photos.Add(photo2);
+                            //var photos = new List<Photo>();
+                            //photos.Add(photo);
+                            //photos.Add(photo2);
 
                             //ImageContainer.ItemsSource = photos;
 
-                            ImageOriginal.Source = base64String;
-                            ImageOriginal.Width = Window.Current.Bounds.Width.ToString();
-                            ImageOriginal.Height = Window.Current.Bounds.Height.ToString();
+                            Image1.Source = base64String;
+                            //Image1.Width = Window.Current.Bounds.Width.ToString();
+                            //Image1.Height = Window.Current.Bounds.Height.ToString();
 
-                            ImageEdited.Source = base64String;
+                            Image2.Source = base64String;
 
-                            ////ImageEdited.GrayScale(100);
-                            //ImageEdited.SetContrast(100);
-                            //ImageEdited.SetBrightness(100);
-                            //ImageEdited.SetSepia(100);
+                            ////Image2.GrayScale(100);
+                            //Image2.SetContrast(100);
+                            //Image2.SetBrightness(100);
+                            //Image2.SetSepia(100);
 
-                            ImageEdited.Width = Window.Current.Bounds.Width.ToString();
-                            ImageEdited.Height = Window.Current.Bounds.Height.ToString();
+                            //Image2.Width = Window.Current.Bounds.Width.ToString();
+                            //Image2.Height = Window.Current.Bounds.Height.ToString();
+
+                            Image1.Visibility = Visibility.Visible;
+                            Image2.Visibility = Visibility.Visible;
                         }
                     }
                     else
@@ -124,27 +134,54 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ImageEdited.SetGrayScale(e.NewValue);
+            Image2.SetGrayScale(e.NewValue);
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ImageEdited.SetContrast(e.NewValue);
+            Image2.SetContrast(e.NewValue);
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ImageEdited.SetBrightness(e.NewValue);
+            Image2.SetBrightness(e.NewValue);
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ImageEdited.SetSaturation(e.NewValue);
+            Image2.SetSaturation(e.NewValue);
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ImageEdited.SetSepia(e.NewValue);
+            Image2.SetSepia(e.NewValue);
+        }
+
+        private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Image2.SetInvert(e.NewValue);
+        }
+
+        private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Image2.SetHueRotate(e.NewValue);
+        }
+
+        private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Image2.SetBlur(e.NewValue);
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            GrayScaleSlider.Value = 0;
+            ContrastSlider.Value = 100;            
+            BrightnessSlider.Value = 100;
+            SaturationSlider.Value = 100;
+            SepiaSlider.Value = 0;
+            InvertSlider.Value = 0;
+            HueRotateSlider.Value = 0;
+            BlurSlider.Value = 0;
         }
     }
 

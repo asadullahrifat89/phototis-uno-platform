@@ -11,18 +11,21 @@ using Uno.UI.Runtime.WebAssembly;
 namespace Phototis
 {
     [HtmlElement("img")]
-    public sealed class HtmlImage : Border
+    public sealed class HtmlImage : FrameworkElement
     {
         private double grayscale = 0;
         private double contrast = 100;
         private double brightness = 100;
         private double saturation = 100;
         private double sepia = 0;
+        private double invert = 0;
+        private double hue_rotate = 0;
+        private double blur = 0;
 
         public HtmlImage()
         {
-            //Background = new SolidColorBrush(Colors.Transparent);
-            BorderThickness = new Thickness(10);
+            this.SetCssStyle("border-radius", "25px");
+            
         }
 
         public string Source
@@ -38,9 +41,9 @@ namespace Phototis
         {
             if (dependencyObject is HtmlImage image)
             {
-                var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);                
+                var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
-                image.SetCssStyle("object-fit", "contain");
+                image.SetCssStyle(("object-fit", "contain"), ("border-radius", "25px"));
             }
         }
 
@@ -73,7 +76,7 @@ namespace Phototis
         private static void OnWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if (dependencyObject is HtmlImage image)
-            {                
+            {
                 image.SetHtmlAttribute("width", $"{args.NewValue}");
             }
         }
@@ -82,7 +85,7 @@ namespace Phototis
         {
             grayscale = value;
             SetFilter();
-        }      
+        }
 
         public void SetContrast(double value)
         {
@@ -108,9 +111,27 @@ namespace Phototis
             SetFilter();
         }
 
+        public void SetInvert(double value)
+        {
+            invert = value;
+            SetFilter();
+        }
+
+        public void SetHueRotate(double value)
+        {
+            hue_rotate = value;
+            SetFilter();
+        }
+
+        public void SetBlur(double value)
+        {
+            blur = value;
+            SetFilter();
+        }
+
         private void SetFilter()
         {
-            this.SetCssStyle("filter", $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%)");
+            this.SetCssStyle("filter", $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%) invert({invert}%) hue-rotate({hue_rotate}deg) blur({blur}px)");
         }
     }
 }
