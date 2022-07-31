@@ -24,7 +24,6 @@
             Click="ChooseButton_Click"
             Content="Choose Image" />
 
-
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

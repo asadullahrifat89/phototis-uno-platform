@@ -77,6 +77,5 @@ namespace Phototis
         {
             ContentFrame.Navigate(page);
         }
-
     }
 }
