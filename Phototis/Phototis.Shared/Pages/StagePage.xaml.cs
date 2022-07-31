@@ -24,8 +24,6 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Phototis
 {
     /// <summary>
@@ -139,7 +137,8 @@ namespace Phototis
             // if image drawer is open then insert new new item
             if (ImageDrawer.IsChecked.Value && selectedPhoto is not null)
             {
-                PhotoElement photoElement = new PhotoElement(selectedPhoto.DataUrl) { Width = 400, Height = 400 };
+                PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
+                photoElement.Source = selectedPhoto.DataUrl;
 
                 Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
