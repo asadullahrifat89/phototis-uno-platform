@@ -49,22 +49,28 @@
                 Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}">
                 <NumberBox
                     Name="NumberBoxWidth"
-                    Margin="5"
+                    Margin="20,5"
                     Header="Width"
                     Maximum="4000"
                     Minimum="400"
+                    SpinButtonPlacementMode="Compact"
                     ValueChanged="NumberBoxWidth_ValueChanged" />
                 <NumberBox
                     Name="NumberBoxHeight"
-                    Margin="5"
+                    Margin="20,5"
                     Header="Height"
                     Maximum="4000"
                     Minimum="400"
+                    SpinButtonPlacementMode="Compact"
                     ValueChanged="NumberBoxHeight_ValueChanged" />
             </StackPanel>
         </StackPanel>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+        <!--  Tools  -->
+        <Grid
+            Margin="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
