@@ -13,6 +13,12 @@ namespace Phototis
     [HtmlElement("img")]
     public sealed class HtmlImage : Border
     {
+        private double grayscale = 0;
+        private double contrast = 100;
+        private double brightness = 100;
+        private double saturation = 100;
+        private double sepia = 0;
+
         public HtmlImage()
         {
             //Background = new SolidColorBrush(Colors.Transparent);
@@ -32,9 +38,7 @@ namespace Phototis
         {
             if (dependencyObject is HtmlImage image)
             {
-                var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
-                //var js = $"element.src=\"{encodedSource}\"; element.style=\"object-fit: contain;\"";
-                //image.ExecuteJavascript(js);
+                var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);                
                 image.SetHtmlAttribute("src", encodedSource);
                 image.SetCssStyle("object-fit", "contain");
             }
@@ -53,8 +57,6 @@ namespace Phototis
         {
             if (dependencyObject is HtmlImage image)
             {
-                //var js = $"element.height=\"{args.NewValue}\";";
-                //image.ExecuteJavascript(js);
                 image.SetHtmlAttribute("height", $"{args.NewValue}");
             }
         }
@@ -71,46 +73,44 @@ namespace Phototis
         private static void OnWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if (dependencyObject is HtmlImage image)
-            {
-                //var js = $"element.width=\"{args.NewValue}\";";
-                //image.ExecuteJavascript(js);
+            {                
                 image.SetHtmlAttribute("width", $"{args.NewValue}");
             }
         }
 
         public void SetGrayScale(double value)
         {
-            //var js = $"element.style.filter=\"grayscale({value}%)\";";
-            //this.ExecuteJavascript(js);
-            this.SetCssStyle("filter", $"grayscale({value}%)");
-        }
+            grayscale = value;
+            SetFilter();
+        }      
 
         public void SetContrast(double value)
         {
-            //var js = $"element.style.filter=\"contrast({value}%)\";";
-            //this.ExecuteJavascript(js);
-            this.SetCssStyle("filter", $"contrast({value}%)");
+            contrast = value;
+            SetFilter();
         }
 
         public void SetBrightness(double value)
         {
-            //var js = $"element.style.filter=\"brightness({value}%)\";";
-            //this.ExecuteJavascript(js);
-            this.SetCssStyle("filter", $"brightness({value}%)");
+            brightness = value;
+            SetFilter();
         }
 
         public void SetSaturation(double value)
         {
-            //var js = $"element.style.filter=\"saturate({value}%)\";";
-            //this.ExecuteJavascript(js);
-            this.SetCssStyle("filter", $"saturate({value}%)");
+            saturation = value;
+            SetFilter();
         }
 
         public void SetSepia(double value)
         {
-            //var js = $"element.style.filter=\"sepia({value}%)\";";
-            //this.ExecuteJavascript(js);
-            this.SetCssStyle("filter", $"sepia({value}%)");
+            sepia = value;
+            SetFilter();
+        }
+
+        private void SetFilter()
+        {
+            this.SetCssStyle("filter", $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%)");
         }
     }
 }

@@ -29,35 +29,40 @@
                 Header="GrayScale"
                 Maximum="200"
                 Minimum="10"
-                ValueChanged="GrayScaleSlider_ValueChanged" />
+                ValueChanged="GrayScaleSlider_ValueChanged"
+                Value="0" />
             <Slider
                 Name="ContrastSlider"
                 Width="200"
                 Header="Contrast"
                 Maximum="200"
                 Minimum="10"
-                ValueChanged="ContrastSlider_ValueChanged" />
+                ValueChanged="ContrastSlider_ValueChanged"
+                Value="100" />
             <Slider
                 Name="BrightnessSlider"
                 Width="200"
                 Header="Brightness"
                 Maximum="200"
                 Minimum="10"
-                ValueChanged="BrightnessSlider_ValueChanged" />
+                ValueChanged="BrightnessSlider_ValueChanged"
+                Value="100" />
             <Slider
                 Name="SaturationSlider"
                 Width="200"
                 Header="Saturation"
                 Maximum="200"
                 Minimum="10"
-                ValueChanged="SaturationSlider_ValueChanged" />
+                ValueChanged="SaturationSlider_ValueChanged"
+                Value="100" />
             <Slider
                 Name="SepiaSlider"
                 Width="200"
                 Header="Sepia"
                 Maximum="200"
                 Minimum="10"
-                ValueChanged="SepiaSlider_ValueChanged" />
+                ValueChanged="SepiaSlider_ValueChanged"
+                Value="0" />
         </StackPanel>
 
         <Grid Grid.Row="1">
