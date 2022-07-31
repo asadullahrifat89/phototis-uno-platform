@@ -56,6 +56,7 @@ namespace Phototis
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
+                image.SetHtmlAttribute("draggable", "false");
                 image.SetCssStyle(("object-fit", "contain"), ("border-radius", "25px"));
                 image.SetFilter();
             }
