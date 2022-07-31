@@ -34,6 +34,7 @@ namespace Phototis
         #region Fields
 
         private List<Photo> photos = new List<Photo>();
+        private double windowWidth, windowHeight;
 
         #endregion
 
@@ -42,6 +43,44 @@ namespace Phototis
         public StagePage()
         {
             this.InitializeComponent();
+            this.Loaded += StagePage_Loaded;
+            this.Unloaded += StagePage_Unloaded;
+            this.StageEnvironment.PointerPressed += StageEnvironment_PointerPressed;
+        }
+
+        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            //TODO: show image picker
+
+            //Popup popup = GetTemplateChild("PART_Popup") as Popup;
+
+            //popup.IsOpen = true;            
+
+            Console.WriteLine("Pointer pressed;");
+        }
+
+        private void StagePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            SizeChanged += StagePage_SizeChanged;
+        }
+
+        private void StagePage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SizeChanged -= StagePage_SizeChanged;
+        }
+
+     
+        private void StagePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        {
+            windowWidth = args.NewSize.Width - 10; //Window.Current.Bounds.Width;
+            windowHeight = args.NewSize.Height - 10; //Window.Current.Bounds.Height;
+
+            StageEnvironment.Width = windowWidth;
+            StageEnvironment.Height = windowHeight;
+
+#if DEBUG
+            Console.WriteLine($"View Size: {windowWidth} x {windowHeight}");
+#endif
         }
 
         #endregion
@@ -156,7 +195,7 @@ namespace Phototis
                 PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
 
                 Canvas.SetLeft(photoElement, (lastWidth));
-                Canvas.SetTop(photoElement, (lastHeight));
+                Canvas.SetTop(photoElement, 0);
 
                 lastHeight = Convert.ToDouble(photoElement.Height);
                 lastWidth = Convert.ToDouble(photoElement.Width);

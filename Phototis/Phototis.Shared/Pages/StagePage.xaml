@@ -15,15 +15,20 @@
             <RowDefinition />
         </Grid.RowDefinitions>-->
 
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
         <Canvas
             Name="StageEnvironment"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            Grid.Row="0"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 
-        <!--<GridView
+        <GridView
             Name="ImagesContainer"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />-->
+            VerticalAlignment="Stretch" />
 
         <!--<Button
             Name="ChooseButton"
