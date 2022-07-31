@@ -110,6 +110,7 @@ namespace Phototis
                     InvertSlider.Value = _SelectedPhotoElement.HtmlImageElement.Invert;
                     HueRotateSlider.Value = _SelectedPhotoElement.HtmlImageElement.Hue;
                     BlurSlider.Value = _SelectedPhotoElement.HtmlImageElement.Blur;
+                    SizeSlider.Value = _SelectedPhotoElement.Width;
 
                     ImageEffectDrawer.Visibility = Visibility.Visible;
                 }
@@ -269,6 +270,12 @@ namespace Phototis
             SelectedPhotoElement.HtmlImageElement.Blur = e.NewValue;
         }
 
+        private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.Width = e.NewValue;
+            SelectedPhotoElement.Height = e.NewValue;
+        }
+
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             ContrastToggleButton.IsChecked = false;
@@ -278,6 +285,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -289,6 +297,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -300,6 +309,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -311,6 +321,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -322,6 +333,7 @@ namespace Phototis
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -333,6 +345,7 @@ namespace Phototis
             SepiaToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -344,6 +357,7 @@ namespace Phototis
             SepiaToggleButton.IsChecked = false;
             InvertToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
         }
 
         private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -355,6 +369,19 @@ namespace Phototis
             SepiaToggleButton.IsChecked = false;
             InvertToggleButton.IsChecked = false;
             HueToggleButton.IsChecked = false;
+            SizeToggleButton.IsChecked = false;
+        }
+
+        private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            GrayscaleToggleButton.IsChecked = false;
+            ContrastToggleButton.IsChecked = false;
+            BrightnessToggleButton.IsChecked = false;
+            SaturationToggleButton.IsChecked = false;
+            SepiaToggleButton.IsChecked = false;
+            InvertToggleButton.IsChecked = false;
+            HueToggleButton.IsChecked = false;
+            BlurToggleButton.IsChecked = false;
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
