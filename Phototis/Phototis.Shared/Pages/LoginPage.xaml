@@ -21,14 +21,14 @@
                 Margin="10,10,10,40"
                 FontSize="45"
                 FontWeight="Bold"
-                Text="MATIS"
+                Text="Phototis"
                 TextAlignment="Center" />
 
             <TextBlock
                 Margin="10,10,10,50"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="Monitoring Art with Technology Innovation and Science"
+                Text="Stitch images, create artwork"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 

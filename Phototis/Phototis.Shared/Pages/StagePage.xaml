@@ -14,11 +14,12 @@
         <Canvas
             Name="StageEnvironment"
             Grid.Row="0"
-            AllowDrop="False"
+            AllowDrop="True"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-            CanDrag="False"
+            CanDrag="True"
             PointerMoved="StageEnvironment_PointerMoved"
-            PointerPressed="StageEnvironment_PointerPressed" />
+            PointerPressed="StageEnvironment_PointerPressed"
+            PointerReleased="StageEnvironment_PointerReleased" />
 
         <!--  Image drawer  -->
         <Grid
@@ -54,8 +55,13 @@
                 Height="50"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                Background="Red"
+                BorderBrush="DarkRed"
+                BorderThickness="3"
                 Content="D"
                 CornerRadius="100"
+                FontWeight="SemiBold"
+                Foreground="White"
                 Unchecked="ImageDrawer_Unchecked" />
 
         </Grid>

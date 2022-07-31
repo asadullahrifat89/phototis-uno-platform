@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -21,6 +22,7 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -46,6 +48,8 @@ namespace Phototis
         double _objectTop;
 
         private UIElement uIElement;
+        private PointerPoint currentPointerPoint;
+        private Pointer currentPointer;
 
         #endregion
 
@@ -81,6 +85,196 @@ namespace Phototis
             Console.WriteLine($"View Size: {windowWidth} x {windowHeight}");
 #endif
         }
+
+        #endregion
+
+        #region Events
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is List<Photo> photos)
+            {
+                this.photos = photos;
+            }
+
+            //double lastHeight = 0;
+            //double lastWidth = 0;
+
+            //foreach (var photo in this.photos)
+            //{
+            //    PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
+
+            //    Canvas.SetLeft(photoElement, (lastWidth));
+            //    Canvas.SetTop(photoElement, 0);
+
+            //    lastHeight = Convert.ToDouble(photoElement.Height);
+            //    lastWidth = Convert.ToDouble(photoElement.Width);
+
+            //    StageEnvironment.Children.Add(photoElement);
+            //}
+
+            ImageContainer.ItemsSource = this.photos;
+
+            base.OnNavigatedTo(e);
+        }
+
+        private void StageEnvironment_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isPointerCaptured && uIElement is not null)
+            {
+                currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+                currentPointer = e.Pointer;
+
+                DragElement(uIElement);
+            }
+        }
+
+        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+            currentPointer = e.Pointer;
+
+            // if image drawer is open then insert new new item
+            if (ImageDrawer.IsChecked.Value && selectedPhoto is not null)
+            {
+                PhotoElement photoElement = new PhotoElement(selectedPhoto.DataUrl) { Width = 400, Height = 400 };
+
+                Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
+                Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+
+                photoElement.DoubleTapped += PhotoElement_DoubleTapped;
+
+                //photoElement.PointerPressed += PhotoElement_PointerPressed;
+                //photoElement.PointerMoved += PhotoElement_PointerMoved;
+                //photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+                StageEnvironment.Children.Add(photoElement);
+
+                selectedPhoto = null;
+            }
+
+#if DEBUG
+            Console.WriteLine("StageEnvironment_PointerPressed");
+#endif
+        }
+
+        private void StageEnvironment_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+            currentPointer = e.Pointer;
+
+            //            if (_isPointerCaptured && uIElement is not null)
+            //            {
+            //                DragElement(StageEnvironment, e, uIElement);
+
+            //                DragRelease(e, uIElement);
+            //                uIElement = null;
+            //#if DEBUG
+            //                Console.WriteLine("DragRelease");
+            //#endif
+            //            }
+        }
+
+        private void PhotoElement_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            uIElement = (UIElement)sender;
+
+            if (!_isPointerCaptured)
+            {
+                DragStart(uIElement);
+            }
+            else
+            {
+                DragElement(uIElement);
+                DragRelease(uIElement);
+                uIElement = null;
+            }
+        }
+
+        //private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
+        //{
+        //    UIElement uielement = (UIElement)sender;
+        //    DragRelease(e, uielement);
+        //}
+
+        //private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
+        //{
+        //    UIElement uielement = (UIElement)sender;
+        //    DragElement(StageEnvironment, e, uielement);
+        //}
+
+        private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ImageContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedPhoto = ImageContainer.SelectedItem as Photo;
+        }
+
+        //private void ChooseButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Image1.Source = photos[0].ImageUrl;
+        //    Image2.Source = photos[0].ImageUrl;
+        //}
+
+        //private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetGrayScale(e.NewValue);
+        //}
+
+        //private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetContrast(e.NewValue);
+        //}
+
+        //private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetBrightness(e.NewValue);
+        //}
+
+        //private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetSaturation(e.NewValue);
+        //}
+
+        //private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetSepia(e.NewValue);
+        //}
+
+        //private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetInvert(e.NewValue);
+        //}
+
+        //private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetHueRotate(e.NewValue);
+        //}
+
+        //private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    Image2.SetBlur(e.NewValue);
+        //}
+
+        //private void ResetButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    GrayScaleSlider.Value = 0;
+        //    ContrastSlider.Value = 100;
+        //    BrightnessSlider.Value = 100;
+        //    SaturationSlider.Value = 100;
+        //    SepiaSlider.Value = 0;
+        //    InvertSlider.Value = 0;
+        //    HueRotateSlider.Value = 0;
+        //    BlurSlider.Value = 0;
+        //} 
 
         #endregion
 
@@ -173,124 +367,37 @@ namespace Phototis
         //    }
         //}
 
-        #endregion
-
-        #region Events
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (e.Parameter is List<Photo> photos)
-            {
-                this.photos = photos;
-            }
-
-            //double lastHeight = 0;
-            //double lastWidth = 0;
-
-            //foreach (var photo in this.photos)
-            //{
-            //    PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
-
-            //    Canvas.SetLeft(photoElement, (lastWidth));
-            //    Canvas.SetTop(photoElement, 0);
-
-            //    lastHeight = Convert.ToDouble(photoElement.Height);
-            //    lastWidth = Convert.ToDouble(photoElement.Width);
-
-            //    StageEnvironment.Children.Add(photoElement);
-            //}
-
-            ImageContainer.ItemsSource = this.photos;
-
-            base.OnNavigatedTo(e);
-        }
-
-        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            //TODO: show image picker
-
-            if (ImageDrawer.IsChecked.Value && selectedPhoto is not null)
-            {
-                PhotoElement photoElement = new PhotoElement(selectedPhoto.DataUrl) { Width = 400, Height = 400 };
-
-                var point = e.GetCurrentPoint(StageEnvironment);
-
-                Canvas.SetLeft(photoElement, point.Position.X - 200);
-                Canvas.SetTop(photoElement, point.Position.Y - 200);
-
-                photoElement.PointerPressed += PhotoElement_PointerPressed;
-                //photoElement.PointerMoved += PhotoElement_PointerMoved;
-                //photoElement.PointerReleased += PhotoElement_PointerReleased;
-
-                StageEnvironment.Children.Add(photoElement);
-
-                selectedPhoto = null;
-            }
-
-#if DEBUG
-            Console.WriteLine("StageEnvironment_PointerPressed");
-#endif
-        }
-
-        //private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
-        //{
-        //    UIElement uielement = (UIElement)sender;
-        //    DragRelease(e, uielement);
-        //}
-
-        //private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
-        //{
-        //    UIElement uielement = (UIElement)sender;
-        //    DragElement(StageEnvironment, e, uielement);
-        //}
-
-        private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            uIElement = (UIElement)sender;
-
-            if (!_isPointerCaptured)
-            {
-                DragStart(StageEnvironment, e, uIElement);
-            }
-            else
-            {
-                DragRelease(e, uIElement);
-                uIElement = null;
-            }
-        }
-
-        public void DragStart(
-            Canvas canvas,
-            PointerRoutedEventArgs e,
-            UIElement uielement)
+        public void DragStart(UIElement uielement)
         {
             // Drag start of a constuct
             _objectLeft = Canvas.GetLeft(uielement);
             _objectTop = Canvas.GetTop(uielement);
 
-            var currentPoint = e.GetCurrentPoint(canvas);
+            //var currentPoint = e.GetCurrentPoint(canvas);
 
             // Remember the pointer position:
-            _pointerX = currentPoint.Position.X;
-            _pointerY = currentPoint.Position.Y;
+            _pointerX = currentPointerPoint.Position.X;
+            _pointerY = currentPointerPoint.Position.Y;
 
-            uielement.CapturePointer(e.Pointer);
+            uielement.CapturePointer(currentPointer);
+            uielement.Opacity = 0.6d;
 
             _isPointerCaptured = true;
+
+#if DEBUG
+            Console.WriteLine("DragStart");
+#endif
         }
 
-        public void DragElement(
-         Canvas canvas,
-         PointerRoutedEventArgs e,
-         UIElement uielement)
+        public void DragElement(UIElement uielement)
         {
             if (_isPointerCaptured)
             {
-                var currentPoint = e.GetCurrentPoint(canvas);
+                //var currentPoint = e.GetCurrentPoint(canvas);
 
                 // Calculate the new position of the object:
-                double deltaH = currentPoint.Position.X - _pointerX;
-                double deltaV = currentPoint.Position.Y - _pointerY;
+                double deltaH = currentPointerPoint.Position.X - _pointerX;
+                double deltaV = currentPointerPoint.Position.Y - _pointerY;
 
                 _objectLeft = deltaH + _objectLeft;
                 _objectTop = deltaV + _objectTop;
@@ -300,94 +407,21 @@ namespace Phototis
                 Canvas.SetTop(uielement, _objectTop);
 
                 // Remember the pointer position:
-                _pointerX = currentPoint.Position.X;
-                _pointerY = currentPoint.Position.Y;
+                _pointerX = currentPointerPoint.Position.X;
+                _pointerY = currentPointerPoint.Position.Y;
             }
         }
 
-        public void DragRelease(
-          PointerRoutedEventArgs e,
-          UIElement uielement)
+        public void DragRelease(UIElement uielement)
         {
             _isPointerCaptured = false;
-            uielement.ReleasePointerCapture(e.Pointer);
+            uielement.ReleasePointerCapture(currentPointer);
+            uielement.Opacity = 1;
+
+#if DEBUG
+            Console.WriteLine("DragRelease");
+#endif
         }
-
-        private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void StageEnvironment_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isPointerCaptured && uIElement is not null)
-            {
-                DragElement(StageEnvironment, e, uIElement);
-            }
-        }
-
-        private void ImageContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            selectedPhoto = ImageContainer.SelectedItem as Photo;
-        }
-
-        //private void ChooseButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Image1.Source = photos[0].ImageUrl;
-        //    Image2.Source = photos[0].ImageUrl;
-        //}
-
-        //private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetGrayScale(e.NewValue);
-        //}
-
-        //private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetContrast(e.NewValue);
-        //}
-
-        //private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetBrightness(e.NewValue);
-        //}
-
-        //private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetSaturation(e.NewValue);
-        //}
-
-        //private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetSepia(e.NewValue);
-        //}
-
-        //private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetInvert(e.NewValue);
-        //}
-
-        //private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetHueRotate(e.NewValue);
-        //}
-
-        //private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetBlur(e.NewValue);
-        //}
-
-        //private void ResetButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    GrayScaleSlider.Value = 0;
-        //    ContrastSlider.Value = 100;
-        //    BrightnessSlider.Value = 100;
-        //    SaturationSlider.Value = 100;
-        //    SepiaSlider.Value = 0;
-        //    InvertSlider.Value = 0;
-        //    HueRotateSlider.Value = 0;
-        //    BlurSlider.Value = 0;
-        //} 
 
         #endregion
     }

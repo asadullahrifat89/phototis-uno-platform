@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using Uno.UI.Runtime.WebAssembly;
 namespace Phototis
 {
     [HtmlElement("img")]
-    public sealed class HtmlImageElement : FrameworkElement
+    public sealed class HtmlImageElement : Border
     {
         private double grayscale = 0;
         private double contrast = 100;
@@ -23,7 +24,8 @@ namespace Phototis
 
         public HtmlImageElement()
         {
-            this.SetCssStyle("border-radius", "25px");
+            this.CanDrag = false;
+            this.AllowDrop = false;
         }
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));

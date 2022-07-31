@@ -29,7 +29,7 @@
                 VerticalAlignment="Center"
                 FontSize="45"
                 FontWeight="Bold"
-                Text="MATIS" />
+                Text="Phototis" />
 
             <TextBlock
                 Margin="10"
