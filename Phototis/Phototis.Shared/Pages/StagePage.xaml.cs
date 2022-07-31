@@ -35,7 +35,7 @@ namespace Phototis
 
         private List<Photo> photos = new List<Photo>();
         private double windowWidth, windowHeight;
-
+        private Photo selectedPhoto;
         #endregion
 
         #region Ctor
@@ -45,18 +45,6 @@ namespace Phototis
             this.InitializeComponent();
             this.Loaded += StagePage_Loaded;
             this.Unloaded += StagePage_Unloaded;
-            this.StageEnvironment.PointerPressed += StageEnvironment_PointerPressed;
-        }
-
-        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            //TODO: show image picker
-
-            //Popup popup = GetTemplateChild("PART_Popup") as Popup;
-
-            //popup.IsOpen = true;            
-
-            Console.WriteLine("Pointer pressed;");
         }
 
         private void StagePage_Loaded(object sender, RoutedEventArgs e)
@@ -69,7 +57,7 @@ namespace Phototis
             SizeChanged -= StagePage_SizeChanged;
         }
 
-     
+
         private void StagePage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             windowWidth = args.NewSize.Width - 10; //Window.Current.Bounds.Width;
@@ -185,29 +173,58 @@ namespace Phototis
                 this.photos = photos;
             }
 
-            double lastHeight = 0;
-            double lastWidth = 0;
+            //double lastHeight = 0;
+            //double lastWidth = 0;
 
-            //List<PhotoElement> photoElements = new List<PhotoElement>();
+            //foreach (var photo in this.photos)
+            //{
+            //    PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
 
-            foreach (var photo in this.photos)
-            {
-                PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
+            //    Canvas.SetLeft(photoElement, (lastWidth));
+            //    Canvas.SetTop(photoElement, 0);
 
-                Canvas.SetLeft(photoElement, (lastWidth));
-                Canvas.SetTop(photoElement, 0);
+            //    lastHeight = Convert.ToDouble(photoElement.Height);
+            //    lastWidth = Convert.ToDouble(photoElement.Width);
 
-                lastHeight = Convert.ToDouble(photoElement.Height);
-                lastWidth = Convert.ToDouble(photoElement.Width);
+            //    StageEnvironment.Children.Add(photoElement);
+            //}
 
-                //photoElements.Add(photoElement);
-
-                StageEnvironment.Children.Add(photoElement);
-            }
-
-            //ImagesContainer.ItemsSource = photoElements;
+            ImageContainer.ItemsSource = this.photos;
 
             base.OnNavigatedTo(e);
+        }
+
+        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            //TODO: show image picker
+
+            if (ImageDrawer.IsChecked.Value && selectedPhoto is not null)
+            {
+                PhotoElement photoElement = new PhotoElement(selectedPhoto.DataUrl) { Width = 400, Height = 400 };
+
+                var point = e.GetCurrentPoint(StageEnvironment);
+
+                Canvas.SetLeft(photoElement, point.Position.X - 200);
+                Canvas.SetTop(photoElement, point.Position.Y - 200);
+
+                StageEnvironment.Children.Add(photoElement);
+
+                selectedPhoto = null;
+            }
+
+#if DEBUG
+            Console.WriteLine("Pointer pressed;");
+#endif
+        }
+
+        private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void ImageContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedPhoto = ImageContainer.SelectedItem as Photo;
         }
 
         //private void ChooseButton_Click(object sender, RoutedEventArgs e)

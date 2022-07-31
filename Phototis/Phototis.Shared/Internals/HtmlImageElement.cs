@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -10,16 +9,8 @@ using Uno.UI.Runtime.WebAssembly;
 
 namespace Phototis
 {
-    public class PhotoElement : Border
-    {
-        public PhotoElement(string dataUrl)
-        {
-            Child = new HtmlImage() { Source = dataUrl };
-        }
-    }
-
     [HtmlElement("img")]
-    public sealed class HtmlImage : FrameworkElement
+    public sealed class HtmlImageElement : FrameworkElement
     {
         private double grayscale = 0;
         private double contrast = 100;
@@ -30,12 +21,12 @@ namespace Phototis
         private double hue_rotate = 0;
         private double blur = 0;
 
-        public HtmlImage()
+        public HtmlImageElement()
         {
             this.SetCssStyle("border-radius", "25px");
         }
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnSourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));
         //public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnHeightChanged));
         //public static readonly new DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnWidthChanged));
 
@@ -59,7 +50,7 @@ namespace Phototis
 
         private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            if (dependencyObject is HtmlImage image)
+            if (dependencyObject is HtmlImageElement image)
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);

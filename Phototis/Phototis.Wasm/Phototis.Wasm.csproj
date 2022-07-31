@@ -52,5 +52,5 @@
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
 	</ItemGroup>
-	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />
+	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />	
 </Project>

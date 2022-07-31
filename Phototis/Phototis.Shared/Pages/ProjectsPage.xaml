@@ -37,7 +37,7 @@
                 VerticalAlignment="Center"
                 FontSize="25"
                 FontWeight="SemiBold"
-                Text="Select images to start"
+                Text="Upload images to start"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 
@@ -53,7 +53,7 @@
             BorderBrush="DarkRed"
             BorderThickness="3"
             Click="SelectImagesButton_Click"
-            Content="Select"
+            Content="Upload"
             CornerRadius="50"
             FontWeight="SemiBold"
             Foreground="White" />
@@ -63,7 +63,7 @@
             Grid.Row="2"
             MinWidth="300"
             Margin="0,50"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center">
             <GridView.ItemTemplate>
                 <DataTemplate>
