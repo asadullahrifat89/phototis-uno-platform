@@ -26,10 +26,10 @@
 
         <!--  Workspace  Size  -->
         <StackPanel
-            Margin="10"
+            Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Orientation="Horizontal">
+            Orientation="Vertical">
             <ToggleButton
                 Name="WorkSpaceSizeToggle"
                 Width="50"
@@ -64,14 +64,112 @@
             </StackPanel>
         </StackPanel>
 
-        <Grid
-            Margin="10,10,10,200"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom" />
+        <!--  Image effects  -->
+        <StackPanel
+            Name="ImageEffectDrawer"
+            Margin="20,20,20,200"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Vertical"
+            Visibility="Collapsed">
+
+            <StackPanel
+                Name="EditTools"
+                Margin="5"
+                Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                <Button
+                    Name="ResetButton"
+                    Grid.Row="0"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Click="ResetButton_Click"
+                    Content="Reset" />
+                <Slider
+                    Name="GrayScaleSlider"
+                    Width="200"
+                    Header="GrayScale"
+                    Maximum="200"
+                    Minimum="10"
+                    ValueChanged="GrayScaleSlider_ValueChanged"
+                    Value="0" />
+                <Slider
+                    Name="ContrastSlider"
+                    Width="200"
+                    Header="Contrast"
+                    Maximum="200"
+                    Minimum="10"
+                    ValueChanged="ContrastSlider_ValueChanged"
+                    Value="100" />
+                <Slider
+                    Name="BrightnessSlider"
+                    Width="200"
+                    Header="Brightness"
+                    Maximum="200"
+                    Minimum="10"
+                    ValueChanged="BrightnessSlider_ValueChanged"
+                    Value="100" />
+                <Slider
+                    Name="SaturationSlider"
+                    Width="200"
+                    Header="Saturation"
+                    Maximum="200"
+                    Minimum="10"
+                    ValueChanged="SaturationSlider_ValueChanged"
+                    Value="100" />
+                <Slider
+                    Name="SepiaSlider"
+                    Width="200"
+                    Header="Sepia"
+                    Maximum="200"
+                    Minimum="0"
+                    ValueChanged="SepiaSlider_ValueChanged"
+                    Value="0" />
+                <Slider
+                    Name="InvertSlider"
+                    Width="200"
+                    Header="Invert"
+                    Maximum="200"
+                    Minimum="0"
+                    ValueChanged="InvertSlider_ValueChanged"
+                    Value="0" />
+                <Slider
+                    Name="HueRotateSlider"
+                    Width="200"
+                    Header="Hue"
+                    Maximum="200"
+                    Minimum="0"
+                    ValueChanged="HueRotateSlider_ValueChanged"
+                    Value="0" />
+                <Slider
+                    Name="BlurSlider"
+                    Width="200"
+                    Header="Blur"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueChanged="BlurSlider_ValueChanged"
+                    Value="0" />
+            </StackPanel>
+
+            <ToggleButton
+                Name="ImageEffectToggle"
+                Width="50"
+                Height="50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="Red"
+                BorderBrush="DarkRed"
+                BorderThickness="3"
+                CornerRadius="100"
+                Foreground="White">
+                <SymbolIcon Symbol="Edit" />
+            </ToggleButton>
+
+        </StackPanel>
 
         <!--  Image drawer  -->
         <Grid
-            Margin="10"
+            Margin="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom">
 

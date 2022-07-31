@@ -45,7 +45,8 @@ namespace Phototis
         double _objectLeft;
         double _objectTop;
 
-        private PhotoElement photoElement;
+        private PhotoElement draggingElement;
+
         private PointerPoint currentPointerPoint;
         private Pointer currentPointer;
 
@@ -88,6 +89,35 @@ namespace Phototis
 
         #endregion
 
+        #region Properties
+
+        private PhotoElement _SelectedPhotoElement;
+
+        public PhotoElement SelectedPhotoElement
+        {
+            get { return _SelectedPhotoElement; }
+            set
+            {
+                _SelectedPhotoElement = value;
+
+                ImageEffectDrawer.Visibility = _SelectedPhotoElement is null ? Visibility.Collapsed : Visibility.Visible;
+
+                if (_SelectedPhotoElement is not null)
+                {
+                    GrayScaleSlider.Value = _SelectedPhotoElement.HtmlImageElement.Grayscale;
+                    ContrastSlider.Value = _SelectedPhotoElement.HtmlImageElement.Contrast;
+                    BrightnessSlider.Value = _SelectedPhotoElement.HtmlImageElement.Brightness;
+                    SaturationSlider.Value = _SelectedPhotoElement.HtmlImageElement.Saturation;
+                    SepiaSlider.Value = _SelectedPhotoElement.HtmlImageElement.Sepia;
+                    InvertSlider.Value = _SelectedPhotoElement.HtmlImageElement.Invert;
+                    HueRotateSlider.Value = _SelectedPhotoElement.HtmlImageElement.Hue;
+                    BlurSlider.Value = _SelectedPhotoElement.HtmlImageElement.Blur;
+                }
+            }
+        }
+
+        #endregion
+
         #region Events
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -118,12 +148,12 @@ namespace Phototis
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isPointerCaptured && photoElement is not null)
+            if (_isPointerCaptured && draggingElement is not null)
             {
                 currentPointerPoint = e.GetCurrentPoint(Workspace);
                 currentPointer = e.Pointer;
 
-                DragElement(photoElement);
+                DragElement(draggingElement);
             }
 
             //Console.WriteLine("Workspace_PointerMoved");
@@ -162,31 +192,32 @@ namespace Phototis
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
-            if (_isPointerCaptured && photoElement is not null)
+            if (_isPointerCaptured && draggingElement is not null)
             {
-                DragElement(photoElement);
+                DragElement(draggingElement);
+                DragRelease(draggingElement);
 
-                DragRelease(photoElement);
-                photoElement = null;
+                draggingElement = null;
             }
 
             Console.WriteLine("Workspace_PointerReleased");
-        }     
+        }
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
-            photoElement = (PhotoElement)sender;
+            draggingElement = (PhotoElement)sender;
+            SelectedPhotoElement = (PhotoElement)sender;
 
-            DragStart(photoElement);
+            DragStart(draggingElement);
         }
 
         private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            photoElement = (PhotoElement)sender;
-            DragRelease(photoElement);
+            draggingElement = (PhotoElement)sender;
+            DragRelease(draggingElement);
         }
 
         private void ImageDrawerToggle_Unchecked(object sender, RoutedEventArgs e)
@@ -199,57 +230,59 @@ namespace Phototis
             selectedPhoto = ImageContainer.SelectedItem as Photo;
         }
 
-        //private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetGrayScale(e.NewValue);
-        //}
+        private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Grayscale = e.NewValue;
+        }
 
-        //private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetContrast(e.NewValue);
-        //}
+        private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Contrast = e.NewValue;
+        }
 
-        //private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetBrightness(e.NewValue);
-        //}
+        private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Brightness = e.NewValue;
+        }
 
-        //private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetSaturation(e.NewValue);
-        //}
+        private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Saturation = e.NewValue;
+        }
 
-        //private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetSepia(e.NewValue);
-        //}
+        private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Sepia = e.NewValue;
+        }
 
-        //private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetInvert(e.NewValue);
-        //}
+        private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Invert = e.NewValue;
+        }
 
-        //private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetHueRotate(e.NewValue);
-        //}
+        private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Hue = e.NewValue;
+        }
 
-        //private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    Image2.SetBlur(e.NewValue);
-        //}
+        private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElement.HtmlImageElement.Blur = e.NewValue;
+        }
 
-        //private void ResetButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    GrayScaleSlider.Value = 0;
-        //    ContrastSlider.Value = 100;
-        //    BrightnessSlider.Value = 100;
-        //    SaturationSlider.Value = 100;
-        //    SepiaSlider.Value = 0;
-        //    InvertSlider.Value = 0;
-        //    HueRotateSlider.Value = 0;
-        //    BlurSlider.Value = 0;
-        //} 
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            GrayScaleSlider.Value = 0;
+            ContrastSlider.Value = 100;
+            BrightnessSlider.Value = 100;
+            SaturationSlider.Value = 100;
+            SepiaSlider.Value = 0;
+            InvertSlider.Value = 0;
+            HueRotateSlider.Value = 0;
+            BlurSlider.Value = 0;
+
+            //SelectedPhotoElement.HtmlImageElement.SetDefaults();
+        }
 
         #endregion
 
