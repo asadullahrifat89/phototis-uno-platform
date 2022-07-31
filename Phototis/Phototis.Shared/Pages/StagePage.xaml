@@ -64,28 +64,112 @@
             </StackPanel>
         </StackPanel>
 
-        <!--  Image effects  -->
-        <StackPanel
-            Name="ImageEffectDrawer"
-            Margin="20,20,20,200"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Vertical"
-            Visibility="Collapsed">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
 
-            <StackPanel
-                Name="EditTools"
-                Margin="5"
-                Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
-                <Button
-                    Name="ResetButton"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Image effects  -->
+            <Grid
+                Name="ImageEffectDrawer"
+                Grid.Row="0"
+                Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Visibility="Collapsed">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ToggleButton
+                    Name="ImageEffectToggle"
                     Grid.Row="0"
-                    Margin="0,5"
-                    HorizontalAlignment="Left"
+                    Width="50"
+                    Height="50"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Click="ResetButton_Click"
-                    Content="Reset" />
+                    Background="Red"
+                    BorderBrush="DarkRed"
+                    BorderThickness="3"
+                    CornerRadius="100"
+                    Foreground="White">
+                    <SymbolIcon Symbol="Edit" />
+                </ToggleButton>
+
+                <WrapPanel
+                    Name="EditTools"
+                    Grid.Row="1"
+                    Margin="5"
+                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+
+                    <Button
+                        Name="ResetButton"
+                        Grid.Row="0"
+                        Margin="0,5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Click="ResetButton_Click"
+                        Content="Reset"
+                        CornerRadius="50" />
+
+                    <ToggleButton
+                        Name="GrayscaleToggleButton"
+                        Margin="5"
+                        Content="Grayscale"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="ContrastToggleButton"
+                        Margin="5"
+                        Content="Contrast"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="BrightnessToggleButton"
+                        Margin="5"
+                        Content="Brightness"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="SaturationToggleButton"
+                        Margin="5"
+                        Content="Saturation"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="SepiaToggleButton"
+                        Margin="5"
+                        Content="Sepia"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="InvertToggleButton"
+                        Margin="5"
+                        Content="Invert"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="HueToggleButton"
+                        Margin="5"
+                        Content="Hue"
+                        CornerRadius="50" />
+                    <ToggleButton
+                        Name="BlurToggleButton"
+                        Margin="5"
+                        Content="Blur"
+                        CornerRadius="50" />
+
+                </WrapPanel>
+
                 <Slider
+                    Name="ImageEffectSlider"
+                    Grid.Row="2"
+                    Maximum="200"
+                    Minimum="-200"
+                    ValueChanged="ImageEffectSlider_ValueChanged"
+                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}"
+                    Value="0" />
+
+                <!--<Slider
                     Name="GrayScaleSlider"
                     Width="200"
                     Header="GrayScale"
@@ -148,67 +232,55 @@
                     Maximum="50"
                     Minimum="0"
                     ValueChanged="BlurSlider_ValueChanged"
-                    Value="0" />
-            </StackPanel>
+                    Value="0" />-->
 
-            <ToggleButton
-                Name="ImageEffectToggle"
-                Width="50"
-                Height="50"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Background="Red"
-                BorderBrush="DarkRed"
-                BorderThickness="3"
-                CornerRadius="100"
-                Foreground="White">
-                <SymbolIcon Symbol="Edit" />
-            </ToggleButton>
+            </Grid>
 
-        </StackPanel>
-
-        <!--  Image drawer  -->
-        <Grid
-            Margin="20"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom">
-
-            <GridView
-                Name="ImageContainer"
+            <!--  Image drawer  -->
+            <Grid
                 Grid.Row="1"
-                Height="160"
-                Margin="60,0,0,0"
-                SelectionChanged="ImageContainer_SelectionChanged"
-                Visibility="{x:Bind Path=ImageDrawerToggle.IsChecked, Mode=OneWay}">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <Image Width="100" Source="{Binding Path=Source, Mode=OneWay}" />
-                            <TextBlock
-                                Width="100"
-                                Margin="5"
-                                Text="{Binding Path=Name, Mode=OneWay}"
-                                TextAlignment="Center"
-                                TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                Margin="20"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom">
 
-            <ToggleButton
-                Name="ImageDrawerToggle"
-                Width="50"
-                Height="50"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Background="Red"
-                BorderBrush="DarkRed"
-                BorderThickness="3"
-                CornerRadius="100"
-                Foreground="White"
-                Unchecked="ImageDrawerToggle_Unchecked">
-                <SymbolIcon Symbol="Pictures" />
-            </ToggleButton>
+                <GridView
+                    Name="ImageContainer"
+                    Grid.Row="1"
+                    Height="160"
+                    Margin="60,0,0,0"
+                    SelectionChanged="ImageContainer_SelectionChanged"
+                    Visibility="{x:Bind Path=ImageDrawerToggle.IsChecked, Mode=OneWay}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Image Width="100" Source="{Binding Path=Source, Mode=OneWay}" />
+                                <TextBlock
+                                    Width="100"
+                                    Margin="5"
+                                    Text="{Binding Path=Name, Mode=OneWay}"
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+                <ToggleButton
+                    Name="ImageDrawerToggle"
+                    Width="50"
+                    Height="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="Red"
+                    BorderBrush="DarkRed"
+                    BorderThickness="3"
+                    CornerRadius="100"
+                    Foreground="White"
+                    Unchecked="ImageDrawerToggle_Unchecked">
+                    <SymbolIcon Symbol="Pictures" />
+                </ToggleButton>
+
+            </Grid>
 
         </Grid>
 
