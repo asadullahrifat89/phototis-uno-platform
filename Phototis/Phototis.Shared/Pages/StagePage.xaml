@@ -275,7 +275,7 @@
                         Value="400" />
                     <Slider
                         Name="OpacitySlider"
-                        Header="{x:Bind Path=OpacitySlider.Value.ToString(), Mode=OneWay}"
+                        Header="{x:Bind Path=OpacitySlider.Value.ToString('0.0'), Mode=OneWay}"
                         LargeChange="1"
                         Maximum="1"
                         Minimum="0.1"
