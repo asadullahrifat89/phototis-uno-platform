@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\HtmlImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Photo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>

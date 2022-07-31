@@ -24,8 +24,7 @@ namespace Phototis
 
         public HtmlImage()
         {
-            this.SetCssStyle("border-radius", "25px");
-            
+            this.SetCssStyle("border-radius", "25px");            
         }
 
         public string Source

@@ -73,7 +73,7 @@ namespace Phototis
 
             App.SetAccount();
 
-            App.NavigateToPage(typeof(StagePage));
+            App.NavigateToPage(typeof(ProjectsPage));
         }
 
         private void EnableLoginButton()

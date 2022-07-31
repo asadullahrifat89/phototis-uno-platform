@@ -73,9 +73,9 @@ namespace Phototis
             AccountPersonPicture.Initials = Constants.GetInitials(App.Account.UserName);
         }
 
-        public void Navigate(Type page)
+        public void Navigate(Type page, object parameter = null)
         {
-            ContentFrame.Navigate(page);
+            ContentFrame.Navigate(page, parameter);
         }
     }
 }

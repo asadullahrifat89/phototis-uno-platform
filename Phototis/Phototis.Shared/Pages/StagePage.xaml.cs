@@ -31,11 +31,22 @@ namespace Phototis
     /// </summary>
     public sealed partial class StagePage : Page
     {
+        private List<Photo> photos;
+
         public StagePage()
         {
             this.InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is List<Photo> photos)
+            {
+                this.photos = photos;
+            }
+
+            base.OnNavigatedTo(e);
+        }
 
         private async void ChooseButton_Click(object sender, RoutedEventArgs e)
         {

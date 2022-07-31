@@ -20,6 +20,7 @@
     <_Globbed_Compile Remove="Helpers\NavigationHelper.cs" />
     <_Globbed_Compile Remove="Internals\HtmlImage.cs" />
     <_Globbed_Compile Remove="Models\Account.cs" />
+    <_Globbed_Compile Remove="Models\Photo.cs" />
     <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\ProjectsPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\StagePage.xaml.cs" />

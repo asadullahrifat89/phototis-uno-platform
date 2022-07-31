@@ -1,4 +1,6 @@
-﻿namespace Phototis
+﻿using Microsoft.UI.Xaml.Media.Imaging;
+
+namespace Phototis
 {
     public class Account
     {

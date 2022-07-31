@@ -81,9 +81,9 @@ namespace Phototis
             _mainPage.SetAccount();
         }
 
-        public static void NavigateToPage(Type page)
+        public static void NavigateToPage(Type page, object parameter = null)
         {
-            _mainPage.Navigate(page);
+            _mainPage.Navigate(page, parameter);
         }
 
         /// <summary>
