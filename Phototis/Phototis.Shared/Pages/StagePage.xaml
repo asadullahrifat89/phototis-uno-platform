@@ -75,7 +75,7 @@
             <Grid
                 Name="ImageEffectDrawer"
                 Grid.Row="0"
-                Margin="20"
+                Margin="20,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Visibility="Collapsed">
@@ -240,15 +240,20 @@
             <!--  Image drawer  -->
             <Grid
                 Grid.Row="1"
-                Margin="20"
+                Margin="20,5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom">
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 <GridView
                     Name="ImageContainer"
-                    Grid.Row="1"
-                    Height="160"
-                    Margin="60,0,0,0"
+                    Grid.Row="0"
+                    Height="170"
+                    Margin="5"
                     SelectionChanged="ImageContainer_SelectionChanged"
                     Visibility="{x:Bind Path=ImageDrawerToggle.IsChecked, Mode=OneWay}">
                     <GridView.ItemTemplate>
@@ -268,9 +273,10 @@
 
                 <ToggleButton
                     Name="ImageDrawerToggle"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="Red"
                     BorderBrush="DarkRed"
