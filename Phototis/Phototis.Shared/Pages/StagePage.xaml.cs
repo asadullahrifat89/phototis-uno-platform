@@ -145,7 +145,7 @@ namespace Phototis
                 DragElement(uIElement);
             }
 
-            Console.WriteLine("Workspace_PointerMoved");
+            //Console.WriteLine("Workspace_PointerMoved");
         }
 
         private void Workspace_PointerPressed(object sender, PointerRoutedEventArgs e)
