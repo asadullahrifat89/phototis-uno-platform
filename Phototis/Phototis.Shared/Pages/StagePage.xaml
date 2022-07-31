@@ -120,119 +120,120 @@
                     <ToggleButton
                         Name="GrayscaleToggleButton"
                         Margin="5"
+                        Checked="GrayscaleToggleButton_Checked"
                         Content="Grayscale"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="ContrastToggleButton"
                         Margin="5"
+                        Checked="ContrastToggleButton_Checked"
                         Content="Contrast"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="BrightnessToggleButton"
                         Margin="5"
+                        Checked="BrightnessToggleButton_Checked"
                         Content="Brightness"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="SaturationToggleButton"
                         Margin="5"
+                        Checked="SaturationToggleButton_Checked"
                         Content="Saturation"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="SepiaToggleButton"
                         Margin="5"
+                        Checked="SepiaToggleButton_Checked"
                         Content="Sepia"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="InvertToggleButton"
                         Margin="5"
+                        Checked="InvertToggleButton_Checked"
                         Content="Invert"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="HueToggleButton"
                         Margin="5"
+                        Checked="HueToggleButton_Checked"
                         Content="Hue"
                         CornerRadius="50" />
                     <ToggleButton
                         Name="BlurToggleButton"
                         Margin="5"
+                        Checked="BlurToggleButton_Checked"
                         Content="Blur"
                         CornerRadius="50" />
 
                 </WrapPanel>
 
-                <Slider
-                    Name="ImageEffectSlider"
-                    Grid.Row="2"
-                    Maximum="200"
-                    Minimum="-200"
-                    ValueChanged="ImageEffectSlider_ValueChanged"
-                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}"
-                    Value="0" />
-
-                <!--<Slider
-                    Name="GrayScaleSlider"
-                    Width="200"
-                    Header="GrayScale"
-                    Maximum="200"
-                    Minimum="10"
-                    ValueChanged="GrayScaleSlider_ValueChanged"
-                    Value="0" />
-                <Slider
-                    Name="ContrastSlider"
-                    Width="200"
-                    Header="Contrast"
-                    Maximum="200"
-                    Minimum="10"
-                    ValueChanged="ContrastSlider_ValueChanged"
-                    Value="100" />
-                <Slider
-                    Name="BrightnessSlider"
-                    Width="200"
-                    Header="Brightness"
-                    Maximum="200"
-                    Minimum="10"
-                    ValueChanged="BrightnessSlider_ValueChanged"
-                    Value="100" />
-                <Slider
-                    Name="SaturationSlider"
-                    Width="200"
-                    Header="Saturation"
-                    Maximum="200"
-                    Minimum="10"
-                    ValueChanged="SaturationSlider_ValueChanged"
-                    Value="100" />
-                <Slider
-                    Name="SepiaSlider"
-                    Width="200"
-                    Header="Sepia"
-                    Maximum="200"
-                    Minimum="0"
-                    ValueChanged="SepiaSlider_ValueChanged"
-                    Value="0" />
-                <Slider
-                    Name="InvertSlider"
-                    Width="200"
-                    Header="Invert"
-                    Maximum="200"
-                    Minimum="0"
-                    ValueChanged="InvertSlider_ValueChanged"
-                    Value="0" />
-                <Slider
-                    Name="HueRotateSlider"
-                    Width="200"
-                    Header="Hue"
-                    Maximum="200"
-                    Minimum="0"
-                    ValueChanged="HueRotateSlider_ValueChanged"
-                    Value="0" />
-                <Slider
-                    Name="BlurSlider"
-                    Width="200"
-                    Header="Blur"
-                    Maximum="50"
-                    Minimum="0"
-                    ValueChanged="BlurSlider_ValueChanged"
-                    Value="0" />-->
+                <Grid Grid.Row="2" Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                    <Slider
+                        Name="GrayScaleSlider"
+                        Header="GrayScale"
+                        Maximum="200"
+                        Minimum="10"
+                        ValueChanged="GrayScaleSlider_ValueChanged"
+                        Visibility="{x:Bind Path=GrayscaleToggleButton.IsChecked, Mode=OneWay}"
+                        Value="0" />
+                    <Slider
+                        Name="ContrastSlider"
+                        Header="Contrast"
+                        Maximum="200"
+                        Minimum="10"
+                        ValueChanged="ContrastSlider_ValueChanged"
+                        Visibility="{x:Bind Path=ContrastToggleButton.IsChecked, Mode=OneWay}"
+                        Value="100" />
+                    <Slider
+                        Name="BrightnessSlider"
+                        Header="Brightness"
+                        Maximum="200"
+                        Minimum="10"
+                        ValueChanged="BrightnessSlider_ValueChanged"
+                        Visibility="{x:Bind Path=BrightnessToggleButton.IsChecked, Mode=OneWay}"
+                        Value="100" />
+                    <Slider
+                        Name="SaturationSlider"
+                        Header="Saturation"
+                        Maximum="200"
+                        Minimum="10"
+                        ValueChanged="SaturationSlider_ValueChanged"
+                        Visibility="{x:Bind Path=SaturationToggleButton.IsChecked, Mode=OneWay}"
+                        Value="100" />
+                    <Slider
+                        Name="SepiaSlider"
+                        Header="Sepia"
+                        Maximum="200"
+                        Minimum="0"
+                        ValueChanged="SepiaSlider_ValueChanged"
+                        Visibility="{x:Bind Path=SepiaToggleButton.IsChecked, Mode=OneWay}"
+                        Value="0" />
+                    <Slider
+                        Name="InvertSlider"
+                        Header="Invert"
+                        Maximum="200"
+                        Minimum="0"
+                        ValueChanged="InvertSlider_ValueChanged"
+                        Visibility="{x:Bind Path=InvertToggleButton.IsChecked, Mode=OneWay}"
+                        Value="0" />
+                    <Slider
+                        Name="HueRotateSlider"
+                        Header="Hue"
+                        Maximum="200"
+                        Minimum="0"
+                        ValueChanged="HueRotateSlider_ValueChanged"
+                        Visibility="{x:Bind Path=HueToggleButton.IsChecked, Mode=OneWay}"
+                        Value="0" />
+                    <Slider
+                        Name="BlurSlider"
+                        Header="Blur"
+                        Maximum="50"
+                        Minimum="0"
+                        ValueChanged="BlurSlider_ValueChanged"
+                        Visibility="{x:Bind Path=BlurToggleButton.IsChecked, Mode=OneWay}"
+                        Value="0" />
+                </Grid>
 
             </Grid>
 
@@ -275,8 +276,7 @@
                     BorderBrush="DarkRed"
                     BorderThickness="3"
                     CornerRadius="100"
-                    Foreground="White"
-                    Unchecked="ImageDrawerToggle_Unchecked">
+                    Foreground="White">
                     <SymbolIcon Symbol="Pictures" />
                 </ToggleButton>
 
