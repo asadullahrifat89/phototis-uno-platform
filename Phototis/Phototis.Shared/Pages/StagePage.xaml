@@ -27,14 +27,14 @@
         <!--  Workspace  Size  -->
         <StackPanel
             Margin="20"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Vertical">
             <ToggleButton
                 Name="WorkSpaceSizeToggle"
                 Width="50"
                 Height="50"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="Red"
                 BorderBrush="DarkRed"
