@@ -10,6 +10,14 @@ using Uno.UI.Runtime.WebAssembly;
 
 namespace Phototis
 {
+    public class PhotoElement : Border
+    {
+        public PhotoElement(string dataUrl)
+        {
+            Child = new HtmlImage() { Source = dataUrl };
+        }
+    }
+
     [HtmlElement("img")]
     public sealed class HtmlImage : FrameworkElement
     {
@@ -24,8 +32,12 @@ namespace Phototis
 
         public HtmlImage()
         {
-            this.SetCssStyle("border-radius", "25px");            
+            this.SetCssStyle("border-radius", "25px");
         }
+
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnSourceChanged));
+        //public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnHeightChanged));
+        //public static readonly new DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnWidthChanged));
 
         public string Source
         {
@@ -33,8 +45,17 @@ namespace Phototis
             set => SetValue(SourceProperty, value);
         }
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-           "Source", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnSourceChanged));
+        //public new string Height
+        //{
+        //    get => (string)GetValue(HeightProperty);
+        //    set => SetValue(HeightProperty, value);
+        //}
+
+        //public new string Width
+        //{
+        //    get => (string)GetValue(WidthProperty);
+        //    set => SetValue(WidthProperty, value);
+        //}
 
         private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
@@ -46,39 +67,21 @@ namespace Phototis
             }
         }
 
-        public new string Height
-        {
-            get => (string)GetValue(HeightProperty);
-            set => SetValue(HeightProperty, value);
-        }
+        //private static void OnHeightChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        //{
+        //    if (dependencyObject is HtmlImage image)
+        //    {
+        //        image.SetHtmlAttribute("height", $"{args.NewValue}");
+        //    }
+        //}
 
-        public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register(
-          "Height", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnHeightChanged));
-
-        private static void OnHeightChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is HtmlImage image)
-            {
-                image.SetHtmlAttribute("height", $"{args.NewValue}");
-            }
-        }
-
-        public new string Width
-        {
-            get => (string)GetValue(WidthProperty);
-            set => SetValue(WidthProperty, value);
-        }
-
-        public static readonly new DependencyProperty WidthProperty = DependencyProperty.Register(
-         "Width", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnWidthChanged));
-
-        private static void OnWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is HtmlImage image)
-            {
-                image.SetHtmlAttribute("width", $"{args.NewValue}");
-            }
-        }
+        //private static void OnWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        //{
+        //    if (dependencyObject is HtmlImage image)
+        //    {
+        //        image.SetHtmlAttribute("width", $"{args.NewValue}");
+        //    }
+        //}
 
         public void SetGrayScale(double value)
         {

@@ -7,7 +7,7 @@ namespace Phototis
     {
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string DataUrl { get; set; }
 
         public StorageFile StorageFile { get; set; }
 

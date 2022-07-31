@@ -67,7 +67,7 @@ namespace Phototis
                     Photo photo = new Photo()
                     {
                         Name = file.Name,
-                        ImageUrl = base64String,
+                        DataUrl = base64String,
                         StorageFile = file,
                         Source = bitmapImage
                     };
