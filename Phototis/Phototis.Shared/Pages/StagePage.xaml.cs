@@ -75,14 +75,11 @@ namespace Phototis
 
         private void StagePage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
-            windowWidth = args.NewSize.Width - 10; //Window.Current.Bounds.Width;
-            windowHeight = args.NewSize.Height - 10; //Window.Current.Bounds.Height;
+            windowWidth = args.NewSize.Width - 10;
+            windowHeight = args.NewSize.Height - 10;
 
             WorkspaceScroller.Width = windowWidth;
             WorkspaceScroller.Height = windowHeight;
-
-            //NumberBoxWidth.Value = windowWidth;
-            //NumberBoxHeight.Value = windowHeight;
 
 #if DEBUG
             Console.WriteLine($"View Size: {windowWidth} x {windowHeight}");
@@ -92,6 +89,18 @@ namespace Phototis
         #endregion
 
         #region Events
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is List<Photo> photos)
+            {
+                this.photos = photos;
+            }
+
+            ImageContainer.ItemsSource = this.photos;
+
+            base.OnNavigatedTo(e);
+        }
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -105,34 +114,6 @@ namespace Phototis
             Workspace.Height = args.NewValue;
 
             Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (e.Parameter is List<Photo> photos)
-            {
-                this.photos = photos;
-            }
-
-            //double lastHeight = 0;
-            //double lastWidth = 0;
-
-            //foreach (var photo in this.photos)
-            //{
-            //    PhotoElement photoElement = new PhotoElement(photo.DataUrl) { Width = 400, Height = 400 };
-
-            //    Canvas.SetLeft(photoElement, (lastWidth));
-            //    Canvas.SetTop(photoElement, 0);
-
-            //    lastHeight = Convert.ToDouble(photoElement.Height);
-            //    lastWidth = Convert.ToDouble(photoElement.Width);
-
-            //    Workspace.Children.Add(photoElement);
-            //}
-
-            ImageContainer.ItemsSource = this.photos;
-
-            base.OnNavigatedTo(e);
         }
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -162,10 +143,7 @@ namespace Phototis
                 Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
 
-                //photoElement.DoubleTapped += PhotoElement_DoubleTapped;
-
                 photoElement.PointerPressed += PhotoElement_PointerPressed;
-                //photoElement.PointerMoved += PhotoElement_PointerMoved;
                 photoElement.PointerReleased += PhotoElement_PointerReleased;
 
                 Workspace.Children.Add(photoElement);
@@ -180,6 +158,7 @@ namespace Phototis
 
         private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
+            // this works for mobile and tablets as cursor is not available
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
@@ -192,23 +171,7 @@ namespace Phototis
             }
 
             Console.WriteLine("Workspace_PointerReleased");
-        }
-
-        private void PhotoElement_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            uIElement = (UIElement)sender;
-
-            if (!_isPointerCaptured)
-            {
-                DragStart(uIElement);
-            }
-            else
-            {
-                DragElement(uIElement);
-                DragRelease(uIElement);
-                uIElement = null;
-            }
-        }
+        }     
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -226,12 +189,6 @@ namespace Phototis
             DragRelease(uIElement);
         }
 
-        private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            uIElement = (UIElement)sender;
-            DragElement(uIElement);
-        }
-
         private void ImageDrawerToggle_Unchecked(object sender, RoutedEventArgs e)
         {
 
@@ -241,12 +198,6 @@ namespace Phototis
         {
             selectedPhoto = ImageContainer.SelectedItem as Photo;
         }
-
-        //private void ChooseButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Image1.Source = photos[0].ImageUrl;
-        //    Image2.Source = photos[0].ImageUrl;
-        //}
 
         //private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         //{
@@ -302,94 +253,7 @@ namespace Phototis
 
         #endregion
 
-        #region Methods
-
-        //private async Task LoadImage()
-        //{
-        //    try
-        //    {
-        //        if (FileSystemAccessApiInformation.IsOpenPickerSupported)
-        //        {
-        //            // File System Access API open picker is available.
-
-        //            var fileOpenPicker = new FileOpenPicker
-        //            {
-        //                SuggestedStartLocation = PickerLocationId.PicturesLibrary
-        //            };
-        //            fileOpenPicker.FileTypeFilter.Add(".png");
-        //            fileOpenPicker.FileTypeFilter.Add(".jpg");
-        //            fileOpenPicker.FileTypeFilter.Add(".jpeg");
-        //            fileOpenPicker.FileTypeFilter.Add(".webp");
-        //            StorageFile pickedFile = await fileOpenPicker.PickSingleFileAsync();
-
-        //            if (pickedFile != null)
-        //            {
-        //                // File was picked, you can now use it
-        //                var stream = await pickedFile.OpenStreamForReadAsync();
-
-        //                var props = await pickedFile.GetBasicPropertiesAsync();
-
-        //                var fileName = pickedFile.Name;
-
-        //                Console.WriteLine(fileName);
-
-        //                if (!string.IsNullOrEmpty(fileName))
-        //                {
-        //                    var ms = new MemoryStream();
-        //                    stream.Seek(0, SeekOrigin.Begin);
-        //                    await stream.CopyToAsync(ms);
-
-        //                    //BitmapImage bitmapImage = new BitmapImage();
-        //                    //bitmapImage.SetSource(ms);
-
-        //                    //Image1.Source = bitmapImage;
-
-        //                    Console.WriteLine("Image set!");
-
-        //                    ms.Seek(0, SeekOrigin.Begin);
-        //                    var base64String = "data:application/octet-stream;base64," + Convert.ToBase64String(ms.ToArray());
-
-        //                    //Image2.Width = Image1.ActualWidth.ToString();
-        //                    //Image2.Height = Image1.ActualHeight.ToString();
-
-        //                    //Photo photo = new Photo() { Source = base64String, Name = "Ori", };
-        //                    //Photo photo2 = new Photo() { Source = base64String, Name = "Edit", };
-
-        //                    //var photos = new List<Photo>();
-        //                    //photos.Add(photo);
-        //                    //photos.Add(photo2);
-
-        //                    //ImageContainer.ItemsSource = photos;
-
-        //                    Image1.Source = base64String;
-        //                    //Image1.Width = Window.Current.Bounds.Width.ToString();
-        //                    //Image1.Height = Window.Current.Bounds.Height.ToString();
-
-        //                    Image2.Source = base64String;
-
-        //                    ////Image2.GrayScale(100);
-        //                    //Image2.SetContrast(100);
-        //                    //Image2.SetBrightness(100);
-        //                    //Image2.SetSepia(100);
-
-        //                    //Image2.Width = Window.Current.Bounds.Width.ToString();
-        //                    //Image2.Height = Window.Current.Bounds.Height.ToString();
-
-        //                    Image1.Visibility = Visibility.Visible;
-        //                    Image2.Visibility = Visibility.Visible;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                // No file was picked or the dialog was cancelled.
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("ERROR: " + ex.Message);
-        //    }
-        //}
+        #region Methods       
 
         public void DragStart(UIElement uielement)
         {
