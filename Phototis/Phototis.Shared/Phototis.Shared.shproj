@@ -11,9 +11,19 @@
   <Import Project="Phototis.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\LoginPage.xaml" />
+    <UpToDateCheckInput Remove="Pages\ProjectsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <_Globbed_Compile Remove="Internals\HtmlImage.cs" />
+    <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
+    <_Globbed_Compile Remove="Pages\ProjectsPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <_Globbled_Page Remove="Pages\LoginPage.xaml" />
+    <_Globbled_Page Remove="Pages\ProjectsPage.xaml" />
   </ItemGroup>
 </Project>
