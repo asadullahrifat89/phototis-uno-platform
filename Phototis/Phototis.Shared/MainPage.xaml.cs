@@ -89,7 +89,11 @@ namespace Phototis
                             Photo photo = new Photo() { Source = base64String, Name = "Ori", };
                             Photo photo2 = new Photo() { Source = base64String, Name = "Edit", };
 
-                            //ImageContainer.ItemsSource = new List<Photo>() { photo, photo2 };
+                            var photos = new List<Photo>();
+                            photos.Add(photo);
+                            photos.Add(photo2);
+
+                            //ImageContainer.ItemsSource = photos;
 
                             ImageOriginal.Source = base64String;
                             ImageOriginal.Width = Window.Current.Bounds.Width.ToString();
@@ -97,10 +101,10 @@ namespace Phototis
 
                             ImageEdited.Source = base64String;
 
-                            //ImageEdited.GrayScale(100);
-                            ImageEdited.Contrast(150);
-                            ImageEdited.Brightness(150);
-                            ImageEdited.Sepia(150);
+                            ////ImageEdited.GrayScale(100);
+                            //ImageEdited.SetContrast(100);
+                            //ImageEdited.SetBrightness(100);
+                            //ImageEdited.SetSepia(100);
 
                             ImageEdited.Width = Window.Current.Bounds.Width.ToString();
                             ImageEdited.Height = Window.Current.Bounds.Height.ToString();
@@ -118,7 +122,30 @@ namespace Phototis
             }
         }
 
+        private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            ImageEdited.SetGrayScale(e.NewValue);
+        }
 
+        private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            ImageEdited.SetContrast(e.NewValue);
+        }
+
+        private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            ImageEdited.SetBrightness(e.NewValue);
+        }
+
+        private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            ImageEdited.SetSaturation(e.NewValue);
+        }
+
+        private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            ImageEdited.SetSepia(e.NewValue);
+        }
     }
 
     public class Photo

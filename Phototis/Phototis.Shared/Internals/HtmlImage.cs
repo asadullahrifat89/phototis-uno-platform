@@ -19,6 +19,12 @@ namespace Phototis
             BorderThickness = new Thickness(10);
         }
 
+        public string Source
+        {
+            get => (string)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
            "Source", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnSourceChanged));
 
@@ -34,10 +40,10 @@ namespace Phototis
             }
         }
 
-        public string Source
+        public new string Height
         {
-            get => (string)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get => (string)GetValue(HeightProperty);
+            set => SetValue(HeightProperty, value);
         }
 
         public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register(
@@ -53,10 +59,10 @@ namespace Phototis
             }
         }
 
-        public new string Height
+        public new string Width
         {
-            get => (string)GetValue(HeightProperty);
-            set => SetValue(HeightProperty, value);
+            get => (string)GetValue(WidthProperty);
+            set => SetValue(WidthProperty, value);
         }
 
         public static readonly new DependencyProperty WidthProperty = DependencyProperty.Register(
@@ -72,41 +78,35 @@ namespace Phototis
             }
         }
 
-        public new string Width
-        {
-            get => (string)GetValue(WidthProperty);
-            set => SetValue(WidthProperty, value);
-        }
-
-        public void GrayScale(int value) 
+        public void SetGrayScale(double value)
         {
             //var js = $"element.style.filter=\"grayscale({value}%)\";";
             //this.ExecuteJavascript(js);
             this.SetCssStyle("filter", $"grayscale({value}%)");
         }
 
-        public void Contrast(int value)
+        public void SetContrast(double value)
         {
             //var js = $"element.style.filter=\"contrast({value}%)\";";
             //this.ExecuteJavascript(js);
             this.SetCssStyle("filter", $"contrast({value}%)");
         }
 
-        public void Brightness(int value)
+        public void SetBrightness(double value)
         {
             //var js = $"element.style.filter=\"brightness({value}%)\";";
             //this.ExecuteJavascript(js);
             this.SetCssStyle("filter", $"brightness({value}%)");
         }
 
-        public void Saturate(int value)
+        public void SetSaturation(double value)
         {
             //var js = $"element.style.filter=\"saturate({value}%)\";";
             //this.ExecuteJavascript(js);
             this.SetCssStyle("filter", $"saturate({value}%)");
         }
 
-        public void Sepia(int value)
+        public void SetSepia(double value)
         {
             //var js = $"element.style.filter=\"sepia({value}%)\";";
             //this.ExecuteJavascript(js);
