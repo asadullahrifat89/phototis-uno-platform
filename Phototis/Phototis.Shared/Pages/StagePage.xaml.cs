@@ -141,12 +141,12 @@ namespace Phototis
 
                 Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
-                                
+
                 //photoElement.DoubleTapped += PhotoElement_DoubleTapped;
 
                 photoElement.PointerPressed += PhotoElement_PointerPressed;
-                //photoElement.PointerMoved += PhotoElement_PointerMoved;
-                //photoElement.PointerReleased += PhotoElement_PointerReleased;
+                photoElement.PointerMoved += PhotoElement_PointerMoved;
+                photoElement.PointerReleased += PhotoElement_PointerReleased;
 
                 StageEnvironment.Children.Add(photoElement);
 
@@ -198,30 +198,21 @@ namespace Phototis
 
             uIElement = (UIElement)sender;
 
-            if (!_isPointerCaptured)
-            {
-                DragStart(uIElement);
-            }
-            else
-            {
-                DragElement(uIElement);
-                DragRelease(uIElement);
-                uIElement = null;
-            }
+            DragStart(uIElement);
         }
 
 
-        //private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
-        //{
-        //    UIElement uielement = (UIElement)sender;
-        //    DragRelease(e, uielement);
-        //}
+        private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            uIElement = (UIElement)sender;
+            DragRelease(uIElement);
+        }
 
-        //private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
-        //{
-        //    UIElement uielement = (UIElement)sender;
-        //    DragElement(StageEnvironment, e, uielement);
-        //}
+        private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            uIElement = (UIElement)sender;
+            DragElement(uIElement);
+        }
 
 
         private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)

@@ -11,7 +11,7 @@ using Uno.UI.Runtime.WebAssembly;
 namespace Phototis
 {
     [HtmlElement("img")]
-    public sealed class HtmlImageElement : Border
+    public sealed class HtmlImageElement : FrameworkElement
     {
         private double grayscale = 0;
         private double contrast = 100;
@@ -24,8 +24,7 @@ namespace Phototis
 
         public HtmlImageElement()
         {
-            this.CanDrag = false;
-            this.AllowDrop = false;
+          
         }
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));

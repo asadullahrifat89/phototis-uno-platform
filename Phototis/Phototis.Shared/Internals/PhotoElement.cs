@@ -10,9 +10,7 @@ namespace Phototis
         public PhotoElement(string dataUrl)
         {
             HtmlImageElement = new HtmlImageElement() { Source = dataUrl };
-            Child = HtmlImageElement;
-            CanDrag = false;
-            AllowDrop = false;
+            Child = HtmlImageElement;          
         }
     }
 }
