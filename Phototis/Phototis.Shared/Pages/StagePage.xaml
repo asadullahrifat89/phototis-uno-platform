@@ -16,7 +16,7 @@
             Grid.Row="0"
             AllowDrop="True"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-            CanDrag="True"
+            CanDrag="False"
             PointerMoved="StageEnvironment_PointerMoved"
             PointerPressed="StageEnvironment_PointerPressed"
             PointerReleased="StageEnvironment_PointerReleased" />
