@@ -62,6 +62,9 @@ namespace Phototis
 
         private void StagePage_Loaded(object sender, RoutedEventArgs e)
         {
+            NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
+            NumberBoxHeight.Value = Window.Current.Bounds.Height - 10;
+
             SizeChanged += StagePage_SizeChanged;
         }
 
@@ -70,14 +73,16 @@ namespace Phototis
             SizeChanged -= StagePage_SizeChanged;
         }
 
-
         private void StagePage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             windowWidth = args.NewSize.Width - 10; //Window.Current.Bounds.Width;
             windowHeight = args.NewSize.Height - 10; //Window.Current.Bounds.Height;
 
-            StageEnvironment.Width = windowWidth;
-            StageEnvironment.Height = windowHeight;
+            WorkspaceScroller.Width = windowWidth;
+            WorkspaceScroller.Height = windowHeight;
+
+            //NumberBoxWidth.Value = windowWidth;
+            //NumberBoxHeight.Value = windowHeight;
 
 #if DEBUG
             Console.WriteLine($"View Size: {windowWidth} x {windowHeight}");
@@ -87,6 +92,20 @@ namespace Phototis
         #endregion
 
         #region Events
+
+        private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            Workspace.Width = args.NewValue;
+
+            Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
+        }
+
+        private void NumberBoxHeight_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            Workspace.Height = args.NewValue;
+
+            Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -108,7 +127,7 @@ namespace Phototis
             //    lastHeight = Convert.ToDouble(photoElement.Height);
             //    lastWidth = Convert.ToDouble(photoElement.Width);
 
-            //    StageEnvironment.Children.Add(photoElement);
+            //    Workspace.Children.Add(photoElement);
             //}
 
             ImageContainer.ItemsSource = this.photos;
@@ -116,26 +135,26 @@ namespace Phototis
             base.OnNavigatedTo(e);
         }
 
-        private void StageEnvironment_PointerMoved(object sender, PointerRoutedEventArgs e)
+        private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             if (_isPointerCaptured && uIElement is not null)
             {
-                currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+                currentPointerPoint = e.GetCurrentPoint(Workspace);
                 currentPointer = e.Pointer;
 
                 DragElement(uIElement);
             }
 
-            Console.WriteLine("StageEnvironment_PointerMoved");
+            Console.WriteLine("Workspace_PointerMoved");
         }
 
-        private void StageEnvironment_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void Workspace_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+            currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
             // if image drawer is open then insert new new item
-            if (ImageDrawer.IsChecked.Value && selectedPhoto is not null)
+            if (ImageDrawerToggle.IsChecked.Value && selectedPhoto is not null)
             {
                 PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
                 photoElement.Source = selectedPhoto.DataUrl;
@@ -144,31 +163,24 @@ namespace Phototis
                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
 
                 //photoElement.DoubleTapped += PhotoElement_DoubleTapped;
-                
+
                 photoElement.PointerPressed += PhotoElement_PointerPressed;
                 //photoElement.PointerMoved += PhotoElement_PointerMoved;
                 photoElement.PointerReleased += PhotoElement_PointerReleased;
 
-                photoElement.DragStarting += PhotoElement_DragStarting;
-
-                StageEnvironment.Children.Add(photoElement);
+                Workspace.Children.Add(photoElement);
 
                 selectedPhoto = null;
             }
 
 #if DEBUG
-            Console.WriteLine("StageEnvironment_PointerPressed");
+            Console.WriteLine("Workspace_PointerPressed");
 #endif
         }
 
-        private void PhotoElement_DragStarting(UIElement sender, DragStartingEventArgs args)
+        private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            Console.WriteLine("PhotoElement_DragStarting");
-        }
-
-        private void StageEnvironment_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+            currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
             if (_isPointerCaptured && uIElement is not null)
@@ -179,7 +191,7 @@ namespace Phototis
                 uIElement = null;
             }
 
-            Console.WriteLine("StageEnvironment_PointerReleased");
+            Console.WriteLine("Workspace_PointerReleased");
         }
 
         private void PhotoElement_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -200,14 +212,13 @@ namespace Phototis
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            currentPointerPoint = e.GetCurrentPoint(StageEnvironment);
+            currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
             uIElement = (UIElement)sender;
 
             DragStart(uIElement);
         }
-
 
         private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
@@ -221,8 +232,7 @@ namespace Phototis
             DragElement(uIElement);
         }
 
-
-        private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)
+        private void ImageDrawerToggle_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }

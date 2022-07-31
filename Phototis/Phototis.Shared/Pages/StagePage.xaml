@@ -11,13 +11,55 @@
     <Grid>
 
         <!--  Stage  -->
-        <Canvas
-            Name="StageEnvironment"
-            Grid.Row="0"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-            PointerMoved="StageEnvironment_PointerMoved"
-            PointerPressed="StageEnvironment_PointerPressed"
-            PointerReleased="StageEnvironment_PointerReleased" />
+        <ScrollViewer
+            Name="WorkspaceScroller"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Canvas
+                Name="Workspace"
+                Grid.Row="0"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                PointerMoved="Workspace_PointerMoved"
+                PointerPressed="Workspace_PointerPressed"
+                PointerReleased="Workspace_PointerReleased" />
+        </ScrollViewer>
+
+        <StackPanel
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <ToggleButton
+                Name="WorkSpaceSizeToggle"
+                Width="50"
+                Height="50"
+                Margin="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="Red"
+                BorderBrush="DarkRed"
+                BorderThickness="3"
+                Content="S"
+                CornerRadius="100"
+                FontWeight="SemiBold"
+                Foreground="White" />
+            <StackPanel Orientation="Horizontal" Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}">
+                <NumberBox
+                    Name="NumberBoxWidth"
+                    Margin="5"
+                    Header="Width"
+                    Maximum="4000"
+                    Minimum="400"
+                    ValueChanged="NumberBoxWidth_ValueChanged" />
+                <NumberBox
+                    Name="NumberBoxHeight"
+                    Margin="5"
+                    Header="Height"
+                    Maximum="4000"
+                    Minimum="400"
+                    ValueChanged="NumberBoxHeight_ValueChanged" />
+            </StackPanel>
+        </StackPanel>
+
 
         <!--  Image drawer  -->
         <Grid
@@ -31,7 +73,7 @@
                 Height="160"
                 Margin="60,0,0,0"
                 SelectionChanged="ImageContainer_SelectionChanged"
-                Visibility="{x:Bind Path=ImageDrawer.IsChecked, Mode=OneWay}">
+                Visibility="{x:Bind Path=ImageDrawerToggle.IsChecked, Mode=OneWay}">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
@@ -48,7 +90,7 @@
             </GridView>
 
             <ToggleButton
-                Name="ImageDrawer"
+                Name="ImageDrawerToggle"
                 Width="50"
                 Height="50"
                 HorizontalAlignment="Left"
@@ -60,7 +102,7 @@
                 CornerRadius="100"
                 FontWeight="SemiBold"
                 Foreground="White"
-                Unchecked="ImageDrawer_Unchecked" />
+                Unchecked="ImageDrawerToggle_Unchecked" />
 
         </Grid>
 
