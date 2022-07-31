@@ -34,8 +34,19 @@ namespace Phototis
         #region Fields
 
         private List<Photo> photos = new List<Photo>();
+
         private double windowWidth, windowHeight;
+
         private Photo selectedPhoto;
+
+        bool _isPointerCaptured;
+        double _pointerX;
+        double _pointerY;
+        double _objectLeft;
+        double _objectTop;
+
+        private UIElement uIElement;
+
         #endregion
 
         #region Ctor
@@ -207,19 +218,112 @@ namespace Phototis
                 Canvas.SetLeft(photoElement, point.Position.X - 200);
                 Canvas.SetTop(photoElement, point.Position.Y - 200);
 
+                photoElement.PointerPressed += PhotoElement_PointerPressed;
+                //photoElement.PointerMoved += PhotoElement_PointerMoved;
+                //photoElement.PointerReleased += PhotoElement_PointerReleased;
+
                 StageEnvironment.Children.Add(photoElement);
 
                 selectedPhoto = null;
             }
 
 #if DEBUG
-            Console.WriteLine("Pointer pressed;");
+            Console.WriteLine("StageEnvironment_PointerPressed");
 #endif
+        }
+
+        //private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
+        //{
+        //    UIElement uielement = (UIElement)sender;
+        //    DragRelease(e, uielement);
+        //}
+
+        //private void PhotoElement_PointerMoved(object sender, PointerRoutedEventArgs e)
+        //{
+        //    UIElement uielement = (UIElement)sender;
+        //    DragElement(StageEnvironment, e, uielement);
+        //}
+
+        private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            uIElement = (UIElement)sender;
+
+            if (!_isPointerCaptured)
+            {
+                DragStart(StageEnvironment, e, uIElement);
+            }
+            else
+            {
+                DragRelease(e, uIElement);
+                uIElement = null;
+            }
+        }
+
+        public void DragStart(
+            Canvas canvas,
+            PointerRoutedEventArgs e,
+            UIElement uielement)
+        {
+            // Drag start of a constuct
+            _objectLeft = Canvas.GetLeft(uielement);
+            _objectTop = Canvas.GetTop(uielement);
+
+            var currentPoint = e.GetCurrentPoint(canvas);
+
+            // Remember the pointer position:
+            _pointerX = currentPoint.Position.X;
+            _pointerY = currentPoint.Position.Y;
+
+            uielement.CapturePointer(e.Pointer);
+
+            _isPointerCaptured = true;
+        }
+
+        public void DragElement(
+         Canvas canvas,
+         PointerRoutedEventArgs e,
+         UIElement uielement)
+        {
+            if (_isPointerCaptured)
+            {
+                var currentPoint = e.GetCurrentPoint(canvas);
+
+                // Calculate the new position of the object:
+                double deltaH = currentPoint.Position.X - _pointerX;
+                double deltaV = currentPoint.Position.Y - _pointerY;
+
+                _objectLeft = deltaH + _objectLeft;
+                _objectTop = deltaV + _objectTop;
+
+                // Update the object position:
+                Canvas.SetLeft(uielement, _objectLeft);
+                Canvas.SetTop(uielement, _objectTop);
+
+                // Remember the pointer position:
+                _pointerX = currentPoint.Position.X;
+                _pointerY = currentPoint.Position.Y;
+            }
+        }
+
+        public void DragRelease(
+          PointerRoutedEventArgs e,
+          UIElement uielement)
+        {
+            _isPointerCaptured = false;
+            uielement.ReleasePointerCapture(e.Pointer);
         }
 
         private void ImageDrawer_Unchecked(object sender, RoutedEventArgs e)
         {
-            
+
+        }
+
+        private void StageEnvironment_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isPointerCaptured && uIElement is not null)
+            {
+                DragElement(StageEnvironment, e, uIElement);
+            }
         }
 
         private void ImageContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)

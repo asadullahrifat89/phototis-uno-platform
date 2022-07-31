@@ -10,22 +10,17 @@
 
     <Grid>
 
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>-->
-
-        <!--<Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>-->
-
+        <!--  Stage  -->
         <Canvas
             Name="StageEnvironment"
             Grid.Row="0"
+            AllowDrop="False"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            CanDrag="False"
+            PointerMoved="StageEnvironment_PointerMoved"
             PointerPressed="StageEnvironment_PointerPressed" />
 
+        <!--  Image drawer  -->
         <Grid
             Margin="10"
             HorizontalAlignment="Stretch"

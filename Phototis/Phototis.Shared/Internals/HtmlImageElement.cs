@@ -55,6 +55,7 @@ namespace Phototis
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
                 image.SetCssStyle(("object-fit", "contain"), ("border-radius", "25px"));
+                image.SetFilter();
             }
         }
 
@@ -122,9 +123,9 @@ namespace Phototis
             SetFilter();
         }
 
-        private void SetFilter()
+        public void SetFilter()
         {
-            this.SetCssStyle("filter", $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%) invert({invert}%) hue-rotate({hue_rotate}deg) blur({blur}px)");
+            this.SetCssStyle("filter", $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%) invert({invert}%) hue-rotate({hue_rotate}deg) blur({blur}px) drop-shadow(0 0 0.75rem crimson)");
         }
     }
 }
