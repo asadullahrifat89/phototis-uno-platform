@@ -44,7 +44,12 @@ namespace Phototis
             navigationHelper = new NavigationHelper(
             navigationView: NavView,
             frame: ContentFrame,
-            pageMap: new Dictionary<string, Type>(),
+            pageMap: new Dictionary<string, Type>() 
+            { 
+                {"LoginPage", typeof(LoginPage)},
+                {"ProjectsPage", typeof(ProjectsPage)},
+                {"StagePage", typeof(StagePage)}
+            },
             goBackNotAllowedToPages: new List<Type>() { },
             goBackPageRoutes: new List<(Type IfGoingBackTo, Type RouteTo)>());
 
