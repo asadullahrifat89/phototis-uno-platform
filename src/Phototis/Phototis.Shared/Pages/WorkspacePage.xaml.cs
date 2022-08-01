@@ -196,9 +196,8 @@ namespace Phototis
             if (e.Parameter is List<Photo> photos)
             {
                 this.photos = photos;
+                ImageGallery.ItemsSource = this.photos;
             }
-
-            ImageGallery.ItemsSource = this.photos;
 
             base.OnNavigatedTo(e);
         }

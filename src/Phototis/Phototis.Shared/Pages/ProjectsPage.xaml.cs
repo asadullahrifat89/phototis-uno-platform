@@ -24,16 +24,20 @@ namespace Phototis
     /// </summary>
     public sealed partial class ProjectsPage : Page
     {
-        private List<Photo> photos;
-
+        #region Ctor
+        
         public ProjectsPage()
         {
             this.InitializeComponent();
-        }
+        } 
+
+        #endregion
+
+        #region Events
 
         private async void SelectImagesButton_Click(object sender, RoutedEventArgs e)
         {
-            photos = new List<Photo>();
+            var photos = new List<Photo>();
 
             var fileOpenPicker = new FileOpenPicker
             {
@@ -69,28 +73,37 @@ namespace Phototis
                     {
                         Name = file.Name,
                         DataUrl = base64String,
-                        StorageFile = file,
                         Source = bitmapImage
                     };
 
                     photos.Add(photo);
                 }
 
-                this.ImagesList.ItemsSource = photos.OrderBy(x => x.Name).ToList();
+                this.ImagesList.ItemsSource = photos;
+
+            }
+            else
+            {
+                // No file was picked or the dialog was cancelled.
+            }
+
+            if (this.ImagesList.Items.OfType<Photo>().Any())
+            {
                 ProceedPanel.Visibility = Visibility.Visible;
+                ImagesCount.Text = $"{this.ImagesList.Items.OfType<Photo>().Count()} image(s) selected.";
             }
             else
             {
                 ProceedPanel.Visibility = Visibility.Collapsed;
-                // No file was picked or the dialog was cancelled.
+                ImagesCount.Text = $"0 image(s) selected.";
             }
-
-            ImagesCount.Text = $"{photos.Count} image(s) selected.";
         }
 
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
         {
-            App.NavigateToPage(typeof(WorkspacePage), photos);
-        }
+            App.NavigateToPage(typeof(WorkspacePage), this.ImagesList.Items.OfType<Photo>().ToList());
+        } 
+
+        #endregion
     }
 }
