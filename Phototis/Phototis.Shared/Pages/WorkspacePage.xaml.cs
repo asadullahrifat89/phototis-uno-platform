@@ -22,6 +22,8 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.ApplicationModel;
+using Windows.UI.ViewManagement;
 using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 
 namespace Phototis
@@ -38,6 +40,8 @@ namespace Phototis
         private double windowWidth, windowHeight;
 
         private Photo selectedPhoto;
+
+        private List<Photo> selectedPhotos;
 
         bool _isPointerCaptured;
         double _pointerX;
@@ -125,6 +129,66 @@ namespace Phototis
 
         #endregion
 
+        #region Methods       
+
+        public void DragStart(UIElement uielement)
+        {
+            // Drag start of a constuct
+            _objectLeft = Canvas.GetLeft(uielement);
+            _objectTop = Canvas.GetTop(uielement);
+
+            //var currentPoint = e.GetCurrentPoint(canvas);
+
+            // Remember the pointer position:
+            _pointerX = currentPointerPoint.Position.X;
+            _pointerY = currentPointerPoint.Position.Y;
+
+            uielement.CapturePointer(currentPointer);
+            uielement.Opacity = 0.6d;
+
+            _isPointerCaptured = true;
+
+#if DEBUG
+            Console.WriteLine("DragStart");
+#endif
+        }
+
+        public void DragElement(UIElement uielement)
+        {
+            if (_isPointerCaptured)
+            {
+                //var currentPoint = e.GetCurrentPoint(canvas);
+
+                // Calculate the new position of the object:
+                double deltaH = currentPointerPoint.Position.X - _pointerX;
+                double deltaV = currentPointerPoint.Position.Y - _pointerY;
+
+                _objectLeft = deltaH + _objectLeft;
+                _objectTop = deltaV + _objectTop;
+
+                // Update the object position:
+                Canvas.SetLeft(uielement, _objectLeft);
+                Canvas.SetTop(uielement, _objectTop);
+
+                // Remember the pointer position:
+                _pointerX = currentPointerPoint.Position.X;
+                _pointerY = currentPointerPoint.Position.Y;
+            }
+        }
+
+        public void DragRelease(UIElement uielement)
+        {
+            _isPointerCaptured = false;
+            uielement.ReleasePointerCapture(currentPointer);
+            uielement.Opacity = 1;
+
+#if DEBUG
+            Console.WriteLine("DragRelease");
+#endif
+        }
+
+        #endregion
+
         #region Events
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -172,20 +236,56 @@ namespace Phototis
             currentPointer = e.Pointer;
 
             // if image drawer is open then insert new new item
-            if (ImageGalleryToggleButton.IsChecked.Value && selectedPhoto is not null)
+            if (ImageGalleryToggleButton.IsChecked.Value)
             {
-                PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
-                photoElement.Source = selectedPhoto.DataUrl;
+                switch (ImageGallery.SelectionMode)
+                {
+                    case ListViewSelectionMode.Single:
+                        {
+                            if (selectedPhoto is not null)
+                            {
+                                PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
+                                photoElement.Source = selectedPhoto.DataUrl;
 
-                Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
-                Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+                                Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
+                                Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
 
-                photoElement.PointerPressed += PhotoElement_PointerPressed;
-                photoElement.PointerReleased += PhotoElement_PointerReleased;
+                                photoElement.PointerPressed += PhotoElement_PointerPressed;
+                                photoElement.PointerReleased += PhotoElement_PointerReleased;
 
-                Workspace.Children.Add(photoElement);
+                                Workspace.Children.Add(photoElement);
 
-                selectedPhoto = null;
+                                ImageGallery.SelectedItem = null;
+                                selectedPhoto = null;
+                            }
+                        }
+                        break;
+                    case ListViewSelectionMode.Multiple:
+                        {
+                            if (selectedPhotos is not null && selectedPhotos.Any())
+                            {
+                                foreach (var photo in selectedPhotos)
+                                {
+                                    PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
+                                    photoElement.Source = photo.DataUrl;
+
+                                    Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
+                                    Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+
+                                    photoElement.PointerPressed += PhotoElement_PointerPressed;
+                                    photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+                                    Workspace.Children.Add(photoElement);
+                                }                     
+                                
+                                ImageGallery.SelectedItems.Clear();
+                                selectedPhotos = null;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
 #if DEBUG
@@ -229,7 +329,17 @@ namespace Phototis
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedPhoto = ImageGallery.SelectedItem as Photo;
+            switch (ImageGallery.SelectionMode)
+            {
+                case ListViewSelectionMode.Single:
+                    selectedPhoto = ImageGallery.SelectedItem as Photo;
+                    break;
+                case ListViewSelectionMode.Multiple:
+                    selectedPhotos = ImageGallery.SelectedItems.OfType<Photo>().ToList();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -434,64 +544,47 @@ namespace Phototis
         //    this.Workspace.SetZoom(e.NewValue);
         //}
 
-        #endregion
-
-        #region Methods       
-
-        public void DragStart(UIElement uielement)
+        private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            // Drag start of a constuct
-            _objectLeft = Canvas.GetLeft(uielement);
-            _objectTop = Canvas.GetTop(uielement);
-
-            //var currentPoint = e.GetCurrentPoint(canvas);
-
-            // Remember the pointer position:
-            _pointerX = currentPointerPoint.Position.X;
-            _pointerY = currentPointerPoint.Position.Y;
-
-            uielement.CapturePointer(currentPointer);
-            uielement.Opacity = 0.6d;
-
-            _isPointerCaptured = true;
-
-#if DEBUG
-            Console.WriteLine("DragStart");
-#endif
+            ImageGallery.SelectionMode = ListViewSelectionMode.Multiple;
         }
 
-        public void DragElement(UIElement uielement)
+        private void SelectMultipleToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (_isPointerCaptured)
+            ImageGallery.SelectionMode = ListViewSelectionMode.Single;
+        }
+
+        private void FullscreenToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
             {
-                //var currentPoint = e.GetCurrentPoint(canvas);
-
-                // Calculate the new position of the object:
-                double deltaH = currentPointerPoint.Position.X - _pointerX;
-                double deltaV = currentPointerPoint.Position.Y - _pointerY;
-
-                _objectLeft = deltaH + _objectLeft;
-                _objectTop = deltaV + _objectTop;
-
-                // Update the object position:
-                Canvas.SetLeft(uielement, _objectLeft);
-                Canvas.SetTop(uielement, _objectTop);
-
-                // Remember the pointer position:
-                _pointerX = currentPointerPoint.Position.X;
-                _pointerY = currentPointerPoint.Position.Y;
+                view.TryEnterFullScreenMode();
             }
         }
 
-        public void DragRelease(UIElement uielement)
+        private void SelectAllToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            _isPointerCaptured = false;
-            uielement.ReleasePointerCapture(currentPointer);
-            uielement.Opacity = 1;
+            foreach (var item in ImageGallery.Items)
+            {
+                ImageGallery.SelectedItems.Add(item);
+            }
+        }
 
-#if DEBUG
-            Console.WriteLine("DragRelease");
-#endif
+        private void SelectAllToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ImageGallery.SelectedItems.Clear();
+        }
+
+        private void FullscreenToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                view.ExitFullScreenMode();
+            }
         }
 
         #endregion

@@ -68,10 +68,10 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <Image
+                        <PersonPicture
                             Width="200"
                             Height="200"
-                            Source="{Binding Path=Source, Mode=OneWay}" />
+                            ProfilePicture="{Binding Path=Source, Mode=OneWay}" />
                         <TextBlock
                             Width="200"
                             Margin="5"
