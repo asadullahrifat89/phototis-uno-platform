@@ -586,6 +586,22 @@ namespace Phototis
             }
         }
 
+        private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElement is not null)
+            {
+                Canvas.SetZIndex(SelectedPhotoElement, Canvas.GetZIndex(SelectedPhotoElement) - 1);
+            }
+        }
+
+        private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElement is not null)
+            {
+                Canvas.SetZIndex(SelectedPhotoElement, Canvas.GetZIndex(SelectedPhotoElement) + 1);
+            }
+        }
+
         private void FullscreenToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             var view = ApplicationView.GetForCurrentView();

@@ -37,7 +37,7 @@
                 VerticalAlignment="Center"
                 FontSize="25"
                 FontWeight="SemiBold"
-                Text="-Upload images to start-"
+                Text="Upload images to start"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 
