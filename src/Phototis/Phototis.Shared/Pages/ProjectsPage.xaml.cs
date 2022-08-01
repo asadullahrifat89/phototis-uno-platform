@@ -25,11 +25,11 @@ namespace Phototis
     public sealed partial class ProjectsPage : Page
     {
         #region Ctor
-        
+
         public ProjectsPage()
         {
             this.InitializeComponent();
-        } 
+        }
 
         #endregion
 
@@ -47,8 +47,10 @@ namespace Phototis
             fileOpenPicker.FileTypeFilter.Add(".png");
             fileOpenPicker.FileTypeFilter.Add(".jpg");
             fileOpenPicker.FileTypeFilter.Add(".jpeg");
+            fileOpenPicker.FileTypeFilter.Add(".bmp");
             fileOpenPicker.FileTypeFilter.Add(".webp");
             fileOpenPicker.FileTypeFilter.Add(".gif");
+            fileOpenPicker.FileTypeFilter.Add(".arw");
 
             var pickedFiles = await fileOpenPicker.PickMultipleFilesAsync();
 
@@ -102,7 +104,7 @@ namespace Phototis
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
         {
             App.NavigateToPage(typeof(WorkspacePage), this.ImagesList.Items.OfType<Photo>().ToList());
-        } 
+        }
 
         #endregion
     }
