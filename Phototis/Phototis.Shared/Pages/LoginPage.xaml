@@ -28,7 +28,7 @@
                 Margin="10,10,10,50"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="Create your unique artwork"
+                Text="-Manage your unique artwork-"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 

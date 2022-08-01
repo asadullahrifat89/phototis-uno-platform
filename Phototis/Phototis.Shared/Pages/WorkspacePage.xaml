@@ -215,7 +215,10 @@
 
                 </WrapPanel>
 
-                <Grid Grid.Row="2" Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                <Grid
+                    Grid.Row="2"
+                    MaxWidth="500"
+                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
                     <Slider
                         Name="GrayScaleSlider"
                         Header="{x:Bind Path=GrayScaleSlider.Value.ToString(), Mode=OneWay}"

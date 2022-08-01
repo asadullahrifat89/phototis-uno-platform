@@ -84,7 +84,7 @@ namespace Phototis
                 // No file was picked or the dialog was cancelled.
             }
 
-            ImagesCount.Text = $"{photos.Count} image(s) selected";
+            ImagesCount.Text = $"{photos.Count} image(s) selected.";
         }
 
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
