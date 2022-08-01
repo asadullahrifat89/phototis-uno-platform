@@ -44,6 +44,7 @@ namespace Phototis
             fileOpenPicker.FileTypeFilter.Add(".jpg");
             fileOpenPicker.FileTypeFilter.Add(".jpeg");
             fileOpenPicker.FileTypeFilter.Add(".webp");
+            fileOpenPicker.FileTypeFilter.Add(".gif");
 
             var pickedFiles = await fileOpenPicker.PickMultipleFilesAsync();
 
