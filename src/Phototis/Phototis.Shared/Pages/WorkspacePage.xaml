@@ -112,7 +112,6 @@
                 Grid.Row="0"
                 Width="80"
                 Height="80"
-                BorderThickness="3"
                 Visibility="Collapsed" />
 
             <!--  Edit buttons  -->

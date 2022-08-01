@@ -17,12 +17,30 @@ namespace Phototis
 
         public HtmlImageElement()
         {
-
-        } 
+            this.SetHtmlAttribute("draggable", "false");
+            this.SetCssStyle("object-fit", "contain");
+        }
 
         #endregion
 
         #region Properties
+
+        private string _Id;
+
+        public string Id
+        {
+            get { return _Id; }
+            set
+            {
+                _Id = value;
+
+                if (!_Id.IsNullOrBlank())
+                {
+                    this.SetHtmlAttribute("id", _Id);
+                }
+            }
+        }
+
 
         private double _Grayscale = 0;
 
@@ -136,22 +154,22 @@ namespace Phototis
 
         #region Dependency Properties
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));       
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));
 
         public string Source
         {
             get => (string)GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
-       
+
         private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if (dependencyObject is HtmlImageElement image)
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
-                image.SetHtmlAttribute("draggable", "false");
-                image.SetCssStyle("object-fit", "contain");
+                //image.SetHtmlAttribute("draggable", "false");
+                //image.SetCssStyle("object-fit", "contain");
                 image.SetFilter();
             }
         }
@@ -179,7 +197,7 @@ namespace Phototis
         {
             this.SetCssStyle("filter", $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px) drop-shadow(0 0 0.75rem crimson)");
             this.SetCssStyle("opacity", $"{_Opacity}");
-        } 
+        }
 
         #endregion
     }

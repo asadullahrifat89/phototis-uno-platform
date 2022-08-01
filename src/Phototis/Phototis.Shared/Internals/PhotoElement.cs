@@ -18,7 +18,7 @@ namespace Phototis
 
         public PhotoElement()
         {
-            
+
         }
 
         #endregion
@@ -172,7 +172,7 @@ namespace Phototis
             {
                 if (image.htmlImageElement is null)
                 {
-                    image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string };
+                    image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
                     image.Child = image.htmlImageElement;
                 }
                 else
