@@ -10,7 +10,7 @@
 
     <Grid>
 
-        <!--  Stage  -->
+        <!--  Workspace  -->
         <ScrollViewer
             Name="WorkspaceScroller"
             HorizontalScrollBarVisibility="Auto"
@@ -24,7 +24,7 @@
                 PointerReleased="Workspace_PointerReleased" />
         </ScrollViewer>
 
-        <!--  Workspace  Size  -->
+        <!--  Size control & fullscreen  -->
         <StackPanel
             Margin="20"
             HorizontalAlignment="Center"
@@ -94,7 +94,7 @@
 
         </StackPanel>
 
-        <!--  Tools  -->
+        <!--  Tools & gallery  -->
         <Grid
             Margin="20"
             HorizontalAlignment="Stretch"
@@ -105,7 +105,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!--  Effects slider  -->
+            <!--  Edit buttons  -->
             <Grid
                 Name="ImageEffectDrawer"
                 Grid.Row="0"
@@ -226,6 +226,7 @@
 
                 </WrapPanel>
 
+                <!--  Edit sliders  -->
                 <Grid
                     Grid.Row="2"
                     MaxWidth="500"
