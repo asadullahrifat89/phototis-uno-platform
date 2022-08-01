@@ -43,7 +43,7 @@
                 BorderThickness="3"
                 CornerRadius="100"
                 Foreground="White">
-                <SymbolIcon Symbol="Map" />
+                <SymbolIcon Symbol="ViewAll" />
             </ToggleButton>
 
             <StackPanel
@@ -348,6 +348,8 @@
                     Grid.Row="0"
                     Orientation="Horizontal"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
+
+                    <!--  Multi select toggle  -->
                     <ToggleButton
                         Name="SelectMultipleToggleButton"
                         Width="50"
@@ -356,8 +358,10 @@
                         Checked="SelectMultipleToggleButton_Checked"
                         CornerRadius="100"
                         Unchecked="SelectMultipleToggleButton_Unchecked">
-                        <SymbolIcon Symbol="SelectAll" />
+                        <SymbolIcon Symbol="Bullets" />
                     </ToggleButton>
+
+                    <!--  Select all  -->
                     <ToggleButton
                         Name="SelectAllToggleButton"
                         Width="50"
@@ -367,8 +371,9 @@
                         CornerRadius="100"
                         Unchecked="SelectAllToggleButton_Unchecked"
                         Visibility="{x:Bind Path=SelectMultipleToggleButton.IsChecked, Mode=OneWay}">
-                        <SymbolIcon Symbol="Bullets" />
+                        <SymbolIcon Symbol="SelectAll" />
                     </ToggleButton>
+
                 </StackPanel>
 
                 <GridView
