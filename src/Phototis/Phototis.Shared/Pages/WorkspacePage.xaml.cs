@@ -106,16 +106,16 @@ namespace Phototis
 
                 if (_SelectedPhotoElement is not null)
                 {
-                    GrayScaleSlider.Value = _SelectedPhotoElement.HtmlImageElement.Grayscale;
-                    ContrastSlider.Value = _SelectedPhotoElement.HtmlImageElement.Contrast;
-                    BrightnessSlider.Value = _SelectedPhotoElement.HtmlImageElement.Brightness;
-                    SaturationSlider.Value = _SelectedPhotoElement.HtmlImageElement.Saturation;
-                    SepiaSlider.Value = _SelectedPhotoElement.HtmlImageElement.Sepia;
-                    InvertSlider.Value = _SelectedPhotoElement.HtmlImageElement.Invert;
-                    HueRotateSlider.Value = _SelectedPhotoElement.HtmlImageElement.Hue;
-                    BlurSlider.Value = _SelectedPhotoElement.HtmlImageElement.Blur;
+                    GrayScaleSlider.Value = _SelectedPhotoElement.Grayscale;
+                    ContrastSlider.Value = _SelectedPhotoElement.Contrast;
+                    BrightnessSlider.Value = _SelectedPhotoElement.Brightness;
+                    SaturationSlider.Value = _SelectedPhotoElement.Saturation;
+                    SepiaSlider.Value = _SelectedPhotoElement.Sepia;
+                    InvertSlider.Value = _SelectedPhotoElement.Invert;
+                    HueRotateSlider.Value = _SelectedPhotoElement.Hue;
+                    BlurSlider.Value = _SelectedPhotoElement.Blur;
                     SizeSlider.Value = _SelectedPhotoElement.Width;
-                    OpacitySlider.Value = _SelectedPhotoElement.HtmlImageElement.Opacity;
+                    OpacitySlider.Value = _SelectedPhotoElement.Opacity;
 
 
                     ImageEffectDrawer.Visibility = Visibility.Visible;
@@ -205,15 +205,17 @@ namespace Phototis
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             Workspace.Width = args.NewValue;
-
+#if DEBUG
             Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
+#endif
         }
 
         private void NumberBoxHeight_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             Workspace.Height = args.NewValue;
-
+#if DEBUG
             Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
+#endif
         }
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -243,7 +245,12 @@ namespace Phototis
                         {
                             if (selectedPhotoInGallery is not null)
                             {
-                                PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
+                                PhotoElement photoElement = new PhotoElement()
+                                {
+                                    Id = selectedPhotoInGallery.Id,
+                                    Width = 400,
+                                    Height = 400
+                                };
                                 photoElement.Source = selectedPhotoInGallery.DataUrl;
 
                                 Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
@@ -265,7 +272,12 @@ namespace Phototis
                             {
                                 foreach (var photo in selectedPhotosInGallery)
                                 {
-                                    PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
+                                    PhotoElement photoElement = new PhotoElement()
+                                    {
+                                        Id = photo.Id,
+                                        Width = 400,
+                                        Height = 400,
+                                    };
                                     photoElement.Source = photo.DataUrl;
 
                                     Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
@@ -305,8 +317,9 @@ namespace Phototis
 
                 draggingElement = null;
             }
-
+#if DEBUG
             Console.WriteLine("Workspace_PointerReleased");
+#endif
         }
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -343,42 +356,42 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Grayscale = e.NewValue;
+            SelectedPhotoElement.Grayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Contrast = e.NewValue;
+            SelectedPhotoElement.Contrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Brightness = e.NewValue;
+            SelectedPhotoElement.Brightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Saturation = e.NewValue;
+            SelectedPhotoElement.Saturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Sepia = e.NewValue;
+            SelectedPhotoElement.Sepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Invert = e.NewValue;
+            SelectedPhotoElement.Invert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Hue = e.NewValue;
+            SelectedPhotoElement.Hue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Blur = e.NewValue;
+            SelectedPhotoElement.Blur = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -389,7 +402,7 @@ namespace Phototis
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.HtmlImageElement.Opacity = e.NewValue;
+            SelectedPhotoElement.Opacity = e.NewValue;
         }
 
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -534,8 +547,6 @@ namespace Phototis
             BlurSlider.Value = 0;
             SizeSlider.Value = 400;
             OpacitySlider.Value = 1;
-
-            SelectedPhotoElement.HtmlImageElement.SetDefaults();
         }
 
         //private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)

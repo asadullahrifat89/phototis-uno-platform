@@ -136,28 +136,14 @@ namespace Phototis
 
         #region Dependency Properties
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));
-        //public static readonly new DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnHeightChanged));
-        //public static readonly new DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(string), typeof(HtmlImage), new PropertyMetadata(default(string), OnWidthChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));       
 
         public string Source
         {
             get => (string)GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
-
-        //public new string Height
-        //{
-        //    get => (string)GetValue(HeightProperty);
-        //    set => SetValue(HeightProperty, value);
-        //}
-
-        //public new string Width
-        //{
-        //    get => (string)GetValue(WidthProperty);
-        //    set => SetValue(WidthProperty, value);
-        //}
-
+       
         private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if (dependencyObject is HtmlImageElement image)
@@ -169,70 +155,6 @@ namespace Phototis
                 image.SetFilter();
             }
         }
-
-        //private static void OnHeightChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        //{
-        //    if (dependencyObject is HtmlImage image)
-        //    {
-        //        image.SetHtmlAttribute("height", $"{args.NewValue}");
-        //    }
-        //}
-
-        //private static void OnWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        //{
-        //    if (dependencyObject is HtmlImage image)
-        //    {
-        //        image.SetHtmlAttribute("width", $"{args.NewValue}");
-        //    }
-        //}
-
-        //public void SetGrayScale(double value)
-        //{
-        //    grayscale = value;
-        //    SetFilter();
-        //}
-
-        //public void SetContrast(double value)
-        //{
-        //    contrast = value;
-        //    SetFilter();
-        //}
-
-        //public void SetBrightness(double value)
-        //{
-        //    brightness = value;
-        //    SetFilter();
-        //}
-
-        //public void SetSaturation(double value)
-        //{
-        //    saturation = value;
-        //    SetFilter();
-        //}
-
-        //public void SetSepia(double value)
-        //{
-        //    sepia = value;
-        //    SetFilter();
-        //}
-
-        //public void SetInvert(double value)
-        //{
-        //    invert = value;
-        //    SetFilter();
-        //}
-
-        //public void SetHueRotate(double value)
-        //{
-        //    hue_rotate = value;
-        //    SetFilter();
-        //}
-
-        //public void SetBlur(double value)
-        //{
-        //    blur = value;
-        //    SetFilter();
-        //} 
 
         #endregion
 
