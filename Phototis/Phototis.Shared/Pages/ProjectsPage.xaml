@@ -84,7 +84,10 @@
             </GridView.ItemTemplate>
         </GridView>
 
-        <StackPanel Grid.Row="3">
+        <StackPanel
+            Name="ProceedPanel"
+            Grid.Row="3"
+            Visibility="Collapsed">
 
             <TextBlock
                 Name="ImagesCount"

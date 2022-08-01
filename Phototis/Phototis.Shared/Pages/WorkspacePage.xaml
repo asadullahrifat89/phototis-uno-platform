@@ -91,7 +91,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!--  Image effects  -->
+            <!--  Effects slider  -->
             <Grid
                 Name="ImageEffectDrawer"
                 Grid.Row="0"
@@ -288,7 +288,7 @@
 
             </Grid>
 
-            <!--  Image drawer  -->
+            <!--  Image gallery  -->
             <Grid
                 Grid.Row="1"
                 Margin="20,5"
@@ -301,12 +301,12 @@
                 </Grid.RowDefinitions>
 
                 <GridView
-                    Name="ImageContainer"
+                    Name="ImageGallery"
                     Grid.Row="0"
                     Height="170"
                     Margin="5"
-                    SelectionChanged="ImageContainer_SelectionChanged"
-                    Visibility="{x:Bind Path=ImageDrawerToggle.IsChecked, Mode=OneWay}">
+                    SelectionChanged="ImageGallery_SelectionChanged"
+                    Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
@@ -323,7 +323,7 @@
                 </GridView>
 
                 <ToggleButton
-                    Name="ImageDrawerToggle"
+                    Name="ImageGalleryToggleButton"
                     Grid.Row="1"
                     Width="50"
                     Height="50"
@@ -342,4 +342,5 @@
         </Grid>
 
     </Grid>
+
 </Page>

@@ -76,9 +76,11 @@ namespace Phototis
                 }
 
                 this.ImagesList.ItemsSource = photos.OrderBy(x => x.Name).ToList();
+                ProceedPanel.Visibility = Visibility.Visible;
             }
             else
             {
+                ProceedPanel.Visibility = Visibility.Collapsed;
                 // No file was picked or the dialog was cancelled.
             }
 

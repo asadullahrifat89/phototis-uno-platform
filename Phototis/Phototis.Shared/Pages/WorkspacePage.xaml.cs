@@ -134,7 +134,7 @@ namespace Phototis
                 this.photos = photos;
             }
 
-            ImageContainer.ItemsSource = this.photos;
+            ImageGallery.ItemsSource = this.photos;
 
             base.OnNavigatedTo(e);
         }
@@ -172,7 +172,7 @@ namespace Phototis
             currentPointer = e.Pointer;
 
             // if image drawer is open then insert new new item
-            if (ImageDrawerToggle.IsChecked.Value && selectedPhoto is not null)
+            if (ImageGalleryToggleButton.IsChecked.Value && selectedPhoto is not null)
             {
                 PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
                 photoElement.Source = selectedPhoto.DataUrl;
@@ -227,9 +227,9 @@ namespace Phototis
             DragRelease(draggingElement);
         }
 
-        private void ImageContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedPhoto = ImageContainer.SelectedItem as Photo;
+            selectedPhoto = ImageGallery.SelectedItem as Photo;
         }
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
