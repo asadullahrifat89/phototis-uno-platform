@@ -117,11 +117,17 @@ namespace Phototis
                     SizeSlider.Value = _SelectedPhotoElement.Width;
                     OpacitySlider.Value = _SelectedPhotoElement.Opacity;
 
+                    //TODO: set image source for the selected image                    
+                    var photo = this.photos.FirstOrDefault(x => x.Id == _SelectedPhotoElement.Id);
 
+                    SelectedPicture.ProfilePicture = null;
+                    SelectedPicture.ProfilePicture = photo?.Source;
+                    SelectedPicture.Visibility = Visibility.Visible;
                     ImageEffectDrawer.Visibility = Visibility.Visible;
                 }
                 else
                 {
+                    SelectedPicture.Visibility = Visibility.Collapsed;
                     ImageEffectDrawer.Visibility = Visibility.Collapsed;
                 }
             }
@@ -324,19 +330,27 @@ namespace Phototis
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            currentPointerPoint = e.GetCurrentPoint(Workspace);
-            currentPointer = e.Pointer;
+            // if image gallery is open then do not start dragging
+            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
+            {
+                currentPointerPoint = e.GetCurrentPoint(Workspace);
+                currentPointer = e.Pointer;
 
-            draggingElement = (PhotoElement)sender;
-            SelectedPhotoElement = (PhotoElement)sender;
+                draggingElement = (PhotoElement)sender;
+                SelectedPhotoElement = (PhotoElement)sender;
 
-            DragStart(draggingElement);
+                DragStart(draggingElement);
+            }
         }
 
         private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            draggingElement = (PhotoElement)sender;
-            DragRelease(draggingElement);
+            // if image gallery is open then do not start dragging
+            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
+            {
+                draggingElement = (PhotoElement)sender;
+                DragRelease(draggingElement);
+            }
         }
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)

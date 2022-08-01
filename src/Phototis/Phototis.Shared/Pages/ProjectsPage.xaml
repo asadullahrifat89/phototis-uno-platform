@@ -64,7 +64,8 @@
             MinWidth="300"
             Margin="0,50"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">

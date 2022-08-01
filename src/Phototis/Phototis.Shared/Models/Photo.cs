@@ -6,10 +6,15 @@ namespace Phototis
 {
     public class Photo
     {
+        public Photo()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
         /// <summary>
         /// Unique id of the photo.
         /// </summary>
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; }
 
         /// <summary>
         /// File name of the photo.
@@ -19,7 +24,7 @@ namespace Phototis
         /// <summary>
         /// Source for HTML img tag.
         /// </summary>
-        public string DataUrl { get; set; }        
+        public string DataUrl { get; set; }
 
         /// <summary>
         /// Source for XAML Image control.

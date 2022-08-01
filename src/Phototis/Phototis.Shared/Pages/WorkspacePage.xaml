@@ -103,12 +103,22 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
+            <!--  selected picture  -->
+            <PersonPicture
+                Name="SelectedPicture"
+                Grid.Row="0"
+                Width="80"
+                Height="80"
+                BorderThickness="3"
+                Visibility="Collapsed" />
 
             <!--  Edit buttons  -->
             <Grid
                 Name="ImageEffectDrawer"
-                Grid.Row="0"
+                Grid.Row="1"
                 Margin="20,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
@@ -334,7 +344,7 @@
 
             <!--  Image gallery  -->
             <Grid
-                Grid.Row="1"
+                Grid.Row="2"
                 Margin="20,5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom">
@@ -345,8 +355,22 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel
+                <ToggleButton
+                    Name="ImageGalleryToggleButton"
                     Grid.Row="0"
+                    Width="50"
+                    Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="GoldenRod"
+                    BorderBrush="DarkGoldenRod"
+                    CornerRadius="100"
+                    Foreground="White">
+                    <SymbolIcon Symbol="Pictures" />
+                </ToggleButton>
+
+                <StackPanel
+                    Grid.Row="1"
                     Orientation="Horizontal"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
 
@@ -379,7 +403,7 @@
 
                 <GridView
                     Name="ImageGallery"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Height="170"
                     Margin="5"
                     SelectionChanged="ImageGallery_SelectionChanged"
@@ -399,20 +423,6 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-
-                <ToggleButton
-                    Name="ImageGalleryToggleButton"
-                    Grid.Row="2"
-                    Width="50"
-                    Height="50"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="GoldenRod"
-                    BorderBrush="DarkGoldenRod"
-                    CornerRadius="100"
-                    Foreground="White">
-                    <SymbolIcon Symbol="Pictures" />
-                </ToggleButton>
 
             </Grid>
 
