@@ -87,7 +87,7 @@ namespace Phototis
 
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
         {
-            App.NavigateToPage(typeof(StagePage), photos);
+            App.NavigateToPage(typeof(WorkspacePage), photos);
         }
     }
 }

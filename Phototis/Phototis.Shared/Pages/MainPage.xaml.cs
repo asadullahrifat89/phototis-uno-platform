@@ -48,7 +48,7 @@ namespace Phototis
             { 
                 {"LoginPage", typeof(LoginPage)},
                 {"ProjectsPage", typeof(ProjectsPage)},
-                {"StagePage", typeof(StagePage)}
+                {"WorkspacePage", typeof(WorkspacePage)}
             },
             goBackNotAllowedToPages: new List<Type>() { },
             goBackPageRoutes: new List<(Type IfGoingBackTo, Type RouteTo)>());

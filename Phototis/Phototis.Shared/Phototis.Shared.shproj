@@ -13,7 +13,6 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\LoginPage.xaml" />
     <UpToDateCheckInput Remove="Pages\ProjectsPage.xaml" />
-    <UpToDateCheckInput Remove="Pages\StagePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <_Globbed_Compile Remove="Constants.cs" />
@@ -33,6 +32,5 @@
   <ItemGroup>
     <_Globbled_Page Remove="Pages\LoginPage.xaml" />
     <_Globbled_Page Remove="Pages\ProjectsPage.xaml" />
-    <_Globbled_Page Remove="Pages\StagePage.xaml" />
   </ItemGroup>
 </Project>

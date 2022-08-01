@@ -29,7 +29,7 @@ namespace Phototis
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class StagePage : Page
+    public sealed partial class WorkspacePage : Page
     {
         #region Fields
 
@@ -54,27 +54,27 @@ namespace Phototis
 
         #region Ctor
 
-        public StagePage()
+        public WorkspacePage()
         {
             this.InitializeComponent();
-            this.Loaded += StagePage_Loaded;
-            this.Unloaded += StagePage_Unloaded;
+            this.Loaded += WorkspacePage_Loaded;
+            this.Unloaded += WorkspacePage_Unloaded;
         }
 
-        private void StagePage_Loaded(object sender, RoutedEventArgs e)
+        private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
             NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
             NumberBoxHeight.Value = Window.Current.Bounds.Height - 10;
 
-            SizeChanged += StagePage_SizeChanged;
+            SizeChanged += WorkspacePage_SizeChanged;
         }
 
-        private void StagePage_Unloaded(object sender, RoutedEventArgs e)
+        private void WorkspacePage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged -= StagePage_SizeChanged;
+            SizeChanged -= WorkspacePage_SizeChanged;
         }
 
-        private void StagePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        private void WorkspacePage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             windowWidth = args.NewSize.Width - 10;
             windowHeight = args.NewSize.Height - 10;

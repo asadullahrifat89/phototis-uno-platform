@@ -20,7 +20,7 @@
             <!--<NavigationView.MenuItems>
                 <NavigationViewItem Content="Login" Tag="LoginPage" />
                 <NavigationViewItem Content="Projects" Tag="ProjectsPage" />
-                <NavigationViewItem Content="Stage" Tag="StagePage" />
+                <NavigationViewItem Content="Stage" Tag="WorkspacePage" />
             </NavigationView.MenuItems>-->
 
             <NavigationView.PaneFooter>

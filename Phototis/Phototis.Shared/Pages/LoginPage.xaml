@@ -28,7 +28,7 @@
                 Margin="10,10,10,50"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="Stitch images, create artwork"
+                Text="Create your unique artwork"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 

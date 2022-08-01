@@ -34,8 +34,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ProjectsPage.xaml.cs">
       <DependentUpon>ProjectsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\StagePage.xaml.cs">
-      <DependentUpon>StagePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WorkspacePage.xaml.cs">
+      <DependentUpon>WorkspacePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +51,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\StagePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\WorkspacePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
