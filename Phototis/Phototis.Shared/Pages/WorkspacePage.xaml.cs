@@ -39,9 +39,9 @@ namespace Phototis
 
         private double windowWidth, windowHeight;
 
-        private Photo selectedPhoto;
+        private Photo selectedPhotoInGallery;
 
-        private List<Photo> selectedPhotos;
+        private List<Photo> selectedPhotosInGallery;
 
         bool _isPointerCaptured;
         double _pointerX;
@@ -242,10 +242,10 @@ namespace Phototis
                 {
                     case ListViewSelectionMode.Single:
                         {
-                            if (selectedPhoto is not null)
+                            if (selectedPhotoInGallery is not null)
                             {
                                 PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
-                                photoElement.Source = selectedPhoto.DataUrl;
+                                photoElement.Source = selectedPhotoInGallery.DataUrl;
 
                                 Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
                                 Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
@@ -256,15 +256,15 @@ namespace Phototis
                                 Workspace.Children.Add(photoElement);
 
                                 ImageGallery.SelectedItem = null;
-                                selectedPhoto = null;
+                                selectedPhotoInGallery = null;
                             }
                         }
                         break;
                     case ListViewSelectionMode.Multiple:
                         {
-                            if (selectedPhotos is not null && selectedPhotos.Any())
+                            if (selectedPhotosInGallery is not null && selectedPhotosInGallery.Any())
                             {
-                                foreach (var photo in selectedPhotos)
+                                foreach (var photo in selectedPhotosInGallery)
                                 {
                                     PhotoElement photoElement = new PhotoElement() { Width = 400, Height = 400 };
                                     photoElement.Source = photo.DataUrl;
@@ -276,10 +276,10 @@ namespace Phototis
                                     photoElement.PointerReleased += PhotoElement_PointerReleased;
 
                                     Workspace.Children.Add(photoElement);
-                                }                     
-                                
+                                }
+
                                 ImageGallery.SelectedItems.Clear();
-                                selectedPhotos = null;
+                                selectedPhotosInGallery = null;
                             }
                         }
                         break;
@@ -332,10 +332,10 @@ namespace Phototis
             switch (ImageGallery.SelectionMode)
             {
                 case ListViewSelectionMode.Single:
-                    selectedPhoto = ImageGallery.SelectedItem as Photo;
+                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
                     break;
                 case ListViewSelectionMode.Multiple:
-                    selectedPhotos = ImageGallery.SelectedItems.OfType<Photo>().ToList();
+                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
                     break;
                 default:
                     break;
@@ -575,6 +575,15 @@ namespace Phototis
         private void SelectAllToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             ImageGallery.SelectedItems.Clear();
+        }
+
+        private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElement is not null)
+            {
+                Workspace.Children.Remove(SelectedPhotoElement);
+                SelectedPhotoElement = null;
+            }
         }
 
         private void FullscreenToggle_Unchecked(object sender, RoutedEventArgs e)
