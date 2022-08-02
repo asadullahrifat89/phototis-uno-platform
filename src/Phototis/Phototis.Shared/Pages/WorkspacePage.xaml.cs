@@ -305,7 +305,6 @@ namespace Phototis
                         break;
                 }
             }
-
 #if DEBUG
             Console.WriteLine("Workspace_PointerPressed");
 #endif
