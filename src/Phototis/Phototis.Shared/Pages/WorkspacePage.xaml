@@ -25,14 +25,20 @@
         </ScrollViewer>
 
         <!--  Size control & fullscreen  -->
-        <StackPanel
-            Margin="20"
+        <Grid
+            Margin="0,20"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
+            VerticalAlignment="Top">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
             <ToggleButton
                 Name="WorkSpaceSizeToggle"
+                Grid.Row="0"
                 Width="50"
                 Height="50"
                 Margin="5"
@@ -46,13 +52,14 @@
                 <SymbolIcon Symbol="ViewAll" />
             </ToggleButton>
 
-            <StackPanel
+            <WrapPanel
+                Grid.Row="1"
                 Margin="5"
-                Orientation="Horizontal"
                 Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}">
                 <NumberBox
                     Name="NumberBoxWidth"
-                    Margin="10,5"
+                    Width="120"
+                    Margin="5"
                     Header="Width"
                     Maximum="10000"
                     Minimum="400"
@@ -60,16 +67,18 @@
                     ValueChanged="NumberBoxWidth_ValueChanged" />
                 <NumberBox
                     Name="NumberBoxHeight"
-                    Margin="10,5"
+                    Width="120"
+                    Margin="5"
                     Header="Height"
                     Maximum="10000"
                     Minimum="400"
                     SpinButtonPlacementMode="Compact"
                     ValueChanged="NumberBoxHeight_ValueChanged" />
-            </StackPanel>
+            </WrapPanel>
 
             <ToggleButton
                 Name="FullscreenToggle"
+                Grid.Row="2"
                 Width="50"
                 Height="50"
                 Margin="5"
@@ -92,7 +101,7 @@
                 Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}"
                 Value="1" />-->
 
-        </StackPanel>
+        </Grid>
 
         <!--  Tools & gallery  -->
         <Grid
