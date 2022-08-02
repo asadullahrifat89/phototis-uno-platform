@@ -353,7 +353,7 @@
             <!--  Image gallery  -->
             <Grid
                 Grid.Row="2"
-                Margin="20,5"
+                Margin="10,5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom">
 
@@ -413,8 +413,9 @@
                 <GridView
                     Name="ImageGallery"
                     Grid.Row="2"
-                    Height="170"
+                    Height="140"
                     Margin="5"
+                    HorizontalAlignment="Center"
                     SelectionChanged="ImageGallery_SelectionChanged"
                     SelectionMode="Single"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
