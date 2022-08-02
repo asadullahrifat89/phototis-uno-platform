@@ -14,7 +14,9 @@
         <ScrollViewer
             Name="WorkspaceScroller"
             HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
+            HorizontalScrollMode="Auto"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
             <local:WorkSpace
                 Name="Workspace"
                 Grid.Row="0"
@@ -123,7 +125,7 @@
                 Height="80"
                 Visibility="Collapsed" />
 
-            <!--  Edit buttons  -->
+            <!--  Edit & delete buttons  -->
             <Grid
                 Name="ImageEffectDrawer"
                 Grid.Row="1"
@@ -136,20 +138,36 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <ToggleButton
-                    Name="ImageEffectToggle"
+                <StackPanel
                     Grid.Row="0"
-                    Width="50"
-                    Height="50"
-                    Margin="5"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    CornerRadius="100">
-                    <SymbolIcon Symbol="Edit" />
-                </ToggleButton>
+                    Orientation="Horizontal">
+                    <ToggleButton
+                        Name="ImageEffectToggle"
+                        Width="50"
+                        Height="50"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="100">
+                        <SymbolIcon Symbol="Edit" />
+                    </ToggleButton>
+
+                    <!--  Delete image  -->
+                    <Button
+                        Name="DeleteImageButton"
+                        Width="50"
+                        Height="50"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="DeleteImageButton_Click"
+                        CornerRadius="100">
+                        <SymbolIcon Symbol="Delete" />
+                    </Button>
+                </StackPanel>
 
                 <WrapPanel
                     Name="EditTools"
@@ -333,20 +351,6 @@
                         Visibility="{x:Bind Path=OpacityToggleButton.IsChecked, Mode=OneWay}"
                         Value="1" />
                 </Grid>
-
-                <!--  Delete image  -->
-                <Button
-                    Name="DeleteImageButton"
-                    Grid.Row="3"
-                    Width="50"
-                    Height="50"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="DeleteImageButton_Click"
-                    CornerRadius="100">
-                    <SymbolIcon Symbol="Delete" />
-                </Button>
 
             </Grid>
 

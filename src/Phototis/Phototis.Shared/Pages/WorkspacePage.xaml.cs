@@ -153,7 +153,6 @@ namespace Phototis
             uielement.Opacity = 0.6d;
 
             _isPointerCaptured = true;
-
 #if DEBUG
             Console.WriteLine("DragStart");
 #endif
@@ -179,6 +178,9 @@ namespace Phototis
                 // Remember the pointer position:
                 _pointerX = currentPointerPoint.Position.X;
                 _pointerY = currentPointerPoint.Position.Y;
+#if DEBUG
+                Console.WriteLine("DragRelease");
+#endif
             }
         }
 
@@ -187,7 +189,6 @@ namespace Phototis
             _isPointerCaptured = false;
             uielement.ReleasePointerCapture(currentPointer);
             uielement.Opacity = 1;
-
 #if DEBUG
             Console.WriteLine("DragRelease");
 #endif
