@@ -162,6 +162,9 @@ namespace Phototis
         {
             if (_isPointerCaptured)
             {
+#if DEBUG
+                Console.WriteLine("DragElement");
+#endif
                 //var currentPoint = e.GetCurrentPoint(canvas);
 
                 // Calculate the new position of the object:
@@ -178,20 +181,17 @@ namespace Phototis
                 // Remember the pointer position:
                 _pointerX = currentPointerPoint.Position.X;
                 _pointerY = currentPointerPoint.Position.Y;
-#if DEBUG
-                Console.WriteLine("DragRelease");
-#endif
             }
         }
 
         public void DragRelease(UIElement uielement)
         {
-            _isPointerCaptured = false;
-            uielement.ReleasePointerCapture(currentPointer);
-            uielement.Opacity = 1;
 #if DEBUG
             Console.WriteLine("DragRelease");
 #endif
+            _isPointerCaptured = false;
+            uielement.ReleasePointerCapture(currentPointer);
+            uielement.Opacity = 1;
         }
 
         #endregion
@@ -313,20 +313,20 @@ namespace Phototis
 
         private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            // this works for mobile and tablets as cursor is not available
-            currentPointerPoint = e.GetCurrentPoint(Workspace);
-            currentPointer = e.Pointer;
-
             if (_isPointerCaptured && draggingElement is not null)
             {
+#if DEBUG
+                Console.WriteLine("Workspace_PointerReleased");
+#endif
+                // this works for mobile and tablets as cursor is not available
+                currentPointerPoint = e.GetCurrentPoint(Workspace);
+                currentPointer = e.Pointer;
+
                 DragElement(draggingElement);
                 DragRelease(draggingElement);
 
                 draggingElement = null;
             }
-#if DEBUG
-            Console.WriteLine("Workspace_PointerReleased");
-#endif
         }
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -334,6 +334,9 @@ namespace Phototis
             // if image gallery is open then do not start dragging
             if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
             {
+#if DEBUG
+                Console.WriteLine("PhotoElement_PointerPressed");
+#endif
                 currentPointerPoint = e.GetCurrentPoint(Workspace);
                 currentPointer = e.Pointer;
 
@@ -349,6 +352,12 @@ namespace Phototis
             // if image gallery is open then do not start dragging
             if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
             {
+#if DEBUG
+                Console.WriteLine("PhotoElement_PointerReleased");
+#endif
+                currentPointerPoint = e.GetCurrentPoint(Workspace);
+                currentPointer = e.Pointer;
+
                 draggingElement = (PhotoElement)sender;
                 DragRelease(draggingElement);
             }
