@@ -125,7 +125,7 @@
                 Height="80"
                 Visibility="Collapsed" />
 
-            <!--  tools  -->
+            <!--  Image tools  -->
             <Grid
                 Name="ImageToolsDrawer"
                 Grid.Row="1"
@@ -375,10 +375,10 @@
 
             </Grid>
 
-            <!--  Image gallery  -->
+            <!--  Gallery tools  -->
             <Grid
                 Grid.Row="2"
-                Margin="10,0,5,5"
+                Margin="5,0,5,5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom">
 
