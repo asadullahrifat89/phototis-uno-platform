@@ -717,10 +717,7 @@ namespace Phototis
             try
             {
                 if (SelectedPhotoElementInWorkspace is not null)
-                {
-                    //SelectedPhotoElementInWorkspace.ImageExported += SelectedPhotoElementInWorkspace_ImageExported;
                     SelectedPhotoElementInWorkspace.Export();
-                }
             }
             catch (Exception)
             {
