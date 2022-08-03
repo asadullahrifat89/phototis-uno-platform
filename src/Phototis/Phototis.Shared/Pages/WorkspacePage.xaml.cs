@@ -25,6 +25,7 @@ using Windows.Storage.Pickers;
 using Windows.ApplicationModel;
 using Windows.UI.ViewManagement;
 using Pointer = Microsoft.UI.Xaml.Input.Pointer;
+using Microsoft.UI.Text;
 
 namespace Phototis
 {
@@ -275,6 +276,8 @@ namespace Phototis
 
         #endregion
 
+        #region Pointer
+
         #region Workspace
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -357,7 +360,7 @@ namespace Phototis
 
         #endregion
 
-        #region PhotoElement
+        #region Photo Element
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -392,6 +395,8 @@ namespace Phototis
                 DragRelease(draggingElement);
             }
         }
+
+        #endregion 
 
         #endregion
 
@@ -723,12 +728,41 @@ namespace Phototis
             }
         }
 
-        private void ImageDeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void ImageDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
-                SelectedPhotoElementInWorkspace = null;
+                ContentDialog dialog = new ContentDialog();
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.Title = "Remove confirmed?";
+                dialog.PrimaryButtonText = "Yes";
+                dialog.CloseButtonText = "No";
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
+                content.Children.Add(new TextBlock()
+                {
+                    Text = this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
+                    TextAlignment = TextAlignment.Left,
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    FontWeight = FontWeights.SemiBold,
+                    MaxWidth = 300,
+                });
+                content.Children.Add(new TextBlock()
+                {
+                    Text = "will be removed from current workspace.",
+                });
+
+                dialog.Content = content;// $"{} will be removed from workspace.";
+
+                var result = await dialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
+                    SelectedPhotoElementInWorkspace = null;
+                }
             }
         }
 
@@ -746,7 +780,7 @@ namespace Phototis
             {
                 Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) + 1);
             }
-        } 
+        }
 
         #endregion
 
