@@ -124,12 +124,12 @@ namespace Phototis
                     SelectedPicture.ProfilePicture = null;
                     SelectedPicture.ProfilePicture = photo?.Source;
                     SelectedPicture.Visibility = Visibility.Visible;
-                    ImageEffectDrawer.Visibility = Visibility.Visible;
+                    ImageToolsDrawer.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     SelectedPicture.Visibility = Visibility.Collapsed;
-                    ImageEffectDrawer.Visibility = Visibility.Collapsed;
+                    ImageToolsDrawer.Visibility = Visibility.Collapsed;
                 }
             }
         }
