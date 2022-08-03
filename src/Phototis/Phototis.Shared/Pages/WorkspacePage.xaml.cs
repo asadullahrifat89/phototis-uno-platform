@@ -212,9 +212,30 @@ namespace Phototis
             uielement.Opacity = 1;
         }
 
+        private void AddPhotoElementToWorkspace(Photo photo)
+        {
+            PhotoElement photoElement = new PhotoElement()
+            {
+                Id = photo.Id,
+                Width = 400,
+                Height = 400,
+            };
+            photoElement.Source = photo.DataUrl;
+
+            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
+            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+
+            photoElement.PointerPressed += PhotoElement_PointerPressed;
+            photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+            Workspace.Children.Add(photoElement);
+        }
+
         #endregion
 
-        #region Events      
+        #region Events
+
+        #region Window
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -231,6 +252,30 @@ namespace Phototis
             Console.WriteLine($"Workspace Size: {Workspace.Width} x {Workspace.Height}");
 #endif
         }
+
+        private void FullscreenToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                view.TryEnterFullScreenMode();
+            }
+        }
+
+        private void FullscreenToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                view.ExitFullScreenMode();
+            }
+        }
+
+        #endregion
+
+        #region Workspace
 
         private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
@@ -292,25 +337,6 @@ namespace Phototis
 #endif
         }
 
-        private void AddPhotoElementToWorkspace(Photo photo)
-        {
-            PhotoElement photoElement = new PhotoElement()
-            {
-                Id = photo.Id,
-                Width = 400,
-                Height = 400,
-            };
-            photoElement.Source = photo.DataUrl;
-
-            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
-            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
-
-            photoElement.PointerPressed += PhotoElement_PointerPressed;
-            photoElement.PointerReleased += PhotoElement_PointerReleased;
-
-            Workspace.Children.Add(photoElement);
-        }
-
         private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (_isPointerCaptured && draggingElement is not null)
@@ -328,6 +354,10 @@ namespace Phototis
                 draggingElement = null;
             }
         }
+
+        #endregion
+
+        #region PhotoElement
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -363,20 +393,9 @@ namespace Phototis
             }
         }
 
-        private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (ImageGallery.SelectionMode)
-            {
-                case ListViewSelectionMode.Single:
-                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
-                    break;
-                case ListViewSelectionMode.Multiple:
-                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
-                    break;
-                default:
-                    break;
-            }
-        }
+        #endregion
+
+        #region Filters
 
         #region Sliders
 
@@ -565,7 +584,26 @@ namespace Phototis
             SizeToggleButton.IsChecked = false;
         }
 
+        #endregion 
+
         #endregion
+
+        #region ImageGallery
+
+        private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (ImageGallery.SelectionMode)
+            {
+                case ListViewSelectionMode.Single:
+                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
+                    break;
+                case ListViewSelectionMode.Multiple:
+                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
+                    break;
+                default:
+                    break;
+            }
+        }
 
         private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
         {
@@ -623,6 +661,38 @@ namespace Phototis
             ImageGallery.ItemsSource = this.Photos;
         }
 
+        private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ImageGallery.SelectionMode = ListViewSelectionMode.Multiple;
+        }
+
+        private void SelectMultipleToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (SelectAllToggleButton.IsChecked.Value)
+            {
+                SelectAllToggleButton.IsChecked = false;
+            }
+
+            ImageGallery.SelectionMode = ListViewSelectionMode.Single;
+        }
+
+        private void SelectAllToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in ImageGallery.Items)
+            {
+                ImageGallery.SelectedItems.Add(item);
+            }
+        }
+
+        private void SelectAllToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ImageGallery.SelectedItems.Clear();
+        }
+
+        #endregion
+
+        #region Image
+
         private void ImageResetButton_Click(object sender, RoutedEventArgs e)
         {
             GrayScaleSlider.Value = 0;
@@ -653,53 +723,7 @@ namespace Phototis
             }
         }
 
-        //        private void SelectedPhotoElementInWorkspace_ImageExported(object sender, string e)
-        //        {
-        //#if DEBUG
-        //            Console.WriteLine("SelectedPhotoElementInWorkspace_ImageExported: " + e);
-        //#endif
-        //            SelectedPhotoElementInWorkspace.ImageExported -= SelectedPhotoElementInWorkspace_ImageExported;
-        //        }
-
-        private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ImageGallery.SelectionMode = ListViewSelectionMode.Multiple;
-        }
-
-        private void SelectMultipleToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (SelectAllToggleButton.IsChecked.Value)
-            {
-                SelectAllToggleButton.IsChecked = false;
-            }
-
-            ImageGallery.SelectionMode = ListViewSelectionMode.Single;
-        }
-
-        private void FullscreenToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            var view = ApplicationView.GetForCurrentView();
-
-            if (view is not null)
-            {
-                view.TryEnterFullScreenMode();
-            }
-        }
-
-        private void SelectAllToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in ImageGallery.Items)
-            {
-                ImageGallery.SelectedItems.Add(item);
-            }
-        }
-
-        private void SelectAllToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ImageGallery.SelectedItems.Clear();
-        }
-
-        private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
+        private void ImageDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
@@ -722,22 +746,9 @@ namespace Phototis
             {
                 Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) + 1);
             }
-        }
+        } 
 
-        private void FullscreenToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            var view = ApplicationView.GetForCurrentView();
-
-            if (view is not null)
-            {
-                view.ExitFullScreenMode();
-            }
-        }
-
-        //private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    this.Workspace.SetZoom(e.NewValue);
-        //}
+        #endregion
 
         #endregion
     }
