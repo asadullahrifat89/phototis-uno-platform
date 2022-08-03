@@ -6,18 +6,20 @@
 
 }
 
-function exportImage(id, src, width, height, filter) {
+function exportImage(id, width, height, filter, src) {
     var canvas = document.createElement("canvas");
     canvas.height = height;
     canvas.width = width;
+    canvas.style = "object-fit:contain";
     var ctx = canvas.getContext('2d');
 
     var image = document.createElement("img");
     image.height = height;
-    image.width = width;    
+    image.width = width;
+    image.style="object-fit:contain";
 
-    image.onload = function () {
-        ctx.filter = filter;        
+    image.onload = function () {        
+        ctx.filter = filter;
         ctx.drawImage(image, 0, 0, image.width, image.height);
 
         var dataUrl = canvas.toDataURL("image/png");

@@ -118,7 +118,7 @@ namespace Phototis
                     SizeSlider.Value = _selectedPhotoElementInWorkspace.Width;
                     OpacitySlider.Value = _selectedPhotoElementInWorkspace.Opacity;
 
-                    //TODO: set image source for the selected image                    
+                    // set image source for the selected image                    
                     var photo = this.photos.FirstOrDefault(x => x.Id == _selectedPhotoElementInWorkspace.Id);
 
                     SelectedPicture.ProfilePicture = null;
@@ -249,21 +249,7 @@ namespace Phototis
                         {
                             if (selectedPhotoInGallery is not null)
                             {
-                                PhotoElement photoElement = new PhotoElement()
-                                {
-                                    Id = selectedPhotoInGallery.Id,
-                                    Width = 400,
-                                    Height = 400
-                                };
-                                photoElement.Source = selectedPhotoInGallery.DataUrl;
-
-                                Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
-                                Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
-
-                                photoElement.PointerPressed += PhotoElement_PointerPressed;
-                                photoElement.PointerReleased += PhotoElement_PointerReleased;
-
-                                Workspace.Children.Add(photoElement);
+                                AddPhotoElementToWorkspace(selectedPhotoInGallery);
 
                                 ImageGallery.SelectedItem = null;
                                 selectedPhotoInGallery = null;
@@ -276,21 +262,7 @@ namespace Phototis
                             {
                                 foreach (var photo in selectedPhotosInGallery)
                                 {
-                                    PhotoElement photoElement = new PhotoElement()
-                                    {
-                                        Id = photo.Id,
-                                        Width = 400,
-                                        Height = 400,
-                                    };
-                                    photoElement.Source = photo.DataUrl;
-
-                                    Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
-                                    Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
-
-                                    photoElement.PointerPressed += PhotoElement_PointerPressed;
-                                    photoElement.PointerReleased += PhotoElement_PointerReleased;
-
-                                    Workspace.Children.Add(photoElement);
+                                    AddPhotoElementToWorkspace(photo);
                                 }
 
                                 ImageGallery.SelectedItems.Clear();
@@ -305,6 +277,25 @@ namespace Phototis
 #if DEBUG
             Console.WriteLine("Workspace_PointerPressed");
 #endif
+        }
+
+        private void AddPhotoElementToWorkspace(Photo photo)
+        {
+            PhotoElement photoElement = new PhotoElement()
+            {
+                Id = photo.Id,
+                Width = 400,
+                Height = 400,
+            };
+            photoElement.Source = photo.DataUrl;
+
+            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
+            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+
+            photoElement.PointerPressed += PhotoElement_PointerPressed;
+            photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+            Workspace.Children.Add(photoElement);
         }
 
         private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)

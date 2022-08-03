@@ -16,14 +16,14 @@ namespace Phototis
         #region Fields
 
         private HtmlImageElement htmlImageElement;
-        
+
         #endregion
 
         #region Ctor
 
         public PhotoElement()
         {
-            
+
         }
 
         #endregion
@@ -178,7 +178,7 @@ namespace Phototis
                 if (image.htmlImageElement is null)
                 {
                     image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
-                    image.Child = image.htmlImageElement;                    
+                    image.Child = image.htmlImageElement;
                 }
                 else
                 {
@@ -186,7 +186,7 @@ namespace Phototis
                     image.Child = image.htmlImageElement;
                 }
             }
-        }      
+        }
 
         #endregion
 
@@ -194,8 +194,20 @@ namespace Phototis
 
         public void Export()
         {
-            var function = $"exportImage('{htmlImageElement.Id}','{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
-            
+            var id = htmlImageElement.Id;
+            var src = htmlImageElement.GetHtmlAttribute("src");
+            //TODO: preserve original width and height of an image
+            var width = this.Width;
+            var height = this.Height;
+            var filter = htmlImageElement.GetCssFilter();
+
+#if DEBUG
+            Console.WriteLine("id: " + id + "width: " + width + "height: " + height + "filter: " + filter);
+#endif
+
+            //var function = $"exportImage('{htmlImageElement.Id}','{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
+            var function = $"exportImage('{id}',{width},{height},'{filter}','{src}')";
+
             WebAssemblyRuntime.InvokeJS(function);
         }
 
