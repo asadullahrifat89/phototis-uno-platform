@@ -6,17 +6,18 @@
 
 }
 
-function exportImage(id, width, height, filter, src) {
-    var canvas = document.createElement("canvas");
-    canvas.height = height;
-    canvas.width = width;
-    canvas.style = "object-fit:contain";
-    var ctx = canvas.getContext('2d');
+function exportImage(id, width, height, filter, src) {   
 
     var image = document.createElement("img");
     image.height = height;
     image.width = width;
     image.style = "object-fit:contain";
+
+    var canvas = document.createElement("canvas");
+    canvas.height = height;
+    canvas.width = width;
+    canvas.style = "object-fit:contain";
+    var ctx = canvas.getContext('2d');
 
     image.onload = function () {
         ctx.filter = filter;
