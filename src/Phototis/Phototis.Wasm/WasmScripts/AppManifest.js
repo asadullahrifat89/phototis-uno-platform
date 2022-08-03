@@ -20,8 +20,7 @@ function exportImage(id, width, height, filter, src) {
     var ctx = canvas.getContext('2d');
 
     image.onload = function () {
-        ctx.filter = filter;
-        //ctx.drawImage(image, 0, 0, image.width, image.height);
+        ctx.filter = filter;        
         drawImageProp(ctx, image, 0, 0, width, height);
 
         var dataUrl = canvas.toDataURL("image/png");
