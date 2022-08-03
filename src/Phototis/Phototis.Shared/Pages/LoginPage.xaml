@@ -38,6 +38,7 @@
                 CornerRadius="50"
                 FontWeight="SemiBold"
                 Header="Set a username"
+                KeyDown="UserNameBox_KeyDown"
                 TextChanged="UserNameBox_TextChanged" />
 
             <!--<PasswordBox

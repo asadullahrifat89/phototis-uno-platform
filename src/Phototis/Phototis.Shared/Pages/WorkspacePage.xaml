@@ -75,32 +75,37 @@
                     Name="NumberBoxWidth"
                     Width="120"
                     Margin="5"
-                    Header="Width"
+                    LargeChange="100"
                     Maximum="10000"
                     Minimum="400"
+                    SmallChange="10"
                     SpinButtonPlacementMode="Compact"
-                    ValueChanged="NumberBoxWidth_ValueChanged" />
+                    ValueChanged="NumberBoxWidth_ValueChanged">
+                    <NumberBox.Header>
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="Width"
+                            TextAlignment="Center" />
+                    </NumberBox.Header>
+                </NumberBox>
                 <NumberBox
                     Name="NumberBoxHeight"
                     Width="120"
                     Margin="5"
-                    Header="Height"
+                    LargeChange="100"
                     Maximum="10000"
                     Minimum="400"
+                    SmallChange="10"
                     SpinButtonPlacementMode="Compact"
-                    ValueChanged="NumberBoxHeight_ValueChanged" />
+                    ValueChanged="NumberBoxHeight_ValueChanged">
+                    <NumberBox.Header>
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="Height"
+                            TextAlignment="Center" />
+                    </NumberBox.Header>
+                </NumberBox>
             </WrapPanel>
-
-            <!--<Slider
-                Name="ZoomSlider"
-                Width="200"
-                Margin="5"
-                Header="Zoom"
-                Maximum="3"
-                Minimum="1"
-                ValueChanged="ZoomSlider_ValueChanged"
-                Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}"
-                Value="1" />-->
 
         </Grid>
 
@@ -477,6 +482,18 @@
                     Orientation="Horizontal"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
 
+                    <Button
+                        Name="ImageUploadButton"
+                        Width="50"
+                        Height="50"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="ImageUploadButton_Click"
+                        CornerRadius="100">
+                        <SymbolIcon Symbol="Upload" />
+                    </Button>
+
                     <!--  Multi select toggle  -->
                     <ToggleButton
                         Name="SelectMultipleToggleButton"
@@ -507,9 +524,10 @@
                 <GridView
                     Name="ImageGallery"
                     Grid.Row="2"
-                    Height="140"
+                    MaxHeight="140"
                     Margin="5"
                     HorizontalAlignment="Center"
+                    ItemsSource="{Binding Photos, Mode=OneWay}"
                     SelectionChanged="ImageGallery_SelectionChanged"
                     SelectionMode="Single"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">

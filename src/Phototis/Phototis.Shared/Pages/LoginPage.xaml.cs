@@ -73,7 +73,7 @@ namespace Phototis
 
             App.SetAccount();
 
-            App.NavigateToPage(typeof(ProjectsPage));
+            App.NavigateToPage(typeof(WorkspacePage));
         }
 
         private void EnableLoginButton()
@@ -87,5 +87,12 @@ namespace Phototis
         }
 
         #endregion
+
+        private void UserNameBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && LoginButton.IsEnabled)
+                Login();
+
+        }
     }
 }

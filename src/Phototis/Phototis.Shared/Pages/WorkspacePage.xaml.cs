@@ -35,7 +35,7 @@ namespace Phototis
     {
         #region Fields
 
-        private List<Photo> photos = new List<Photo>();
+        //private List<Photo> Photos = new List<Photo>();
 
         private double windowWidth, windowHeight;
 
@@ -63,8 +63,18 @@ namespace Phototis
             this.InitializeComponent();
             this.Loaded += WorkspacePage_Loaded;
             this.Unloaded += WorkspacePage_Unloaded;
-
         }
+
+        //protected override void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    if (e.Parameter is List<Photo> photos)
+        //    {
+        //        this.photos = photos;
+        //        ImageGallery.ItemsSource = this.photos;
+        //    }
+
+        //    base.OnNavigatedTo(e);
+        //}
 
         private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -96,30 +106,41 @@ namespace Phototis
 
         #region Properties
 
-        private PhotoElement _selectedPhotoElementInWorkspace;
+        private List<Photo> photos = new List<Photo>();
+
+        public List<Photo> Photos
+        {
+            get { return photos; }
+            set
+            {
+                photos = value;
+            }
+        }
+
+        private PhotoElement selectedPhotoElementInWorkspace;
 
         public PhotoElement SelectedPhotoElementInWorkspace
         {
-            get { return _selectedPhotoElementInWorkspace; }
+            get { return selectedPhotoElementInWorkspace; }
             set
             {
-                _selectedPhotoElementInWorkspace = value;
+                selectedPhotoElementInWorkspace = value;
 
-                if (_selectedPhotoElementInWorkspace is not null)
+                if (selectedPhotoElementInWorkspace is not null)
                 {
-                    GrayScaleSlider.Value = _selectedPhotoElementInWorkspace.Grayscale;
-                    ContrastSlider.Value = _selectedPhotoElementInWorkspace.Contrast;
-                    BrightnessSlider.Value = _selectedPhotoElementInWorkspace.Brightness;
-                    SaturationSlider.Value = _selectedPhotoElementInWorkspace.Saturation;
-                    SepiaSlider.Value = _selectedPhotoElementInWorkspace.Sepia;
-                    InvertSlider.Value = _selectedPhotoElementInWorkspace.Invert;
-                    HueRotateSlider.Value = _selectedPhotoElementInWorkspace.Hue;
-                    BlurSlider.Value = _selectedPhotoElementInWorkspace.Blur;
-                    SizeSlider.Value = _selectedPhotoElementInWorkspace.Width;
-                    OpacitySlider.Value = _selectedPhotoElementInWorkspace.Opacity;
+                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.Grayscale;
+                    ContrastSlider.Value = selectedPhotoElementInWorkspace.Contrast;
+                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.Brightness;
+                    SaturationSlider.Value = selectedPhotoElementInWorkspace.Saturation;
+                    SepiaSlider.Value = selectedPhotoElementInWorkspace.Sepia;
+                    InvertSlider.Value = selectedPhotoElementInWorkspace.Invert;
+                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.Hue;
+                    BlurSlider.Value = selectedPhotoElementInWorkspace.Blur;
+                    SizeSlider.Value = selectedPhotoElementInWorkspace.Width;
+                    OpacitySlider.Value = selectedPhotoElementInWorkspace.Opacity;
 
                     // set image source for the selected image                    
-                    var photo = this.photos.FirstOrDefault(x => x.Id == _selectedPhotoElementInWorkspace.Id);
+                    var photo = this.Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
 
                     SelectedPicture.ProfilePicture = null;
                     SelectedPicture.ProfilePicture = photo?.Source;
@@ -193,18 +214,7 @@ namespace Phototis
 
         #endregion
 
-        #region Events
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (e.Parameter is List<Photo> photos)
-            {
-                this.photos = photos;
-                ImageGallery.ItemsSource = this.photos;
-            }
-
-            base.OnNavigatedTo(e);
-        }
+        #region Events      
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -267,6 +277,9 @@ namespace Phototis
 
                                 ImageGallery.SelectedItems.Clear();
                                 selectedPhotosInGallery = null;
+
+                                if (SelectAllToggleButton.IsChecked.Value)
+                                    SelectAllToggleButton.IsChecked = false;
                             }
                         }
                         break;
@@ -554,6 +567,62 @@ namespace Phototis
 
         #endregion
 
+        private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fileOpenPicker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+
+            fileOpenPicker.FileTypeFilter.Add(".png");
+            fileOpenPicker.FileTypeFilter.Add(".jpg");
+            fileOpenPicker.FileTypeFilter.Add(".jpeg");
+            fileOpenPicker.FileTypeFilter.Add(".bmp");
+            fileOpenPicker.FileTypeFilter.Add(".webp");
+            fileOpenPicker.FileTypeFilter.Add(".gif");
+            fileOpenPicker.FileTypeFilter.Add(".arw");
+
+            var pickedFiles = await fileOpenPicker.PickMultipleFilesAsync();
+
+            if (pickedFiles.Count > 0)
+            {
+                // At least one file was picked, we can use them
+                foreach (var file in pickedFiles)
+                {
+                    if (!this.Photos.Any(x => x.Name == file.Name))
+                    {
+                        var stream = await file.OpenStreamForReadAsync();
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        var ms = new MemoryStream();
+                        await stream.CopyToAsync(ms);
+
+                        ms.Seek(0, SeekOrigin.Begin);
+                        var base64String = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+
+                        BitmapImage bitmapImage = new BitmapImage();
+                        bitmapImage.SetSource(ms);
+
+                        Photo photo = new Photo()
+                        {
+                            Name = file.Name,
+                            DataUrl = base64String,
+                            Source = bitmapImage
+                        };
+
+                        this.Photos.Add(photo);
+                    }
+                }
+            }
+            else
+            {
+                // No file was picked or the dialog was cancelled.
+            }
+
+            ImageGallery.ItemsSource = null;
+            ImageGallery.ItemsSource = this.Photos;
+        }
+
         private void ImageResetButton_Click(object sender, RoutedEventArgs e)
         {
             GrayScaleSlider.Value = 0;
@@ -575,7 +644,7 @@ namespace Phototis
                 if (SelectedPhotoElementInWorkspace is not null)
                 {
                     //SelectedPhotoElementInWorkspace.ImageExported += SelectedPhotoElementInWorkspace_ImageExported;
-                    SelectedPhotoElementInWorkspace.Export();                    
+                    SelectedPhotoElementInWorkspace.Export();
                 }
             }
             catch (Exception ex)
@@ -584,13 +653,13 @@ namespace Phototis
             }
         }
 
-//        private void SelectedPhotoElementInWorkspace_ImageExported(object sender, string e)
-//        {
-//#if DEBUG
-//            Console.WriteLine("SelectedPhotoElementInWorkspace_ImageExported: " + e);
-//#endif
-//            SelectedPhotoElementInWorkspace.ImageExported -= SelectedPhotoElementInWorkspace_ImageExported;
-//        }
+        //        private void SelectedPhotoElementInWorkspace_ImageExported(object sender, string e)
+        //        {
+        //#if DEBUG
+        //            Console.WriteLine("SelectedPhotoElementInWorkspace_ImageExported: " + e);
+        //#endif
+        //            SelectedPhotoElementInWorkspace.ImageExported -= SelectedPhotoElementInWorkspace_ImageExported;
+        //        }
 
         private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -599,6 +668,11 @@ namespace Phototis
 
         private void SelectMultipleToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
+            if (SelectAllToggleButton.IsChecked.Value)
+            {
+                SelectAllToggleButton.IsChecked = false;
+            }
+
             ImageGallery.SelectionMode = ListViewSelectionMode.Single;
         }
 
