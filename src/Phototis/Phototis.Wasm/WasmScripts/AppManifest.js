@@ -16,9 +16,9 @@ function exportImage(id, width, height, filter, src) {
     var image = document.createElement("img");
     image.height = height;
     image.width = width;
-    image.style="object-fit:contain";
+    image.style = "object-fit:contain";
 
-    image.onload = function () {        
+    image.onload = function () {
         ctx.filter = filter;
         ctx.drawImage(image, 0, 0, image.width, image.height);
 
@@ -40,8 +40,6 @@ function exportImage(id, width, height, filter, src) {
             URL.revokeObjectURL(link.href);
             link.parentNode.removeChild(link);
         }, 0);
-
-
     }
 
     image.src = src;
