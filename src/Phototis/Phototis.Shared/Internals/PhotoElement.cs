@@ -11,7 +11,7 @@ using Uno.UI.Runtime.WebAssembly;
 
 namespace Phototis
 {
-    public class PhotoElement : Border
+    public sealed class PhotoElement : Border
     {
         #region Fields
 
@@ -23,7 +23,7 @@ namespace Phototis
 
         public PhotoElement()
         {
-
+            
         }
 
         #endregion

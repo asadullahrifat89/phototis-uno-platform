@@ -18,7 +18,7 @@ namespace Phototis
         public HtmlImageElement()
         {
             this.SetHtmlAttribute("draggable", "false");
-            this.SetCssStyle("object-fit", "contain");
+            this.SetCssStyle("object-fit", "contain");            
         }
 
         #endregion
