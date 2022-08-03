@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Uno.Extensions;
 using Uno.Foundation;
 using Uno.UI.Runtime.WebAssembly;
 
@@ -15,14 +16,14 @@ namespace Phototis
         #region Fields
 
         private HtmlImageElement htmlImageElement;
-
+        
         #endregion
 
         #region Ctor
 
         public PhotoElement()
         {
-
+            
         }
 
         #endregion
@@ -177,7 +178,7 @@ namespace Phototis
                 if (image.htmlImageElement is null)
                 {
                     image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
-                    image.Child = image.htmlImageElement;
+                    image.Child = image.htmlImageElement;                    
                 }
                 else
                 {
@@ -185,17 +186,17 @@ namespace Phototis
                     image.Child = image.htmlImageElement;
                 }
             }
-        }
+        }      
 
         #endregion
 
         #region Methods
 
-        public string Export()
+        public void Export()
         {
-            var function = $"exportImage('{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
-            //function = WebAssemblyRuntime.EscapeJs(function);
-            return WebAssemblyRuntime.InvokeJS(function);
+            var function = $"exportImage('{htmlImageElement.Id}','{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
+            
+            WebAssemblyRuntime.InvokeJS(function);
         }
 
         #endregion

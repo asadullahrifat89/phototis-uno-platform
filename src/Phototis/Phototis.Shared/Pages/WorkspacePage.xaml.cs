@@ -63,6 +63,7 @@ namespace Phototis
             this.InitializeComponent();
             this.Loaded += WorkspacePage_Loaded;
             this.Unloaded += WorkspacePage_Unloaded;
+
         }
 
         private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
@@ -582,11 +583,8 @@ namespace Phototis
             {
                 if (SelectedPhotoElementInWorkspace is not null)
                 {
-                    var dataUrl = SelectedPhotoElementInWorkspace.Export();
-
-#if DEBUG
-                    Console.WriteLine($"ImageExportButton_Click: {dataUrl}");
-#endif
+                    //SelectedPhotoElementInWorkspace.ImageExported += SelectedPhotoElementInWorkspace_ImageExported;
+                    SelectedPhotoElementInWorkspace.Export();                    
                 }
             }
             catch (Exception ex)
@@ -594,6 +592,14 @@ namespace Phototis
                 throw ex;
             }
         }
+
+//        private void SelectedPhotoElementInWorkspace_ImageExported(object sender, string e)
+//        {
+//#if DEBUG
+//            Console.WriteLine("SelectedPhotoElementInWorkspace_ImageExported: " + e);
+//#endif
+//            SelectedPhotoElementInWorkspace.ImageExported -= SelectedPhotoElementInWorkspace_ImageExported;
+//        }
 
         private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
         {

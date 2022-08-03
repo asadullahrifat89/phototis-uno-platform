@@ -66,7 +66,7 @@ namespace Phototis
                     await stream.CopyToAsync(ms);
 
                     ms.Seek(0, SeekOrigin.Begin);
-                    var base64String = "data:application/octet-stream;base64," + Convert.ToBase64String(ms.ToArray());
+                    var base64String = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
 
                     BitmapImage bitmapImage = new BitmapImage();
                     bitmapImage.SetSource(ms);

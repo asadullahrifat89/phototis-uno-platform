@@ -8,7 +8,7 @@ namespace Phototis
     {
         public Photo()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString().Split('-')[0];
         }
 
         /// <summary>

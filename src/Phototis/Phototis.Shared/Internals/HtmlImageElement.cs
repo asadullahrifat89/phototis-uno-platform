@@ -167,7 +167,7 @@ namespace Phototis
             if (dependencyObject is HtmlImageElement image)
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
-                image.SetHtmlAttribute("src", encodedSource);                
+                image.SetHtmlAttribute("src", encodedSource);
                 image.SetFilter();
             }
         }
