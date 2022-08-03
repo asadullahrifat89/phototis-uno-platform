@@ -24,6 +24,16 @@
 		<UpToDateCheckInput Include="..\Phototis.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Remove="obj\**" />
+	  <Content Remove="obj\**" />
+	  <EmbeddedResource Remove="obj\**" />
+	  <None Remove="obj\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="C:\Users\User\.nuget\packages\uno.wasm.bootstrap\4.0.0-dev.174\contentFiles\any\netstandard2.0\obj\uno-bootstrap.d.ts" />
+	  <Content Remove="C:\Users\User\.nuget\packages\uno.wasm.bootstrap\4.0.0-dev.174\contentFiles\any\netstandard2.0\obj\uno-bootstrap.js" />
+	</ItemGroup>
+	<ItemGroup>
 		<EmbeddedResource Include="WasmCSS\Fonts.css" />
 		<EmbeddedResource Include="WasmScripts\AppManifest.js" />
 	</ItemGroup>
@@ -50,6 +60,9 @@
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.393" />
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="4.0.0-dev.174" />
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="4.0.0-dev.174" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />	
 </Project>
