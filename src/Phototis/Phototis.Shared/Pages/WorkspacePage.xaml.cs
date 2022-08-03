@@ -595,21 +595,6 @@ namespace Phototis
 
         #region ImageGallery
 
-        private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (ImageGallery.SelectionMode)
-            {
-                case ListViewSelectionMode.Single:
-                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
-                    break;
-                case ListViewSelectionMode.Multiple:
-                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
-                    break;
-                default:
-                    break;
-            }
-        }
-
         private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
         {
             var fileOpenPicker = new FileOpenPicker
@@ -666,6 +651,21 @@ namespace Phototis
             ImageGallery.ItemsSource = this.Photos;
         }
 
+        private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (ImageGallery.SelectionMode)
+            {
+                case ListViewSelectionMode.Single:
+                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
+                    break;
+                case ListViewSelectionMode.Multiple:
+                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             ImageGallery.SelectionMode = ListViewSelectionMode.Multiple;
@@ -717,14 +717,11 @@ namespace Phototis
             try
             {
                 if (SelectedPhotoElementInWorkspace is not null)
-                {
-                    //SelectedPhotoElementInWorkspace.ImageExported += SelectedPhotoElementInWorkspace_ImageExported;
                     SelectedPhotoElementInWorkspace.Export();
-                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

@@ -196,17 +196,8 @@ namespace Phototis
         {
             var id = htmlImageElement.Id;
             var src = htmlImageElement.GetHtmlAttribute("src");
-            //TODO: preserve original width and height of an image
-            var width = this.Width;
-            var height = this.Height;
-            var filter = htmlImageElement.GetCssFilter();
-
-#if DEBUG
-            Console.WriteLine("id: " + id + "width: " + width + "height: " + height + "filter: " + filter);
-#endif
-
-            //var function = $"exportImage('{htmlImageElement.Id}','{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
-            var function = $"exportImage('{id}',{width},{height},'{filter}','{src}')";
+            var filter = htmlImageElement.GetCssFilter();            
+            var function = $"exportImage('{id}','{filter}','{src}')";
 
             WebAssemblyRuntime.InvokeJS(function);
         }
