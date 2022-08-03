@@ -167,9 +167,7 @@ namespace Phototis
             if (dependencyObject is HtmlImageElement image)
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
-                image.SetHtmlAttribute("src", encodedSource);
-                //image.SetHtmlAttribute("draggable", "false");
-                //image.SetCssStyle("object-fit", "contain");
+                image.SetHtmlAttribute("src", encodedSource);                
                 image.SetFilter();
             }
         }
@@ -193,9 +191,14 @@ namespace Phototis
             SetFilter();
         }
 
+        public string GetCssFilter()
+        {
+            return $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px)";
+        }
+
         public void SetFilter()
         {
-            this.SetCssStyle("filter", $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px) drop-shadow(0 0 0.75rem crimson)");
+            this.SetCssStyle("filter", GetCssFilter() + $" drop-shadow(0 0 0.75rem crimson)");
             this.SetCssStyle("opacity", $"{_Opacity}");
         }
 

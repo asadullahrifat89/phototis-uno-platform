@@ -61,7 +61,6 @@
         <GridView
             Name="ImagesList"
             Grid.Row="1"
-            MinWidth="300"
             Margin="10,50"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -69,7 +68,10 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <PersonPicture Width="150" ProfilePicture="{Binding Path=Source, Mode=OneWay}" />
+                        <PersonPicture
+                            Width="150"
+                            Height="150"
+                            ProfilePicture="{Binding Path=Source, Mode=OneWay}" />
                         <TextBlock
                             Width="150"
                             Margin="5"

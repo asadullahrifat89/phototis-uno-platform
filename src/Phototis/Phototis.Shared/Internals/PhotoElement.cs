@@ -12,7 +12,11 @@ namespace Phototis
 {
     public class PhotoElement : Border
     {
+        #region Fields
+
         private HtmlImageElement htmlImageElement;
+
+        #endregion
 
         #region Ctor
 
@@ -181,6 +185,17 @@ namespace Phototis
                     image.Child = image.htmlImageElement;
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public string Export()
+        {
+            var function = $"exportImage('{htmlImageElement.GetHtmlAttribute("src")}',{this.Width},{this.Height},'{htmlImageElement.GetCssFilter()}')";
+            //function = WebAssemblyRuntime.EscapeJs(function);
+            return WebAssemblyRuntime.InvokeJS(function);
         }
 
         #endregion

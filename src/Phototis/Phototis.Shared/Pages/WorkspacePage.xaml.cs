@@ -95,30 +95,30 @@ namespace Phototis
 
         #region Properties
 
-        private PhotoElement _SelectedPhotoElement;
+        private PhotoElement _selectedPhotoElementInWorkspace;
 
-        public PhotoElement SelectedPhotoElement
+        public PhotoElement SelectedPhotoElementInWorkspace
         {
-            get { return _SelectedPhotoElement; }
+            get { return _selectedPhotoElementInWorkspace; }
             set
             {
-                _SelectedPhotoElement = value;
+                _selectedPhotoElementInWorkspace = value;
 
-                if (_SelectedPhotoElement is not null)
+                if (_selectedPhotoElementInWorkspace is not null)
                 {
-                    GrayScaleSlider.Value = _SelectedPhotoElement.Grayscale;
-                    ContrastSlider.Value = _SelectedPhotoElement.Contrast;
-                    BrightnessSlider.Value = _SelectedPhotoElement.Brightness;
-                    SaturationSlider.Value = _SelectedPhotoElement.Saturation;
-                    SepiaSlider.Value = _SelectedPhotoElement.Sepia;
-                    InvertSlider.Value = _SelectedPhotoElement.Invert;
-                    HueRotateSlider.Value = _SelectedPhotoElement.Hue;
-                    BlurSlider.Value = _SelectedPhotoElement.Blur;
-                    SizeSlider.Value = _SelectedPhotoElement.Width;
-                    OpacitySlider.Value = _SelectedPhotoElement.Opacity;
+                    GrayScaleSlider.Value = _selectedPhotoElementInWorkspace.Grayscale;
+                    ContrastSlider.Value = _selectedPhotoElementInWorkspace.Contrast;
+                    BrightnessSlider.Value = _selectedPhotoElementInWorkspace.Brightness;
+                    SaturationSlider.Value = _selectedPhotoElementInWorkspace.Saturation;
+                    SepiaSlider.Value = _selectedPhotoElementInWorkspace.Sepia;
+                    InvertSlider.Value = _selectedPhotoElementInWorkspace.Invert;
+                    HueRotateSlider.Value = _selectedPhotoElementInWorkspace.Hue;
+                    BlurSlider.Value = _selectedPhotoElementInWorkspace.Blur;
+                    SizeSlider.Value = _selectedPhotoElementInWorkspace.Width;
+                    OpacitySlider.Value = _selectedPhotoElementInWorkspace.Opacity;
 
                     //TODO: set image source for the selected image                    
-                    var photo = this.photos.FirstOrDefault(x => x.Id == _SelectedPhotoElement.Id);
+                    var photo = this.photos.FirstOrDefault(x => x.Id == _selectedPhotoElementInWorkspace.Id);
 
                     SelectedPicture.ProfilePicture = null;
                     SelectedPicture.ProfilePicture = photo?.Source;
@@ -143,8 +143,6 @@ namespace Phototis
             _objectLeft = Canvas.GetLeft(uielement);
             _objectTop = Canvas.GetTop(uielement);
 
-            //var currentPoint = e.GetCurrentPoint(canvas);
-
             // Remember the pointer position:
             _pointerX = currentPointerPoint.Position.X;
             _pointerY = currentPointerPoint.Position.Y;
@@ -165,8 +163,6 @@ namespace Phototis
 #if DEBUG
                 Console.WriteLine("DragElement");
 #endif
-                //var currentPoint = e.GetCurrentPoint(canvas);
-
                 // Calculate the new position of the object:
                 double deltaH = currentPointerPoint.Position.X - _pointerX;
                 double deltaV = currentPointerPoint.Position.Y - _pointerY;
@@ -340,7 +336,7 @@ namespace Phototis
                 currentPointer = e.Pointer;
 
                 draggingElement = (PhotoElement)sender;
-                SelectedPhotoElement = (PhotoElement)sender;
+                SelectedPhotoElementInWorkspace = (PhotoElement)sender;
 
                 DragStart(draggingElement);
             }
@@ -377,56 +373,62 @@ namespace Phototis
             }
         }
 
+        #region Sliders
+
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Grayscale = e.NewValue;
+            SelectedPhotoElementInWorkspace.Grayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Contrast = e.NewValue;
+            SelectedPhotoElementInWorkspace.Contrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Brightness = e.NewValue;
+            SelectedPhotoElementInWorkspace.Brightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Saturation = e.NewValue;
+            SelectedPhotoElementInWorkspace.Saturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Sepia = e.NewValue;
+            SelectedPhotoElementInWorkspace.Sepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Invert = e.NewValue;
+            SelectedPhotoElementInWorkspace.Invert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Hue = e.NewValue;
+            SelectedPhotoElementInWorkspace.Hue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Blur = e.NewValue;
+            SelectedPhotoElementInWorkspace.Blur = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Width = e.NewValue;
-            SelectedPhotoElement.Height = e.NewValue;
+            SelectedPhotoElementInWorkspace.Width = e.NewValue;
+            SelectedPhotoElementInWorkspace.Height = e.NewValue;
         }
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElement.Opacity = e.NewValue;
+            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
         }
+
+        #endregion
+
+        #region Toggles
 
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -558,7 +560,9 @@ namespace Phototis
             SizeToggleButton.IsChecked = false;
         }
 
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        private void ImageResetButton_Click(object sender, RoutedEventArgs e)
         {
             GrayScaleSlider.Value = 0;
             ContrastSlider.Value = 100;
@@ -572,10 +576,24 @@ namespace Phototis
             OpacitySlider.Value = 1;
         }
 
-        //private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        //{
-        //    this.Workspace.SetZoom(e.NewValue);
-        //}
+        private void ImageExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedPhotoElementInWorkspace is not null)
+                {
+                    var dataUrl = SelectedPhotoElementInWorkspace.Export();
+
+#if DEBUG
+                    Console.WriteLine($"ImageExportButton_Click: {dataUrl}");
+#endif
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         private void SelectMultipleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -612,26 +630,26 @@ namespace Phototis
 
         private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPhotoElement is not null)
+            if (SelectedPhotoElementInWorkspace is not null)
             {
-                Workspace.Children.Remove(SelectedPhotoElement);
-                SelectedPhotoElement = null;
+                Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
+                SelectedPhotoElementInWorkspace = null;
             }
         }
 
         private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPhotoElement is not null)
+            if (SelectedPhotoElementInWorkspace is not null)
             {
-                Canvas.SetZIndex(SelectedPhotoElement, Canvas.GetZIndex(SelectedPhotoElement) - 1);
+                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
             }
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPhotoElement is not null)
+            if (SelectedPhotoElementInWorkspace is not null)
             {
-                Canvas.SetZIndex(SelectedPhotoElement, Canvas.GetZIndex(SelectedPhotoElement) + 1);
+                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) + 1);
             }
         }
 
@@ -644,6 +662,11 @@ namespace Phototis
                 view.ExitFullScreenMode();
             }
         }
+
+        //private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        //{
+        //    this.Workspace.SetZoom(e.NewValue);
+        //}
 
         #endregion
     }
