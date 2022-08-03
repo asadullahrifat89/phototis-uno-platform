@@ -179,7 +179,7 @@
                         VerticalAlignment="Center"
                         Click="ImageExportButton_Click"
                         CornerRadius="100">
-                        <SymbolIcon Symbol="Save" />
+                        <SymbolIcon Symbol="SaveLocal" />
                     </Button>
 
                     <!--  Delete image  -->
