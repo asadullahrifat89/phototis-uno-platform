@@ -260,7 +260,7 @@ namespace Phototis
         {
             Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
             {
-                item.Opacity = 1;
+                item.Opacity = 1; // TODO: this is causing problem if user sets opacity manually
             });
 
             SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
