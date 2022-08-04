@@ -172,9 +172,9 @@ namespace Phototis
                 //builder.AddFilter("Microsoft.UI.Xaml.FrameworkElement", LogLevel.Trace);
 
                 // Layouter specific messages
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug );
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug );
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug );
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug);
 
                 builder.AddFilter("Windows.Storage", LogLevel.Debug);
 

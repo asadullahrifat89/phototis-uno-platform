@@ -81,7 +81,7 @@ namespace Phototis
 
             SizeChanged += WorkspacePage_SizeChanged;
 
-            await Task.Delay(500);
+            await Task.Delay(200);
 
             App.SetIsBusy(false);
         }
