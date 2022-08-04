@@ -256,17 +256,22 @@ namespace Phototis
             }
         }
 
-        private void UnSetPhotoElementEditingContext()
+        private void UnsetPhotoElementEditingContext()
         {
             Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
             {
                 item.Opacity = 1;
             });
 
-            SelectedPhotoElementInWorkspaceHolder.Clone(SelectedPhotoElementInWorkspace);
             SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
             ImageGalleryToggleButton.Visibility = Visibility.Visible;
             SelectedPicture.Visibility = Visibility.Visible;
+        }
+
+        private void CommitPhotoElementEditingContext()
+        {
+            SelectedPhotoElementInWorkspaceHolder.Clone(SelectedPhotoElementInWorkspace);
+            ImageEditToggle.IsChecked = false;
         }
 
         #endregion
@@ -770,6 +775,11 @@ namespace Phototis
 
         #region Image
 
+        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            CommitPhotoElementEditingContext();
+        }
+
         private void ImageUndoButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspaceHolder is not null && !SelectedPhotoElementInWorkspaceHolder.Source.IsNullOrBlank())
@@ -854,7 +864,7 @@ namespace Phototis
 
         private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            UnSetPhotoElementEditingContext();
+            UnsetPhotoElementEditingContext();
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)

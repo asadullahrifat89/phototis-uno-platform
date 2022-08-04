@@ -111,6 +111,7 @@
 
         </Grid>
 
+        <!--  Selected photo element in edit mode  -->
         <local:PhotoElement
             Name="SelectedPhotoElementInWorkspaceHolder"
             Margin="50,80,50,200"
@@ -130,7 +131,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!--  selected picture  -->
+            <!--  selected picture circle  -->
             <PersonPicture
                 Name="SelectedPicture"
                 Grid.Row="0"
@@ -153,6 +154,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
+                <!--  Tool buttons  -->
                 <StackPanel
                     Grid.Row="0"
                     HorizontalAlignment="Center"
@@ -173,6 +175,21 @@
                         <SymbolIcon Symbol="Edit" />
                     </ToggleButton>
 
+                    <!--  Commit edit  -->
+                    <Button
+                        Name="ImageCommitButton"
+                        Width="50"
+                        Height="50"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="ImageCommitButton_Click"
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Commit"
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                        <SymbolIcon Symbol="Accept" />
+                    </Button>
+
                     <!--  Undo edit  -->
                     <Button
                         Name="ImageUndoButton"
@@ -183,7 +200,7 @@
                         VerticalAlignment="Center"
                         Click="ImageUndoButton_Click"
                         CornerRadius="100"
-                        ToolTipService.ToolTip="Undo all edit"
+                        ToolTipService.ToolTip="Undo"
                         Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="Undo" />
                     </Button>
@@ -236,11 +253,11 @@
 
                 </StackPanel>
 
-                <!--  Slider toggles & function buttons  -->
+                <!--  Slider toggles  -->
                 <Grid Grid.Row="1">
 
                     <ScrollViewer
-                        Name="EditTools"
+                        Name="SettingsTools"
                         Grid.Row="1"
                         Margin="5,0"
                         HorizontalScrollBarVisibility="Auto"
@@ -344,183 +361,186 @@
                                 CornerRadius="50" />
                         </StackPanel>
                     </ScrollViewer>
+
                 </Grid>
 
-                <!--  Edit sliders  -->
-                <Grid
-                    Grid.Row="2"
-                    MaxWidth="500"
-                    Margin="5,0"
-                    Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
-                    <Slider
-                        Name="GrayScaleSlider"
-                        Maximum="200"
-                        Minimum="0"
-                        ValueChanged="GrayScaleSlider_ValueChanged"
-                        Visibility="{x:Bind Path=GrayscaleToggleButton.IsChecked, Mode=OneWay}"
-                        Value="0">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=GrayScaleSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="ContrastSlider"
-                        Maximum="200"
-                        Minimum="10"
-                        ValueChanged="ContrastSlider_ValueChanged"
-                        Visibility="{x:Bind Path=ContrastToggleButton.IsChecked, Mode=OneWay}"
-                        Value="100">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=ContrastSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="BrightnessSlider"
-                        Maximum="200"
-                        Minimum="10"
-                        ValueChanged="BrightnessSlider_ValueChanged"
-                        Visibility="{x:Bind Path=BrightnessToggleButton.IsChecked, Mode=OneWay}"
-                        Value="100">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=BrightnessSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="SaturationSlider"
-                        Maximum="200"
-                        Minimum="0"
-                        ValueChanged="SaturationSlider_ValueChanged"
-                        Visibility="{x:Bind Path=SaturationToggleButton.IsChecked, Mode=OneWay}"
-                        Value="100">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=SaturationSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="SepiaSlider"
-                        Maximum="200"
-                        Minimum="0"
-                        ValueChanged="SepiaSlider_ValueChanged"
-                        Visibility="{x:Bind Path=SepiaToggleButton.IsChecked, Mode=OneWay}"
-                        Value="0">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=SepiaSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="InvertSlider"
-                        Maximum="200"
-                        Minimum="0"
-                        ValueChanged="InvertSlider_ValueChanged"
-                        Visibility="{x:Bind Path=InvertToggleButton.IsChecked, Mode=OneWay}"
-                        Value="0">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=InvertSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="HueRotateSlider"
-                        Maximum="200"
-                        Minimum="0"
-                        ValueChanged="HueRotateSlider_ValueChanged"
-                        Visibility="{x:Bind Path=HueToggleButton.IsChecked, Mode=OneWay}"
-                        Value="0">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=HueRotateSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="BlurSlider"
-                        Maximum="50"
-                        Minimum="0"
-                        ValueChanged="BlurSlider_ValueChanged"
-                        Visibility="{x:Bind Path=BlurToggleButton.IsChecked, Mode=OneWay}"
-                        Value="0">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=BlurSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="ZoomSlider"
-                        LargeChange="0.1"
-                        Maximum="3"
-                        Minimum="0.1"
-                        SmallChange="0.1"
-                        StepFrequency="0.1"
-                        ValueChanged="ZoomSlider_ValueChanged"
-                        Visibility="{x:Bind Path=ZoomToggleButton.IsChecked, Mode=OneWay}"
-                        Value="1">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=ZoomSlider.Value.ToString('0.0'), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                </Grid>
+                <!--  Sliders  -->
+                <Grid Grid.Row="2">
+                    <!--  Edit sliders  -->
+                    <Grid
+                        Grid.Row="2"
+                        MaxWidth="500"
+                        Margin="5,0"
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                        <Slider
+                            Name="GrayScaleSlider"
+                            Maximum="200"
+                            Minimum="0"
+                            ValueChanged="GrayScaleSlider_ValueChanged"
+                            Visibility="{x:Bind Path=GrayscaleToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=GrayScaleSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="ContrastSlider"
+                            Maximum="200"
+                            Minimum="10"
+                            ValueChanged="ContrastSlider_ValueChanged"
+                            Visibility="{x:Bind Path=ContrastToggleButton.IsChecked, Mode=OneWay}"
+                            Value="100">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=ContrastSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="BrightnessSlider"
+                            Maximum="200"
+                            Minimum="10"
+                            ValueChanged="BrightnessSlider_ValueChanged"
+                            Visibility="{x:Bind Path=BrightnessToggleButton.IsChecked, Mode=OneWay}"
+                            Value="100">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=BrightnessSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="SaturationSlider"
+                            Maximum="200"
+                            Minimum="0"
+                            ValueChanged="SaturationSlider_ValueChanged"
+                            Visibility="{x:Bind Path=SaturationToggleButton.IsChecked, Mode=OneWay}"
+                            Value="100">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=SaturationSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="SepiaSlider"
+                            Maximum="200"
+                            Minimum="0"
+                            ValueChanged="SepiaSlider_ValueChanged"
+                            Visibility="{x:Bind Path=SepiaToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=SepiaSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="InvertSlider"
+                            Maximum="200"
+                            Minimum="0"
+                            ValueChanged="InvertSlider_ValueChanged"
+                            Visibility="{x:Bind Path=InvertToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=InvertSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="HueRotateSlider"
+                            Maximum="200"
+                            Minimum="0"
+                            ValueChanged="HueRotateSlider_ValueChanged"
+                            Visibility="{x:Bind Path=HueToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=HueRotateSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="BlurSlider"
+                            Maximum="50"
+                            Minimum="0"
+                            ValueChanged="BlurSlider_ValueChanged"
+                            Visibility="{x:Bind Path=BlurToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=BlurSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="ZoomSlider"
+                            LargeChange="0.1"
+                            Maximum="3"
+                            Minimum="0.1"
+                            SmallChange="0.1"
+                            StepFrequency="0.1"
+                            ValueChanged="ZoomSlider_ValueChanged"
+                            Visibility="{x:Bind Path=ZoomToggleButton.IsChecked, Mode=OneWay}"
+                            Value="1">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=ZoomSlider.Value.ToString('0.0'), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                    </Grid>
 
-                <!--  Settings sliders  -->
-                <Grid
-                    Grid.Row="2"
-                    MaxWidth="500"
-                    Margin="5,0"
-                    Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
-
-                    <Slider
-                        Name="SizeSlider"
-                        Maximum="2000"
-                        Minimum="50"
-                        ValueChanged="SizeSlider_ValueChanged"
-                        Visibility="{x:Bind Path=SizeToggleButton.IsChecked, Mode=OneWay}"
-                        Value="400">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=SizeSlider.Value.ToString(), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
-                    <Slider
-                        Name="OpacitySlider"
-                        LargeChange="1"
-                        Maximum="1"
-                        Minimum="0.1"
-                        SmallChange="0.1"
-                        StepFrequency="0.1"
-                        ValueChanged="OpacitySlider_ValueChanged"
-                        Visibility="{x:Bind Path=OpacityToggleButton.IsChecked, Mode=OneWay}"
-                        Value="1">
-                        <Slider.Header>
-                            <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{x:Bind Path=OpacitySlider.Value.ToString('0.0'), Mode=OneWay}"
-                                TextAlignment="Center" />
-                        </Slider.Header>
-                    </Slider>
+                    <!--  Settings sliders  -->
+                    <Grid
+                        Grid.Row="2"
+                        MaxWidth="500"
+                        Margin="5,0"
+                        Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
+                        <Slider
+                            Name="SizeSlider"
+                            Maximum="2000"
+                            Minimum="50"
+                            ValueChanged="SizeSlider_ValueChanged"
+                            Visibility="{x:Bind Path=SizeToggleButton.IsChecked, Mode=OneWay}"
+                            Value="400">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=SizeSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
+                            Name="OpacitySlider"
+                            LargeChange="1"
+                            Maximum="1"
+                            Minimum="0.1"
+                            SmallChange="0.1"
+                            StepFrequency="0.1"
+                            ValueChanged="OpacitySlider_ValueChanged"
+                            Visibility="{x:Bind Path=OpacityToggleButton.IsChecked, Mode=OneWay}"
+                            Value="1">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=OpacitySlider.Value.ToString('0.0'), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                    </Grid>
                 </Grid>
 
             </Grid>
