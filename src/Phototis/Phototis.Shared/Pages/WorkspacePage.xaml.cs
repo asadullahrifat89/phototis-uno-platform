@@ -617,6 +617,8 @@ namespace Phototis
 
             if (pickedFiles.Count > 0)
             {
+                App.SetIsBusy(true, "Processing files...");
+
                 // At least one file was picked, we can use them
                 foreach (var file in pickedFiles)
                 {
@@ -734,13 +736,15 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                ContentDialog dialog = new ContentDialog();
-                dialog.XamlRoot = this.XamlRoot;
-                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.Title = "Remove confirmed?";
-                dialog.PrimaryButtonText = "Yes";
-                dialog.CloseButtonText = "No";
-                dialog.DefaultButton = ContentDialogButton.Primary;
+                ContentDialog dialog = new ContentDialog
+                {
+                    XamlRoot = this.XamlRoot,
+                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                    Title = "Remove image...",
+                    PrimaryButtonText = "Ok",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary
+                };
 
                 var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
                 content.Children.Add(new TextBlock()
