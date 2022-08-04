@@ -175,13 +175,13 @@
 
                     <!--  Undo edit  -->
                     <Button
-                        Name="ImageResetButton"
+                        Name="ImageUndoButton"
                         Width="50"
                         Height="50"
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="ImageResetButton_Click"
+                        Click="ImageUndoButton_Click"
                         CornerRadius="100"
                         ToolTipService.ToolTip="Undo all edit"
                         Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
@@ -218,6 +218,22 @@
                         <SymbolIcon Symbol="Delete" />
                     </Button>
 
+                    <!--  Settings  -->
+                    <ToggleButton
+                        Name="ImageSettingsToggle"
+                        Width="50"
+                        Height="50"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Checked="ImageSettingsToggle_Checked"
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Settings"
+                        Unchecked="ImageSettingsToggle_Unchecked"
+                        Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
+                        <SymbolIcon Symbol="Setting" />
+                    </ToggleButton>
+
                 </StackPanel>
 
                 <!--  Slider toggles & function buttons  -->
@@ -230,9 +246,8 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
-                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                        Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
                         <StackPanel Margin="5" Orientation="Horizontal">
-
                             <Button
                                 Name="ImageSendBackButton"
                                 Margin="5"
@@ -249,6 +264,30 @@
                                 Click="ImageBringForwardButton_Click"
                                 Content="Forward"
                                 CornerRadius="50" />
+                            <ToggleButton
+                                Name="SizeToggleButton"
+                                Margin="5"
+                                Checked="SizeToggleButton_Checked"
+                                Content="Size"
+                                CornerRadius="50" />
+                            <ToggleButton
+                                Name="OpacityToggleButton"
+                                Margin="5"
+                                Checked="OpacityToggleButton_Checked"
+                                Content="Opacity"
+                                CornerRadius="50" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <ScrollViewer
+                        Name="EditTools"
+                        Grid.Row="1"
+                        Margin="5,0"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Disabled"
+                        VerticalScrollMode="Disabled"
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                        <StackPanel Margin="5" Orientation="Horizontal">
                             <ToggleButton
                                 Name="BrightnessToggleButton"
                                 Margin="5"
@@ -298,22 +337,16 @@
                                 Content="Blur"
                                 CornerRadius="50" />
                             <ToggleButton
-                                Name="SizeToggleButton"
+                                Name="ZoomToggleButton"
                                 Margin="5"
-                                Checked="SizeToggleButton_Checked"
-                                Content="Size"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="OpacityToggleButton"
-                                Margin="5"
-                                Checked="OpacityToggleButton_Checked"
-                                Content="Opacity"
+                                Checked="ZoomToggleButton_Checked"
+                                Content="Zoom"
                                 CornerRadius="50" />
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
 
-                <!--  Filter sliders  -->
+                <!--  Edit sliders  -->
                 <Grid
                     Grid.Row="2"
                     MaxWidth="500"
@@ -431,6 +464,32 @@
                                 TextAlignment="Center" />
                         </Slider.Header>
                     </Slider>
+                    <Slider
+                        Name="ZoomSlider"
+                        LargeChange="0.1"
+                        Maximum="3"
+                        Minimum="0.1"
+                        SmallChange="0.1"
+                        StepFrequency="0.1"
+                        ValueChanged="ZoomSlider_ValueChanged"
+                        Visibility="{x:Bind Path=ZoomToggleButton.IsChecked, Mode=OneWay}"
+                        Value="1">
+                        <Slider.Header>
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{x:Bind Path=ZoomSlider.Value.ToString('0.0'), Mode=OneWay}"
+                                TextAlignment="Center" />
+                        </Slider.Header>
+                    </Slider>
+                </Grid>
+
+                <!--  Settings sliders  -->
+                <Grid
+                    Grid.Row="2"
+                    MaxWidth="500"
+                    Margin="5,0"
+                    Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
+
                     <Slider
                         Name="SizeSlider"
                         Maximum="2000"
