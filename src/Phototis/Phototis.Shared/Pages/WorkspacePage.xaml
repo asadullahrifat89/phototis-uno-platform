@@ -151,16 +151,18 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
 
-                    <!--  Filters toggle  -->
+                    <!--  Edit  -->
                     <ToggleButton
-                        Name="ImageEffectToggle"
+                        Name="ImageEditToggle"
                         Width="50"
                         Height="50"
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        Checked="ImageEditToggle_Checked"
                         CornerRadius="100"
-                        ToolTipService.ToolTip="Edit">
+                        ToolTipService.ToolTip="Edit"
+                        Unchecked="ImageEditToggle_Unchecked">
                         <SymbolIcon Symbol="Edit" />
                     </ToggleButton>
 
@@ -218,7 +220,7 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
-                        Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <StackPanel Margin="5" Orientation="Horizontal">
 
                             <Button
@@ -306,7 +308,7 @@
                     Grid.Row="2"
                     MaxWidth="500"
                     Margin="5,0"
-                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                    Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                     <Slider
                         Name="GrayScaleSlider"
                         Maximum="200"

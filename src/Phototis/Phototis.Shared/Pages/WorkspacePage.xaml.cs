@@ -26,9 +26,10 @@ using Windows.ApplicationModel;
 using Windows.UI.ViewManagement;
 using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 using Microsoft.UI.Text;
+using Microsoft.UI;
 
 namespace Phototis
-{    
+{
     public sealed partial class WorkspacePage : Page
     {
         #region Fields
@@ -148,6 +149,8 @@ namespace Phototis
                     SelectedPicture.ProfilePicture = photo?.Source;
                     SelectedPicture.Visibility = Visibility.Visible;
                     ImageToolsDrawer.Visibility = Visibility.Visible;
+
+                    SetPhotoElementEditingContext();
                 }
                 else
                 {
@@ -231,6 +234,27 @@ namespace Phototis
             photoElement.PointerReleased += PhotoElement_PointerReleased;
 
             Workspace.Children.Add(photoElement);
+        }
+
+        private void SetPhotoElementEditingContext()
+        {
+            if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
+            {
+                Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
+                {
+                    item.Opacity = 0.3;
+                });
+
+                SelectedPhotoElementInWorkspace.Opacity = 1;
+            }
+        }
+
+        private void UnSetPhotoElementEditingContext()
+        {
+            Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
+            {
+                item.Opacity = 1;
+            });
         }
 
         #endregion
@@ -365,8 +389,8 @@ namespace Phototis
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // if image gallery is open then do not start dragging
-            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
+            // if image gallery is open or a image is being edited then do not start dragging
+            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()) && !ImageEditToggle.IsChecked.Value)
             {
 #if DEBUG
                 Console.WriteLine("PhotoElement_PointerPressed");
@@ -594,7 +618,7 @@ namespace Phototis
 
         #endregion
 
-        #region ImageGallery
+        #region Gallery
 
         private async void ImageImportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -778,6 +802,16 @@ namespace Phototis
             {
                 Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
             }
+        }
+
+        private void ImageEditToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            SetPhotoElementEditingContext();
+        }
+
+        private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            UnSetPhotoElementEditingContext();
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
