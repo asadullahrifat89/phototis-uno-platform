@@ -50,7 +50,7 @@
                     BorderThickness="3"
                     CornerRadius="100"
                     Foreground="White"
-                    ToolTipService.ToolTip="Adjust workspace size">
+                    ToolTipService.ToolTip="Workspace size">
                     <SymbolIcon Symbol="Page2" />
                 </ToggleButton>
                 <ToggleButton
@@ -489,13 +489,13 @@
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
 
                     <Button
-                        Name="ImageUploadButton"
+                        Name="ImageImportButton"
                         Width="50"
                         Height="50"
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="ImageUploadButton_Click"
+                        Click="ImageImportButton_Click"
                         CornerRadius="100"
                         ToolTipService.ToolTip="Import">
                         <SymbolIcon Symbol="Upload" />

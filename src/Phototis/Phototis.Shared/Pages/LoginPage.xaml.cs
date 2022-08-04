@@ -83,7 +83,7 @@ namespace Phototis
         {
             App.SetIsBusy(true, "Preparing studio...");
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             App.Account = new Account() { UserName = UserNameBox.Text, /*Password = PasswordBox.Password,*/ };
 

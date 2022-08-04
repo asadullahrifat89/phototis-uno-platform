@@ -81,7 +81,7 @@ namespace Phototis
 
             SizeChanged += WorkspacePage_SizeChanged;
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             App.SetIsBusy(false);
         }
@@ -596,7 +596,7 @@ namespace Phototis
 
         #region ImageGallery
 
-        private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
+        private async void ImageImportButton_Click(object sender, RoutedEventArgs e)
         {
             App.SetIsBusy(true, "Importing files...");
 
