@@ -38,5 +38,20 @@ namespace Phototis
 
             return initials;
         }
+
+        public static void Clone(this PhotoElement source, PhotoElement target)
+        {
+            target.Source = source.Source;
+            target.Id = source.Id;
+            target.Grayscale = source.Grayscale;
+            target.Contrast = source.Contrast;
+            target.Brightness = source.Brightness;
+            target.Saturation = source.Saturation;
+            target.Sepia = source.Sepia;
+            target.Invert = source.Invert;
+            target.Hue = source.Hue;
+            target.Blur = source.Blur;
+            target.Opacity = source.Opacity;
+        }
     }
 }

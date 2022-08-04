@@ -245,16 +245,33 @@ namespace Phototis
                     item.Opacity = 0.3;
                 });
 
-                SelectedPhotoElementInWorkspace.Opacity = 1;
+                SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
+                SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
+                SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Visible;
+                ImageGalleryToggleButton.Visibility = Visibility.Collapsed;
+                SelectedPicture.Visibility = Visibility.Collapsed;
+
+                if (ImageSettingsToggle.IsChecked.Value)
+                    ImageSettingsToggle.IsChecked = false;
             }
         }
 
-        private void UnSetPhotoElementEditingContext()
+        private void UnsetPhotoElementEditingContext()
         {
             Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
             {
-                item.Opacity = 1;
+                item.Opacity = 1; // TODO: this is causing problem if user sets opacity manually
             });
+
+            SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
+            ImageGalleryToggleButton.Visibility = Visibility.Visible;
+            SelectedPicture.Visibility = Visibility.Visible;
+        }
+
+        private void CommitPhotoElementEditingContext()
+        {
+            SelectedPhotoElementInWorkspaceHolder.Clone(SelectedPhotoElementInWorkspace);
+            ImageEditToggle.IsChecked = false;
         }
 
         #endregion
@@ -431,42 +448,47 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Grayscale = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Grayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Contrast = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Contrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Brightness = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Brightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Saturation = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Saturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Sepia = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Sepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Invert = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Invert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Hue = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Hue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Blur = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Blur = e.NewValue;
+        }
+
+        private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -475,9 +497,10 @@ namespace Phototis
             SelectedPhotoElementInWorkspace.Height = e.NewValue;
         }
 
-        private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ScaleX = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ScaleY = e.NewValue;
         }
 
         #endregion
@@ -495,6 +518,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -508,6 +532,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -521,6 +546,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -534,6 +560,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -547,6 +574,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -560,6 +588,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -573,6 +602,7 @@ namespace Phototis
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -586,6 +616,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -599,6 +630,7 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             OpacityToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
         private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -612,9 +644,23 @@ namespace Phototis
             HueToggleButton.IsChecked = false;
             BlurToggleButton.IsChecked = false;
             SizeToggleButton.IsChecked = false;
+            ZoomToggleButton.IsChecked = false;
         }
 
-        #endregion 
+        private void ZoomToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            GrayscaleToggleButton.IsChecked = false;
+            ContrastToggleButton.IsChecked = false;
+            BrightnessToggleButton.IsChecked = false;
+            SaturationToggleButton.IsChecked = false;
+            SepiaToggleButton.IsChecked = false;
+            InvertToggleButton.IsChecked = false;
+            HueToggleButton.IsChecked = false;
+            BlurToggleButton.IsChecked = false;
+            OpacityToggleButton.IsChecked = false;
+        }
+
+        #endregion
 
         #endregion
 
@@ -729,26 +775,23 @@ namespace Phototis
 
         #region Image
 
-        private void ImageResetButton_Click(object sender, RoutedEventArgs e)
+        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
         {
-            GrayScaleSlider.Value = 0;
-            ContrastSlider.Value = 100;
-            BrightnessSlider.Value = 100;
-            SaturationSlider.Value = 100;
-            SepiaSlider.Value = 0;
-            InvertSlider.Value = 0;
-            HueRotateSlider.Value = 0;
-            BlurSlider.Value = 0;
-            SizeSlider.Value = 400;
-            OpacitySlider.Value = 1;
+            CommitPhotoElementEditingContext();
+        }
+
+        private void ImageUndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElementInWorkspaceHolder is not null && !SelectedPhotoElementInWorkspaceHolder.Source.IsNullOrBlank())
+                SelectedPhotoElementInWorkspaceHolder.Reset();
         }
 
         private void ImageExportButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (SelectedPhotoElementInWorkspace is not null)
-                    SelectedPhotoElementInWorkspace.Export();
+                if (SelectedPhotoElementInWorkspaceHolder is not null)
+                    SelectedPhotoElementInWorkspaceHolder.Export();
             }
             catch (Exception)
             {
@@ -796,6 +839,16 @@ namespace Phototis
             }
         }
 
+        private void ImageSettingsToggle_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ImageSettingsToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspace is not null)
@@ -811,7 +864,7 @@ namespace Phototis
 
         private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            UnSetPhotoElementEditingContext();
+            UnsetPhotoElementEditingContext();
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)

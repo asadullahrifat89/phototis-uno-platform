@@ -17,13 +17,17 @@ namespace Phototis
 
         private HtmlImageElement htmlImageElement;
 
+        private CompositeTransform compositeTransform;
+
         #endregion
 
         #region Ctor
 
         public PhotoElement()
         {
-            
+            this.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+            compositeTransform = new CompositeTransform() { ScaleX = 1, ScaleY = 1 };
+            this.RenderTransform = compositeTransform;
         }
 
         #endregion
@@ -32,6 +36,30 @@ namespace Phototis
 
         public string Id { get; set; }
 
+
+        private double scaleX;
+
+        public double ScaleX
+        {
+            get { return scaleX; }
+            set
+            {
+                scaleX = value;
+                compositeTransform.ScaleX = scaleX;
+            }
+        }
+
+        private double scaleY;
+
+        public double ScaleY
+        {
+            get { return scaleY; }
+            set
+            {
+                scaleY = value;
+                compositeTransform.ScaleY = scaleY;
+            }
+        }
 
         private double _Grayscale = 0;
 
@@ -196,10 +224,25 @@ namespace Phototis
         {
             var id = htmlImageElement.Id;
             var src = htmlImageElement.GetHtmlAttribute("src");
-            var filter = htmlImageElement.GetCssFilter();            
+            var filter = htmlImageElement.GetCssFilter();
             var function = $"exportImage('{id}','{filter}','{src}')";
 
             WebAssemblyRuntime.InvokeJS(function);
+        }
+
+        public void Reset()
+        {
+            Grayscale = 0;
+            Contrast = 100;
+            Brightness = 100;
+            Saturation = 100;
+            Sepia = 0;
+            Invert = 0;
+            Hue = 0;
+            Blur = 0;
+            Opacity = 1;
+            ScaleX = 1;
+            ScaleY = 1;
         }
 
         #endregion
