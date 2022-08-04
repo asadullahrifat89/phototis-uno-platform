@@ -598,7 +598,7 @@ namespace Phototis
 
         private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
         {
-            App.SetIsBusy(true, "Adding files...");
+            App.SetIsBusy(true, "Importing files...");
 
             var fileOpenPicker = new FileOpenPicker
             {
