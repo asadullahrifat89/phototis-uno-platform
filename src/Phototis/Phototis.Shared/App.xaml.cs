@@ -57,34 +57,7 @@ namespace Phototis
 
         #endregion
 
-        #region Methods
-
-        public static void EnterFullScreen(bool value)
-        {
-            var view = ApplicationView.GetForCurrentView();
-
-            if (view is not null)
-            {
-                if (value)
-                {
-                    view.TryEnterFullScreenMode();
-                }
-                else
-                {
-                    view.ExitFullScreenMode();
-                }
-            }
-        }
-     
-        public static void SetAccount()
-        {
-            _mainPage.SetAccount();
-        }
-
-        public static void NavigateToPage(Type page, object parameter = null)
-        {
-            _mainPage.Navigate(page, parameter);
-        }
+        #region Events
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -120,6 +93,42 @@ namespace Phototis
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public static void SetIsBusy(bool isBusy, string message = null)
+        {
+            _mainPage.SetIsBusy(isBusy, message);
+        }
+
+        public static void EnterFullScreen(bool value)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                if (value)
+                {
+                    view.TryEnterFullScreenMode();
+                }
+                else
+                {
+                    view.ExitFullScreenMode();
+                }
+            }
+        }
+
+        public static void SetAccount()
+        {
+            _mainPage.SetAccount();
+        }
+
+        public static void NavigateToPage(Type page, object parameter = null)
+        {
+            _mainPage.Navigate(page, parameter);
         }
 
         /// <summary>
@@ -163,9 +172,9 @@ namespace Phototis
                 //builder.AddFilter("Microsoft.UI.Xaml.FrameworkElement", LogLevel.Trace);
 
                 // Layouter specific messages
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug );
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug );
-                // builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug );
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug);
+                //builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug);
 
                 builder.AddFilter("Windows.Storage", LogLevel.Debug);
 
@@ -191,8 +200,6 @@ namespace Phototis
 
 #endif
         }
-
-
 
         #endregion
     }

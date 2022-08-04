@@ -24,9 +24,6 @@ using Windows.Storage.Pickers;
 
 namespace Phototis
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         #region Fields
@@ -34,6 +31,8 @@ namespace Phototis
         private readonly NavigationHelper navigationHelper;
 
         #endregion
+
+        #region Ctor
 
         public MainPage()
         {
@@ -44,8 +43,8 @@ namespace Phototis
             navigationHelper = new NavigationHelper(
             navigationView: NavView,
             frame: ContentFrame,
-            pageMap: new Dictionary<string, Type>() 
-            { 
+            pageMap: new Dictionary<string, Type>()
+            {
                 {"LoginPage", typeof(LoginPage)},
                 {"ProjectsPage", typeof(ProjectsPage)},
                 {"WorkspacePage", typeof(WorkspacePage)}
@@ -61,11 +60,19 @@ namespace Phototis
             Navigate(typeof(LoginPage));
         }
 
+        #endregion
+
+        #region Events
+
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             // log errors
             // show error window
         }
+
+        #endregion
+
+        #region Methods
 
         public void SetAccount()
         {
@@ -73,9 +80,18 @@ namespace Phototis
             AccountPersonPicture.Initials = Constants.GetInitials(App.Account.UserName);
         }
 
+        public void SetIsBusy(bool isBusy, string message = null)
+        {
+            ContentFrame.IsEnabled = !isBusy;
+            ContentFrame.Opacity = isBusy ? 0.6 : 1;
+            BusyIndicatorText.Text = isBusy ? message : null;
+        }
+
         public void Navigate(Type page, object parameter = null)
         {
             ContentFrame.Navigate(page, parameter);
         }
+
+        #endregion
     }
 }

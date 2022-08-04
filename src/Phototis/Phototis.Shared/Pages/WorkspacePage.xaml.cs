@@ -26,12 +26,10 @@ using Windows.ApplicationModel;
 using Windows.UI.ViewManagement;
 using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 using Microsoft.UI.Text;
+using Microsoft.UI;
 
 namespace Phototis
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class WorkspacePage : Page
     {
         #region Fields
@@ -77,12 +75,16 @@ namespace Phototis
         //    base.OnNavigatedTo(e);
         //}
 
-        private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
+        private async void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
             NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
             NumberBoxHeight.Value = Window.Current.Bounds.Height - 10;
 
             SizeChanged += WorkspacePage_SizeChanged;
+
+            await Task.Delay(200);
+
+            App.SetIsBusy(false);
         }
 
         private void WorkspacePage_Unloaded(object sender, RoutedEventArgs e)
@@ -147,6 +149,8 @@ namespace Phototis
                     SelectedPicture.ProfilePicture = photo?.Source;
                     SelectedPicture.Visibility = Visibility.Visible;
                     ImageToolsDrawer.Visibility = Visibility.Visible;
+
+                    SetPhotoElementEditingContext();
                 }
                 else
                 {
@@ -230,6 +234,27 @@ namespace Phototis
             photoElement.PointerReleased += PhotoElement_PointerReleased;
 
             Workspace.Children.Add(photoElement);
+        }
+
+        private void SetPhotoElementEditingContext()
+        {
+            if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
+            {
+                Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
+                {
+                    item.Opacity = 0.3;
+                });
+
+                SelectedPhotoElementInWorkspace.Opacity = 1;
+            }
+        }
+
+        private void UnSetPhotoElementEditingContext()
+        {
+            Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
+            {
+                item.Opacity = 1;
+            });
         }
 
         #endregion
@@ -364,8 +389,8 @@ namespace Phototis
 
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // if image gallery is open then do not start dragging
-            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
+            // if image gallery is open or a image is being edited then do not start dragging
+            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()) && !ImageEditToggle.IsChecked.Value)
             {
 #if DEBUG
                 Console.WriteLine("PhotoElement_PointerPressed");
@@ -593,10 +618,12 @@ namespace Phototis
 
         #endregion
 
-        #region ImageGallery
+        #region Gallery
 
-        private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
+        private async void ImageImportButton_Click(object sender, RoutedEventArgs e)
         {
+            App.SetIsBusy(true, "Importing files...");
+
             var fileOpenPicker = new FileOpenPicker
             {
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary
@@ -614,6 +641,8 @@ namespace Phototis
 
             if (pickedFiles.Count > 0)
             {
+                App.SetIsBusy(true, "Processing files...");
+
                 // At least one file was picked, we can use them
                 foreach (var file in pickedFiles)
                 {
@@ -649,6 +678,8 @@ namespace Phototis
 
             ImageGallery.ItemsSource = null;
             ImageGallery.ItemsSource = this.Photos;
+
+            App.SetIsBusy(false);
         }
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -729,13 +760,15 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                ContentDialog dialog = new ContentDialog();
-                dialog.XamlRoot = this.XamlRoot;
-                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.Title = "Remove confirmed?";
-                dialog.PrimaryButtonText = "Yes";
-                dialog.CloseButtonText = "No";
-                dialog.DefaultButton = ContentDialogButton.Primary;
+                ContentDialog dialog = new ContentDialog
+                {
+                    XamlRoot = this.XamlRoot,
+                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                    Title = "Remove image...",
+                    PrimaryButtonText = "Ok",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary
+                };
 
                 var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
                 content.Children.Add(new TextBlock()
@@ -769,6 +802,16 @@ namespace Phototis
             {
                 Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
             }
+        }
+
+        private void ImageEditToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            SetPhotoElementEditingContext();
+        }
+
+        private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            UnSetPhotoElementEditingContext();
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)

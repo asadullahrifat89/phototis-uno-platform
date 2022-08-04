@@ -49,8 +49,9 @@
                     BorderBrush="DarkGoldenRod"
                     BorderThickness="3"
                     CornerRadius="100"
-                    Foreground="White">
-                    <SymbolIcon Symbol="ViewAll" />
+                    Foreground="White"
+                    ToolTipService.ToolTip="Workspace size">
+                    <SymbolIcon Symbol="Page2" />
                 </ToggleButton>
                 <ToggleButton
                     Name="FullscreenToggle"
@@ -61,6 +62,7 @@
                     VerticalAlignment="Top"
                     Checked="FullscreenToggle_Checked"
                     CornerRadius="100"
+                    ToolTipService.ToolTip="Fullscreen"
                     Unchecked="FullscreenToggle_Unchecked">
                     <SymbolIcon Symbol="FullScreen" />
                 </ToggleButton>
@@ -149,15 +151,18 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
 
-                    <!--  Filters toggle  -->
+                    <!--  Edit  -->
                     <ToggleButton
-                        Name="ImageEffectToggle"
+                        Name="ImageEditToggle"
                         Width="50"
                         Height="50"
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        CornerRadius="100">
+                        Checked="ImageEditToggle_Checked"
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Edit"
+                        Unchecked="ImageEditToggle_Unchecked">
                         <SymbolIcon Symbol="Edit" />
                     </ToggleButton>
 
@@ -170,7 +175,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="ImageResetButton_Click"
-                        CornerRadius="100">
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Undo all edit">
                         <SymbolIcon Symbol="Undo" />
                     </Button>
 
@@ -183,7 +189,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="ImageExportButton_Click"
-                        CornerRadius="100">
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Export">
                         <SymbolIcon Symbol="SaveLocal" />
                     </Button>
 
@@ -196,7 +203,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="ImageDeleteButton_Click"
-                        CornerRadius="100">
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Remove">
                         <SymbolIcon Symbol="Delete" />
                     </Button>
 
@@ -212,7 +220,7 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
-                        Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <StackPanel Margin="5" Orientation="Horizontal">
 
                             <Button
@@ -300,7 +308,7 @@
                     Grid.Row="2"
                     MaxWidth="500"
                     Margin="5,0"
-                    Visibility="{x:Bind Path=ImageEffectToggle.IsChecked, Mode=OneWay}">
+                    Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                     <Slider
                         Name="GrayScaleSlider"
                         Maximum="200"
@@ -471,7 +479,8 @@
                     Background="GoldenRod"
                     BorderBrush="DarkGoldenRod"
                     CornerRadius="100"
-                    Foreground="White">
+                    Foreground="White"
+                    ToolTipService.ToolTip="Gallery">
                     <SymbolIcon Symbol="Pictures" />
                 </ToggleButton>
 
@@ -482,14 +491,15 @@
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
 
                     <Button
-                        Name="ImageUploadButton"
+                        Name="ImageImportButton"
                         Width="50"
                         Height="50"
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="ImageUploadButton_Click"
-                        CornerRadius="100">
+                        Click="ImageImportButton_Click"
+                        CornerRadius="100"
+                        ToolTipService.ToolTip="Import">
                         <SymbolIcon Symbol="Upload" />
                     </Button>
 
@@ -501,6 +511,7 @@
                         Margin="5"
                         Checked="SelectMultipleToggleButton_Checked"
                         CornerRadius="100"
+                        ToolTipService.ToolTip="Multi-select"
                         Unchecked="SelectMultipleToggleButton_Unchecked">
                         <SymbolIcon Symbol="Bullets" />
                     </ToggleButton>
@@ -513,6 +524,7 @@
                         Margin="5"
                         Checked="SelectAllToggleButton_Checked"
                         CornerRadius="100"
+                        ToolTipService.ToolTip="Select all"
                         Unchecked="SelectAllToggleButton_Unchecked"
                         Visibility="{x:Bind Path=SelectMultipleToggleButton.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="SelectAll" />
