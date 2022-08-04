@@ -113,7 +113,7 @@
 
         <local:PhotoElement
             Name="SelectedPhotoElementInWorkspaceHolder"
-            Margin="50,100,50,200"
+            Margin="50,80,50,200"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Visibility="Collapsed" />
@@ -183,11 +183,12 @@
                         VerticalAlignment="Center"
                         Click="ImageResetButton_Click"
                         CornerRadius="100"
-                        ToolTipService.ToolTip="Undo all edit">
+                        ToolTipService.ToolTip="Undo all edit"
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="Undo" />
                     </Button>
 
-                    <!--  Save  -->
+                    <!--  Export  -->
                     <Button
                         Name="ImageExportButton"
                         Width="50"
@@ -197,7 +198,8 @@
                         VerticalAlignment="Center"
                         Click="ImageExportButton_Click"
                         CornerRadius="100"
-                        ToolTipService.ToolTip="Export">
+                        ToolTipService.ToolTip="Export"
+                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="SaveLocal" />
                     </Button>
 
@@ -211,7 +213,8 @@
                         VerticalAlignment="Center"
                         Click="ImageDeleteButton_Click"
                         CornerRadius="100"
-                        ToolTipService.ToolTip="Remove">
+                        ToolTipService.ToolTip="Remove"
+                        Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="Delete" />
                     </Button>
 
