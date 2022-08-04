@@ -28,10 +28,7 @@ using Pointer = Microsoft.UI.Xaml.Input.Pointer;
 using Microsoft.UI.Text;
 
 namespace Phototis
-{
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+{    
     public sealed partial class WorkspacePage : Page
     {
         #region Fields
@@ -77,12 +74,16 @@ namespace Phototis
         //    base.OnNavigatedTo(e);
         //}
 
-        private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
+        private async void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
             NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
             NumberBoxHeight.Value = Window.Current.Bounds.Height - 10;
 
             SizeChanged += WorkspacePage_SizeChanged;
+
+            await Task.Delay(1000);
+
+            App.SetIsBusy(false);
         }
 
         private void WorkspacePage_Unloaded(object sender, RoutedEventArgs e)
@@ -597,6 +598,8 @@ namespace Phototis
 
         private async void ImageUploadButton_Click(object sender, RoutedEventArgs e)
         {
+            App.SetIsBusy(true, "Adding files...");
+
             var fileOpenPicker = new FileOpenPicker
             {
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary
@@ -649,6 +652,8 @@ namespace Phototis
 
             ImageGallery.ItemsSource = null;
             ImageGallery.ItemsSource = this.Photos;
+
+            App.SetIsBusy(false);
         }
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -42,9 +43,7 @@ namespace Phototis
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             if (LoginButton.IsEnabled)
-            {
                 Login();
-            }
         }
 
         private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -63,12 +62,29 @@ namespace Phototis
             EnableLoginButton();
         }
 
+        private void UserNameBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && LoginButton.IsEnabled)
+                Login();
+
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
         #endregion
 
         #region Methods
 
-        private void Login()
+        private async void Login()
         {
+            App.SetIsBusy(true, "Preparing studio...");
+
+            await Task.Delay(1000);
+
             App.Account = new Account() { UserName = UserNameBox.Text, /*Password = PasswordBox.Password,*/ };
 
             App.SetAccount();
@@ -81,18 +97,6 @@ namespace Phototis
             LoginButton.IsEnabled = !UserNameBox.Text.IsNullOrBlank() /*&& !PasswordBox.Text.IsNullOrBlank()*/;
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         #endregion
-
-        private void UserNameBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter && LoginButton.IsEnabled)
-                Login();
-
-        }
     }
 }

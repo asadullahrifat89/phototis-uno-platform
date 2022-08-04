@@ -50,7 +50,7 @@
                     BorderThickness="3"
                     CornerRadius="100"
                     Foreground="White">
-                    <SymbolIcon Symbol="ViewAll" />
+                    <SymbolIcon Symbol="Page2" />
                 </ToggleButton>
                 <ToggleButton
                     Name="FullscreenToggle"
