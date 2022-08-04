@@ -111,6 +111,13 @@
 
         </Grid>
 
+        <local:PhotoElement
+            Name="SelectedPhotoElementInWorkspaceHolder"
+            Margin="50,100,50,200"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="Collapsed" />
+
         <!--  Tools & gallery  -->
         <Grid
             Margin="5,10"

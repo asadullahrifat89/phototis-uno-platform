@@ -23,7 +23,7 @@ namespace Phototis
 
         public PhotoElement()
         {
-            
+
         }
 
         #endregion
@@ -196,7 +196,7 @@ namespace Phototis
         {
             var id = htmlImageElement.Id;
             var src = htmlImageElement.GetHtmlAttribute("src");
-            var filter = htmlImageElement.GetCssFilter();            
+            var filter = htmlImageElement.GetCssFilter();
             var function = $"exportImage('{id}','{filter}','{src}')";
 
             WebAssemblyRuntime.InvokeJS(function);

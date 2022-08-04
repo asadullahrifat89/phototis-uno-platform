@@ -245,7 +245,11 @@ namespace Phototis
                     item.Opacity = 0.3;
                 });
 
-                SelectedPhotoElementInWorkspace.Opacity = 1;
+                SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
+                SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
+                SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Visible;
+                ImageGalleryToggleButton.Visibility = Visibility.Collapsed;
+                SelectedPicture.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -255,6 +259,11 @@ namespace Phototis
             {
                 item.Opacity = 1;
             });
+
+            SelectedPhotoElementInWorkspaceHolder.Clone(SelectedPhotoElementInWorkspace);
+            SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
+            ImageGalleryToggleButton.Visibility = Visibility.Visible;
+            SelectedPicture.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -431,53 +440,53 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Grayscale = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Grayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Contrast = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Contrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Brightness = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Brightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Saturation = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Saturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Sepia = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Sepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Invert = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Invert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Hue = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Hue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Blur = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Blur = e.NewValue;
+        }
+
+        private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElementInWorkspaceHolder.Opacity = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             SelectedPhotoElementInWorkspace.Width = e.NewValue;
             SelectedPhotoElementInWorkspace.Height = e.NewValue;
-        }
-
-        private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
         }
 
         #endregion
