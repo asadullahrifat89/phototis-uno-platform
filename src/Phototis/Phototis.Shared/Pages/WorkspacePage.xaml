@@ -101,9 +101,7 @@
                     Margin="5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Background="GoldenRod"
-                    BorderBrush="DarkGoldenRod"
-                    BorderThickness="3"
+                    Background="#f0bf0a"
                     Click="WorkSpaceSizeButton_Click"
                     CornerRadius="100"
                     Foreground="White"
@@ -590,6 +588,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
+                <!--  gallery toggle  -->
                 <ToggleButton
                     Name="ImageGalleryToggleButton"
                     Grid.Row="0"
@@ -597,8 +596,7 @@
                     Height="50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Background="GoldenRod"
-                    BorderBrush="DarkGoldenRod"
+                    Background="#f0bf0a"
                     Checked="ImageGalleryToggleButton_Checked"
                     CornerRadius="100"
                     Foreground="White"
@@ -606,6 +604,7 @@
                     <SymbolIcon Symbol="Pictures" />
                 </ToggleButton>
 
+                <!--  multi select toggles  -->
                 <StackPanel
                     Grid.Row="1"
                     HorizontalAlignment="Center"
@@ -654,6 +653,7 @@
 
                 </StackPanel>
 
+                <!--  image gallery  -->
                 <GridView
                     Name="ImageGallery"
                     Grid.Row="2"

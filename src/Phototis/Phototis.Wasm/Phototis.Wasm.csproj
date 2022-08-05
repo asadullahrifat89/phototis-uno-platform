@@ -24,6 +24,10 @@
 		<UpToDateCheckInput Include="..\Phototis.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Assets\SplashScreen-ori.png" />
+	  <None Remove="Assets\SplashScreen.png" />
+	</ItemGroup>
+	<ItemGroup>
 		<EmbeddedResource Include="WasmCSS\Fonts.css" />
 		<EmbeddedResource Include="WasmScripts\AppManifest.js" />
 	</ItemGroup>

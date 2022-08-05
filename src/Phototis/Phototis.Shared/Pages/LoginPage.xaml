@@ -18,9 +18,10 @@
 
             <!--  Game title  -->
             <TextBlock
-                Margin="10,10,10,40"
+                Margin="10,10,10,10"
                 FontSize="45"
                 FontWeight="Bold"
+                Foreground="#f0bf0a"
                 Text="Phototis"
                 TextAlignment="Center" />
 
@@ -28,7 +29,7 @@
                 Margin="10,10,10,50"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="A place for your artwork and photos"
+                Text="A digital art studio"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 
@@ -55,7 +56,7 @@
                 Height="40"
                 Margin="5,20,5,5"
                 HorizontalAlignment="Stretch"
-                Background="GoldenRod"
+                Background="#f0bf0a"
                 BorderBrush="DarkGoldenRod"
                 BorderThickness="3"
                 Click="LoginButton_Click"

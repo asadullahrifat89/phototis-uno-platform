@@ -1,9 +1,7 @@
 ﻿var UnoAppManifest = {
-
     splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "transparent",
+    splashScreenColor: "white",
     displayName: "Phototis"
-
 }
 
 function exportImage(id, filter, src) {
