@@ -26,6 +26,14 @@
                 PointerReleased="Workspace_PointerReleased" />
         </ScrollViewer>
 
+        <!--  Selected photo element in edit mode  -->
+        <local:PhotoElement
+            Name="SelectedPhotoElementInWorkspaceHolder"
+            Margin="50,80,50,200"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="Collapsed" />
+
         <!--  Size control & fullscreen  -->
         <Grid Margin="0,10" VerticalAlignment="Top">
 
@@ -122,14 +130,6 @@
             </WrapPanel>
 
         </Grid>
-
-        <!--  Selected photo element in edit mode  -->
-        <local:PhotoElement
-            Name="SelectedPhotoElementInWorkspaceHolder"
-            Margin="50,80,50,200"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="Collapsed" />
 
         <!--  Tools & gallery  -->
         <Grid

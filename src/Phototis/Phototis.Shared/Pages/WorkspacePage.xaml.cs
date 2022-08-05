@@ -240,10 +240,7 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
             {
-                Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
-                {
-                    item.Opacity = 0.3;
-                });
+                Workspace.Opacity = 0.3;
 
                 SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
                 SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
@@ -258,10 +255,7 @@ namespace Phototis
 
         private void UnsetPhotoElementEditingContext()
         {
-            Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
-            {
-                item.Opacity = 1; // TODO: this is causing problem if user sets opacity manually
-            });
+            Workspace.Opacity = 1;
 
             SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
             ImageGalleryToggleButton.Visibility = Visibility.Visible;
