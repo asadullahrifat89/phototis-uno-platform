@@ -39,7 +39,7 @@ namespace Phototis
 
         private double scaleX;
 
-        public double ScaleX
+        public double ImageScaleX
         {
             get { return scaleX; }
             set
@@ -51,7 +51,7 @@ namespace Phototis
 
         private double scaleY;
 
-        public double ScaleY
+        public double ImageScaleY
         {
             get { return scaleY; }
             set
@@ -61,160 +61,183 @@ namespace Phototis
             }
         }
 
-        private double _Grayscale = 0;
+        private double grayscale = 0;
 
-        public double Grayscale
+        public double ImageGrayscale
         {
-            get { return _Grayscale; }
+            get { return grayscale; }
             set
             {
-                _Grayscale = value;
+                grayscale = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Grayscale = _Grayscale;
+                    htmlImageElement.Grayscale = grayscale;
             }
         }
 
-        private double _Contrast = 100;
+        private double contrast = 100;
 
-        public double Contrast
+        public double ImageContrast
         {
-            get { return _Contrast; }
+            get { return contrast; }
             set
             {
-                _Contrast = value;
+                contrast = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Contrast = _Contrast;
+                    htmlImageElement.Contrast = contrast;
             }
         }
 
-        private double _Brightness = 100;
+        private double brightness = 100;
 
-        public double Brightness
+        public double ImageBrightness
         {
-            get { return _Brightness; }
+            get { return brightness; }
             set
             {
-                _Brightness = value;
+                brightness = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Brightness = _Brightness;
+                    htmlImageElement.Brightness = brightness;
             }
         }
 
-        private double _Saturation = 100;
+        private double saturation = 100;
 
-        public double Saturation
+        public double ImageSaturation
         {
-            get { return _Saturation; }
+            get { return saturation; }
             set
             {
-                _Saturation = value;
+                saturation = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Saturation = _Saturation;
+                    htmlImageElement.Saturation = saturation;
             }
         }
 
-        private double _Sepia = 0;
+        private double sepia = 0;
 
-        public double Sepia
+        public double ImageSepia
         {
-            get { return _Sepia; }
+            get { return sepia; }
             set
             {
-                _Sepia = value;
+                sepia = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Sepia = _Sepia;
+                    htmlImageElement.Sepia = sepia;
             }
         }
 
-        private double _Invert = 0;
+        private double invert = 0;
 
-        public double Invert
+        public double ImageInvert
         {
-            get { return _Invert; }
+            get { return invert; }
             set
             {
-                _Invert = value;
+                invert = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Invert = _Invert;
+                    htmlImageElement.Invert = invert;
             }
         }
 
-        private double _Hue = 0;
+        private double hue = 0;
 
-        public double Hue
+        public double ImageHue
         {
-            get { return _Hue; }
+            get { return hue; }
             set
             {
-                _Hue = value;
+                hue = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Hue = _Hue;
+                    htmlImageElement.Hue = hue;
             }
         }
 
-        private double _Blur = 0;
+        private double blur = 0;
 
-        public double Blur
+        public double ImageBlur
         {
-            get { return _Blur; }
+            get { return blur; }
             set
             {
-                _Blur = value;
+                blur = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Blur = _Blur;
+                    htmlImageElement.Blur = blur;
             }
         }
 
-        private double _Opacity = 1;
+        private double opacity = 1;
 
-        public new double Opacity
+        public double ImageOpacity
         {
-            get { return _Opacity; }
+            get { return opacity; }
             set
             {
-                _Opacity = value;
+                opacity = value;
 
                 if (htmlImageElement is not null)
-                    htmlImageElement.Opacity = _Opacity;
+                    htmlImageElement.Opacity = opacity;
             }
         }
+
+        private string source;
+
+        public string Source
+        {
+            get { return source; }
+            set
+            {
+                source = value;
+
+                if (this.htmlImageElement is null)
+                {
+                    this.htmlImageElement = new HtmlImageElement() { Source = source, Id = this.Id };
+                    this.Child = this.htmlImageElement;
+                }
+                else
+                {
+                    this.htmlImageElement.Source = source;
+                    this.Child = this.htmlImageElement;
+                }
+            }
+        }
+
 
         #endregion
 
         #region Dependency Properties
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
+        //public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
 
-        public string Source
-        {
-            get => (string)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
-        }
+        //public string Source
+        //{
+        //    get => (string)GetValue(SourceProperty);
+        //    set => SetValue(SourceProperty, value);
+        //}
 
-        private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is PhotoElement image)
-            {
-                if (image.htmlImageElement is null)
-                {
-                    image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
-                    image.Child = image.htmlImageElement;
-                }
-                else
-                {
-                    image.htmlImageElement.Source = args.NewValue as string;
-                    image.Child = image.htmlImageElement;
-                }
-            }
-        }
+        //private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        //{
+        //    if (dependencyObject is PhotoElement image)
+        //    {
+        //        if (image.htmlImageElement is null)
+        //        {
+        //            image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
+        //            image.Child = image.htmlImageElement;
+        //        }
+        //        else
+        //        {
+        //            image.htmlImageElement.Source = args.NewValue as string;
+        //            image.Child = image.htmlImageElement;
+        //        }
+        //    }
+        //}
 
         #endregion
 
@@ -232,17 +255,17 @@ namespace Phototis
 
         public void Reset()
         {
-            Grayscale = 0;
-            Contrast = 100;
-            Brightness = 100;
-            Saturation = 100;
-            Sepia = 0;
-            Invert = 0;
-            Hue = 0;
-            Blur = 0;
-            Opacity = 1;
-            ScaleX = 1;
-            ScaleY = 1;
+            ImageGrayscale = 0;
+            ImageContrast = 100;
+            ImageBrightness = 100;
+            ImageSaturation = 100;
+            ImageSepia = 0;
+            ImageInvert = 0;
+            ImageHue = 0;
+            ImageBlur = 0;
+            ImageOpacity = 1;
+            ImageScaleX = 1;
+            ImageScaleY = 1;
         }
 
         #endregion

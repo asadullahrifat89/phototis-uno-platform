@@ -131,16 +131,16 @@ namespace Phototis
 
                 if (selectedPhotoElementInWorkspace is not null)
                 {
-                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.Grayscale;
-                    ContrastSlider.Value = selectedPhotoElementInWorkspace.Contrast;
-                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.Brightness;
-                    SaturationSlider.Value = selectedPhotoElementInWorkspace.Saturation;
-                    SepiaSlider.Value = selectedPhotoElementInWorkspace.Sepia;
-                    InvertSlider.Value = selectedPhotoElementInWorkspace.Invert;
-                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.Hue;
-                    BlurSlider.Value = selectedPhotoElementInWorkspace.Blur;
+                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.ImageGrayscale;
+                    ContrastSlider.Value = selectedPhotoElementInWorkspace.ImageContrast;
+                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.ImageBrightness;
+                    SaturationSlider.Value = selectedPhotoElementInWorkspace.ImageSaturation;
+                    SepiaSlider.Value = selectedPhotoElementInWorkspace.ImageSepia;
+                    InvertSlider.Value = selectedPhotoElementInWorkspace.ImageInvert;
+                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.ImageHue;
+                    BlurSlider.Value = selectedPhotoElementInWorkspace.ImageBlur;
                     SizeSlider.Value = selectedPhotoElementInWorkspace.Width;
-                    OpacitySlider.Value = selectedPhotoElementInWorkspace.Opacity;
+                    OpacitySlider.Value = selectedPhotoElementInWorkspace.ImageOpacity;
 
                     // set image source for the selected image                    
                     var photo = this.Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
@@ -448,47 +448,47 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Grayscale = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageGrayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Contrast = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageContrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Brightness = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageBrightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Saturation = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageSaturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Sepia = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageSepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Invert = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageInvert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Hue = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageHue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Blur = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageBlur = e.NewValue;
         }
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
+            SelectedPhotoElementInWorkspace.ImageOpacity = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -499,8 +499,8 @@ namespace Phototis
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ScaleX = e.NewValue;
-            SelectedPhotoElementInWorkspaceHolder.ScaleY = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageScaleX = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageScaleY = e.NewValue;
         }
 
         #endregion

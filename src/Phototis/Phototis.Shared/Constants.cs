@@ -43,15 +43,15 @@ namespace Phototis
         {
             target.Source = source.Source;
             target.Id = source.Id;
-            target.Grayscale = source.Grayscale;
-            target.Contrast = source.Contrast;
-            target.Brightness = source.Brightness;
-            target.Saturation = source.Saturation;
-            target.Sepia = source.Sepia;
-            target.Invert = source.Invert;
-            target.Hue = source.Hue;
-            target.Blur = source.Blur;
-            target.Opacity = source.Opacity;
+            target.ImageGrayscale = source.ImageGrayscale;
+            target.ImageContrast = source.ImageContrast;
+            target.ImageBrightness = source.ImageBrightness;
+            target.ImageSaturation = source.ImageSaturation;
+            target.ImageSepia = source.ImageSepia;
+            target.ImageInvert = source.ImageInvert;
+            target.ImageHue = source.ImageHue;
+            target.ImageBlur = source.ImageBlur;
+            target.ImageOpacity = source.ImageOpacity;
         }
     }
 }
