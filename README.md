@@ -1,6 +1,8 @@
 # Phototis-Uno-Platform
 A cross-platform photo editing studio in WebAssembly that lets you create your own art gallery where you can create multiple edited instances of the same photo and compare them. You can load up to 100 images and apply different transformation effects on them, such as grayscale, hue, blur, opacity, inversion, etc. You can also change brightness, contrast, saturation, etc too. After editing the images, you can export them in the image's original size and pixel density.
 
+![master](https://github.com/asadullahrifat89/Phototis-Uno-Platform/actions/workflows/main.yml/badge.svg)
+
 Check out live: https://asadullahrifat89.github.io/Phototis-Uno-Platform/
 
 # Screenshots
