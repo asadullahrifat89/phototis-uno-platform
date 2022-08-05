@@ -291,6 +291,20 @@ namespace Phototis
 
         #region Workspace
 
+        private async void WorkSpaceSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var content = this.Resources["WorkspaceSizePanel"] as WrapPanel;
+
+                var result = await ShowContentDialog("Set workspace size...", content);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             Workspace.Width = args.NewValue;

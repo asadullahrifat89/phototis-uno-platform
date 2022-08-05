@@ -8,6 +8,49 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <WrapPanel
+            Name="WorkspaceSizePanel"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <NumberBox
+                Name="NumberBoxWidth"
+                Width="120"
+                Margin="5"
+                LargeChange="100"
+                Maximum="10000"
+                Minimum="400"
+                SmallChange="10"
+                SpinButtonPlacementMode="Compact"
+                ValueChanged="NumberBoxWidth_ValueChanged">
+                <NumberBox.Header>
+                    <TextBlock
+                        FontWeight="SemiBold"
+                        Text="Width"
+                        TextAlignment="Center" />
+                </NumberBox.Header>
+            </NumberBox>
+            <NumberBox
+                Name="NumberBoxHeight"
+                Width="120"
+                Margin="5"
+                LargeChange="100"
+                Maximum="10000"
+                Minimum="400"
+                SmallChange="10"
+                SpinButtonPlacementMode="Compact"
+                ValueChanged="NumberBoxHeight_ValueChanged">
+                <NumberBox.Header>
+                    <TextBlock
+                        FontWeight="SemiBold"
+                        Text="Height"
+                        TextAlignment="Center" />
+                </NumberBox.Header>
+            </NumberBox>
+        </WrapPanel>
+    </Page.Resources>
+
     <Grid>
 
         <!--  Workspace  -->
@@ -51,8 +94,8 @@
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <ToggleButton
-                    Name="WorkSpaceSizeToggle"
+                <Button
+                    Name="WorkSpaceSizeButton"
                     Width="50"
                     Height="50"
                     Margin="5"
@@ -61,11 +104,12 @@
                     Background="GoldenRod"
                     BorderBrush="DarkGoldenRod"
                     BorderThickness="3"
+                    Click="WorkSpaceSizeButton_Click"
                     CornerRadius="100"
                     Foreground="White"
                     ToolTipService.ToolTip="Resize">
                     <SymbolIcon Symbol="Page2" />
-                </ToggleButton>
+                </Button>
                 <Button
                     Name="WorkSpaceClearButton"
                     Width="50"
@@ -92,47 +136,6 @@
                     <SymbolIcon Symbol="FullScreen" />
                 </ToggleButton>
             </StackPanel>
-
-            <WrapPanel
-                Grid.Row="1"
-                Margin="5"
-                HorizontalAlignment="Center"
-                Visibility="{x:Bind Path=WorkSpaceSizeToggle.IsChecked, Mode=OneWay}">
-                <NumberBox
-                    Name="NumberBoxWidth"
-                    Width="120"
-                    Margin="5"
-                    LargeChange="100"
-                    Maximum="10000"
-                    Minimum="400"
-                    SmallChange="10"
-                    SpinButtonPlacementMode="Compact"
-                    ValueChanged="NumberBoxWidth_ValueChanged">
-                    <NumberBox.Header>
-                        <TextBlock
-                            FontWeight="SemiBold"
-                            Text="Width"
-                            TextAlignment="Center" />
-                    </NumberBox.Header>
-                </NumberBox>
-                <NumberBox
-                    Name="NumberBoxHeight"
-                    Width="120"
-                    Margin="5"
-                    LargeChange="100"
-                    Maximum="10000"
-                    Minimum="400"
-                    SmallChange="10"
-                    SpinButtonPlacementMode="Compact"
-                    ValueChanged="NumberBoxHeight_ValueChanged">
-                    <NumberBox.Header>
-                        <TextBlock
-                            FontWeight="SemiBold"
-                            Text="Height"
-                            TextAlignment="Center" />
-                    </NumberBox.Header>
-                </NumberBox>
-            </WrapPanel>
 
         </Grid>
 
