@@ -131,16 +131,16 @@ namespace Phototis
 
                 if (selectedPhotoElementInWorkspace is not null)
                 {
-                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.Grayscale;
-                    ContrastSlider.Value = selectedPhotoElementInWorkspace.Contrast;
-                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.Brightness;
-                    SaturationSlider.Value = selectedPhotoElementInWorkspace.Saturation;
-                    SepiaSlider.Value = selectedPhotoElementInWorkspace.Sepia;
-                    InvertSlider.Value = selectedPhotoElementInWorkspace.Invert;
-                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.Hue;
-                    BlurSlider.Value = selectedPhotoElementInWorkspace.Blur;
+                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.ImageGrayscale;
+                    ContrastSlider.Value = selectedPhotoElementInWorkspace.ImageContrast;
+                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.ImageBrightness;
+                    SaturationSlider.Value = selectedPhotoElementInWorkspace.ImageSaturation;
+                    SepiaSlider.Value = selectedPhotoElementInWorkspace.ImageSepia;
+                    InvertSlider.Value = selectedPhotoElementInWorkspace.ImageInvert;
+                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.ImageHue;
+                    BlurSlider.Value = selectedPhotoElementInWorkspace.ImageBlur;
                     SizeSlider.Value = selectedPhotoElementInWorkspace.Width;
-                    OpacitySlider.Value = selectedPhotoElementInWorkspace.Opacity;
+                    OpacitySlider.Value = selectedPhotoElementInWorkspace.ImageOpacity;
 
                     // set image source for the selected image                    
                     var photo = this.Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
@@ -240,10 +240,7 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
             {
-                Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
-                {
-                    item.Opacity = 0.3;
-                });
+                Workspace.Opacity = 0.3;
 
                 SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
                 SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
@@ -258,10 +255,7 @@ namespace Phototis
 
         private void UnsetPhotoElementEditingContext()
         {
-            Parallel.ForEach(Workspace.Children.OfType<PhotoElement>(), (item) =>
-            {
-                item.Opacity = 1; // TODO: this is causing problem if user sets opacity manually
-            });
+            Workspace.Opacity = 1;
 
             SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
             ImageGalleryToggleButton.Visibility = Visibility.Visible;
@@ -274,11 +268,29 @@ namespace Phototis
             ImageEditToggle.IsChecked = false;
         }
 
+        private async Task<ContentDialogResult> ShowContentDialog(string title, object content, string okButtonText = "Ok", string cancelButtonText = "Cancel")
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                Title = title,
+                PrimaryButtonText = okButtonText,
+                CloseButtonText = cancelButtonText,
+                DefaultButton = ContentDialogButton.Primary,
+                Content = content,
+            };
+
+            var result = await dialog.ShowAsync();
+
+            return result;
+        }
+
         #endregion
 
         #region Events
 
-        #region Window
+        #region Workspace
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -313,6 +325,16 @@ namespace Phototis
             if (view is not null)
             {
                 view.ExitFullScreenMode();
+            }
+        }
+
+        private async void WorkSpaceClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await ShowContentDialog(title: "Clear workspace...", content: "Current workspace will be cleared.");  //await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                Workspace.Children.Clear();
             }
         }
 
@@ -448,47 +470,47 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Grayscale = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageGrayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Contrast = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageContrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Brightness = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageBrightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Saturation = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageSaturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Sepia = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageSepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Invert = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageInvert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Hue = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageHue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.Blur = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageBlur = e.NewValue;
         }
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspace.Opacity = e.NewValue;
+            SelectedPhotoElementInWorkspace.ImageOpacity = e.NewValue;
         }
 
         private void SizeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -499,8 +521,8 @@ namespace Phototis
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ScaleX = e.NewValue;
-            SelectedPhotoElementInWorkspaceHolder.ScaleY = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageScaleX = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.ImageScaleY = e.NewValue;
         }
 
         #endregion
@@ -803,16 +825,6 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                ContentDialog dialog = new ContentDialog
-                {
-                    XamlRoot = this.XamlRoot,
-                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                    Title = "Remove image...",
-                    PrimaryButtonText = "Ok",
-                    CloseButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary
-                };
-
                 var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
                 content.Children.Add(new TextBlock()
                 {
@@ -827,9 +839,7 @@ namespace Phototis
                     Text = "will be removed from current workspace.",
                 });
 
-                dialog.Content = content;// $"{} will be removed from workspace.";
-
-                var result = await dialog.ShowAsync();
+                var result = await ShowContentDialog(title: "Remove image...", content: content); //await dialog.ShowAsync();
 
                 if (result == ContentDialogResult.Primary)
                 {
