@@ -278,7 +278,7 @@ namespace Phototis
 
         #region Events
 
-        #region Window
+        #region Workspace
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -313,6 +313,27 @@ namespace Phototis
             if (view is not null)
             {
                 view.ExitFullScreenMode();
+            }
+        }
+
+        private async void WorkSpaceClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                Title = "Clear workspace...",
+                PrimaryButtonText = "Ok",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = "Current workspace will be cleared.",
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                Workspace.Children.Clear();
             }
         }
 
@@ -827,7 +848,7 @@ namespace Phototis
                     Text = "will be removed from current workspace.",
                 });
 
-                dialog.Content = content;// $"{} will be removed from workspace.";
+                dialog.Content = content;
 
                 var result = await dialog.ShowAsync();
 
