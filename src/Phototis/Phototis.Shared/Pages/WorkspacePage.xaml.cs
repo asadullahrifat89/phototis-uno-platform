@@ -64,17 +64,6 @@ namespace Phototis
             this.Unloaded += WorkspacePage_Unloaded;
         }
 
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    if (e.Parameter is List<Photo> photos)
-        //    {
-        //        this.photos = photos;
-        //        ImageGallery.ItemsSource = this.photos;
-        //    }
-
-        //    base.OnNavigatedTo(e);
-        //}
-
         private async void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
             NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
@@ -110,7 +99,6 @@ namespace Phototis
         #region Properties
 
         private List<Photo> photos = new List<Photo>();
-
         public List<Photo> Photos
         {
             get { return photos; }
@@ -120,8 +108,8 @@ namespace Phototis
             }
         }
 
-        private PhotoElement selectedPhotoElementInWorkspace;
 
+        private PhotoElement selectedPhotoElementInWorkspace;
         public PhotoElement SelectedPhotoElementInWorkspace
         {
             get { return selectedPhotoElementInWorkspace; }
@@ -162,7 +150,12 @@ namespace Phototis
 
         #endregion
 
-        #region Methods       
+        #region Methods
+
+        private double GetScalingFactor()
+        {
+            return windowWidth < 400 ? 0.7 : windowWidth < 800 ? 0.8 : windowWidth < 1000 ? 0.9 : 1;
+        }
 
         public void DragStart(UIElement uielement)
         {
@@ -219,16 +212,18 @@ namespace Phototis
 
         private void AddPhotoElementToWorkspace(Photo photo)
         {
+            var scalingFactor = GetScalingFactor();
+
             PhotoElement photoElement = new PhotoElement()
             {
                 Id = photo.Id,
-                Width = 400,
-                Height = 400,
+                Width = 400 * scalingFactor,
+                Height = 400 * scalingFactor,
             };
             photoElement.Source = photo.DataUrl;
 
-            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200);
-            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200);
+            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200 * scalingFactor);
+            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200 * scalingFactor);
 
             photoElement.PointerPressed += PhotoElement_PointerPressed;
             photoElement.PointerReleased += PhotoElement_PointerReleased;
@@ -344,26 +339,13 @@ namespace Phototis
 
         #region Workspace
 
-        private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isPointerCaptured && draggingElement is not null)
-            {
-                currentPointerPoint = e.GetCurrentPoint(Workspace);
-                currentPointer = e.Pointer;
-
-                DragElement(draggingElement);
-            }
-
-            //Console.WriteLine("Workspace_PointerMoved");
-        }
-
         private void Workspace_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             currentPointerPoint = e.GetCurrentPoint(Workspace);
             currentPointer = e.Pointer;
 
             // if image drawer is open then insert new new item
-            if (ImageGalleryToggleButton.IsChecked.Value)
+            if (ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is not null || (selectedPhotosInGallery is not null && selectedPhotosInGallery.Any())))
             {
                 switch (ImageGallery.SelectionMode)
                 {
@@ -382,16 +364,22 @@ namespace Phototis
                         {
                             if (selectedPhotosInGallery is not null && selectedPhotosInGallery.Any())
                             {
-                                foreach (var photo in selectedPhotosInGallery)
+                                //foreach (var photo in selectedPhotosInGallery)
+                                //{
+                                //    AddPhotoElementToWorkspace(photo);
+                                //}
+
+                                if (Parallel.ForEach(selectedPhotosInGallery, (photo) =>
                                 {
                                     AddPhotoElementToWorkspace(photo);
+                                }).IsCompleted)
+                                {
+                                    ImageGallery.SelectedItems.Clear();
+                                    selectedPhotosInGallery = null;
+
+                                    if (SelectAllToggleButton.IsChecked.Value)
+                                        SelectAllToggleButton.IsChecked = false;
                                 }
-
-                                ImageGallery.SelectedItems.Clear();
-                                selectedPhotosInGallery = null;
-
-                                if (SelectAllToggleButton.IsChecked.Value)
-                                    SelectAllToggleButton.IsChecked = false;
                             }
                         }
                         break;
@@ -402,6 +390,19 @@ namespace Phototis
 #if DEBUG
             Console.WriteLine("Workspace_PointerPressed");
 #endif
+        }
+
+        private void Workspace_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isPointerCaptured && draggingElement is not null)
+            {
+                currentPointerPoint = e.GetCurrentPoint(Workspace);
+                currentPointer = e.Pointer;
+
+                DragElement(draggingElement);
+            }
+
+            //Console.WriteLine("Workspace_PointerMoved");
         }
 
         private void Workspace_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -688,6 +689,11 @@ namespace Phototis
 
         #region Gallery
 
+        private void ImageGalleryToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ImageToolsDrawer.Visibility = Visibility.Collapsed;
+        }
+
         private async void ImageImportButton_Click(object sender, RoutedEventArgs e)
         {
             App.SetIsBusy(true, "Importing files...");
@@ -797,6 +803,14 @@ namespace Phototis
 
         #region Image
 
+        private void ImageCopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElementInWorkspace is not null)
+            {
+                AddPhotoElementToWorkspace(this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
+            }
+        }
+
         private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
         {
             CommitPhotoElementEditingContext();
@@ -821,31 +835,31 @@ namespace Phototis
             }
         }
 
-        private async void ImageDeleteButton_Click(object sender, RoutedEventArgs e)
+        private void ImageDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
-                content.Children.Add(new TextBlock()
-                {
-                    Text = this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
-                    TextAlignment = TextAlignment.Left,
-                    TextTrimming = TextTrimming.CharacterEllipsis,
-                    FontWeight = FontWeights.SemiBold,
-                    MaxWidth = 300,
-                });
-                content.Children.Add(new TextBlock()
-                {
-                    Text = "will be removed from current workspace.",
-                });
+                //var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
+                //content.Children.Add(new TextBlock()
+                //{
+                //    Text = this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
+                //    TextAlignment = TextAlignment.Left,
+                //    TextTrimming = TextTrimming.CharacterEllipsis,
+                //    FontWeight = FontWeights.SemiBold,
+                //    MaxWidth = 300,
+                //});
+                //content.Children.Add(new TextBlock()
+                //{
+                //    Text = "will be removed from current workspace.",
+                //});
 
-                var result = await ShowContentDialog(title: "Remove image...", content: content); //await dialog.ShowAsync();
+                //var result = await ShowContentDialog(title: "Remove image...", content: content); //await dialog.ShowAsync();
 
-                if (result == ContentDialogResult.Primary)
-                {
-                    Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
-                    SelectedPhotoElementInWorkspace = null;
-                }
+                //if (result == ContentDialogResult.Primary)
+                //{
+                Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
+                SelectedPhotoElementInWorkspace = null;
+                //}
             }
         }
 
