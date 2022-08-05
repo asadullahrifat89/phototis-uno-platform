@@ -25,7 +25,7 @@ namespace Phototis
 
         public ProjectsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace Phototis
                     photos.Add(photo);
                 }
 
-                this.ImagesList.ItemsSource = photos;
+                ImagesList.ItemsSource = photos;
 
             }
             else
@@ -86,10 +86,10 @@ namespace Phototis
                 // No file was picked or the dialog was cancelled.
             }
 
-            if (this.ImagesList.Items.OfType<Photo>().Any())
+            if (ImagesList.Items.OfType<Photo>().Any())
             {
                 ProceedPanel.Visibility = Visibility.Visible;
-                ImagesCount.Text = $"{this.ImagesList.Items.OfType<Photo>().Count()} image(s) selected.";
+                ImagesCount.Text = $"{ImagesList.Items.OfType<Photo>().Count()} image(s) selected.";
             }
             else
             {
@@ -100,7 +100,7 @@ namespace Phototis
 
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
         {
-            App.NavigateToPage(typeof(WorkspacePage), this.ImagesList.Items.OfType<Photo>().ToList());
+            App.NavigateToPage(typeof(WorkspacePage), ImagesList.Items.OfType<Photo>().ToList());
         }
 
         #endregion

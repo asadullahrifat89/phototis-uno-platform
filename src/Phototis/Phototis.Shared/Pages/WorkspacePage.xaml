@@ -27,12 +27,17 @@
         </ScrollViewer>
 
         <!--  Selected photo element in edit mode  -->
-        <local:PhotoElement
-            Name="SelectedPhotoElementInWorkspaceHolder"
-            Margin="50,80,50,200"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="Collapsed" />
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Auto"
+            HorizontalScrollMode="Auto"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto"
+            Visibility="{x:Bind Path=SelectedPhotoElementInWorkspaceHolder.Visibility, Mode=OneWay}">
+            <local:PhotoElement
+                Name="SelectedPhotoElementInWorkspaceHolder"
+                Margin="50,80,50,200"
+                Visibility="Collapsed" />
+        </ScrollViewer>
 
         <!--  Size control & fullscreen  -->
         <Grid Margin="0,10" VerticalAlignment="Top">
@@ -513,18 +518,15 @@
                         </Slider>
                         <Slider
                             Name="ZoomSlider"
-                            LargeChange="0.1"
-                            Maximum="3"
-                            Minimum="0.1"
-                            SmallChange="0.1"
-                            StepFrequency="0.1"
+                            Maximum="4000"
+                            Minimum="10"
                             ValueChanged="ZoomSlider_ValueChanged"
                             Visibility="{x:Bind Path=ZoomToggleButton.IsChecked, Mode=OneWay}"
-                            Value="1">
+                            Value="400">
                             <Slider.Header>
                                 <TextBlock
                                     FontWeight="SemiBold"
-                                    Text="{x:Bind Path=ZoomSlider.Value.ToString('0.0'), Mode=OneWay}"
+                                    Text="{x:Bind Path=ZoomSlider.Value.ToString(), Mode=OneWay}"
                                     TextAlignment="Center" />
                             </Slider.Header>
                         </Slider>

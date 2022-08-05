@@ -16,8 +16,8 @@ namespace Phototis
 
         public void SetSize(double height, double width)
         {
-            this.Height = height;
-            this.Width = width;
+            Height = height;
+            Width = width;
         }
 
         //public void SetZoom(double value)

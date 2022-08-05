@@ -79,11 +79,11 @@ namespace Phototis
 
         #region Methods
 
-        private async void Login()
+        private void Login()
         {
             App.SetIsBusy(true, "Preparing studio...");
 
-            await Task.Delay(200);
+            //await Task.Delay(200);
 
             App.Account = new Account() { UserName = UserNameBox.Text, /*Password = PasswordBox.Password,*/ };
 
