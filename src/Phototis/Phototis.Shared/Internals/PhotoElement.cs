@@ -25,9 +25,11 @@ namespace Phototis
 
         public PhotoElement()
         {
-            this.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+            RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
             compositeTransform = new CompositeTransform() { ScaleX = 1, ScaleY = 1 };
-            this.RenderTransform = compositeTransform;
+            RenderTransform = compositeTransform;
+            htmlImageElement = new HtmlImageElement();
+            Child = htmlImageElement;
         }
 
         #endregion
@@ -196,48 +198,14 @@ namespace Phototis
             {
                 source = value;
 
-                if (this.htmlImageElement is null)
+                if (htmlImageElement is not null)
                 {
-                    this.htmlImageElement = new HtmlImageElement() { Source = source, Id = this.Id };
-                    this.Child = this.htmlImageElement;
-                }
-                else
-                {
-                    this.htmlImageElement.Source = source;
-                    this.Child = this.htmlImageElement;
+                    htmlImageElement.Id = Id;
+                    htmlImageElement.Source = source;
                 }
             }
         }
 
-
-        #endregion
-
-        #region Dependency Properties
-
-        //public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
-
-        //public string Source
-        //{
-        //    get => (string)GetValue(SourceProperty);
-        //    set => SetValue(SourceProperty, value);
-        //}
-
-        //private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        //{
-        //    if (dependencyObject is PhotoElement image)
-        //    {
-        //        if (image.htmlImageElement is null)
-        //        {
-        //            image.htmlImageElement = new HtmlImageElement() { Source = args.NewValue as string, Id = image.Id };
-        //            image.Child = image.htmlImageElement;
-        //        }
-        //        else
-        //        {
-        //            image.htmlImageElement.Source = args.NewValue as string;
-        //            image.Child = image.htmlImageElement;
-        //        }
-        //    }
-        //}
 
         #endregion
 

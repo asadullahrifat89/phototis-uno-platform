@@ -55,6 +55,8 @@ namespace Phototis
 
         public static Account Account { get; set; }
 
+        public static bool IsFullScreenToggled { get; set; }
+
         #endregion
 
         #region Events
@@ -113,10 +115,12 @@ namespace Phototis
                 if (value)
                 {
                     view.TryEnterFullScreenMode();
+                    IsFullScreenToggled = true;
                 }
                 else
                 {
                     view.ExitFullScreenMode();
+                    IsFullScreenToggled = false;
                 }
             }
         }

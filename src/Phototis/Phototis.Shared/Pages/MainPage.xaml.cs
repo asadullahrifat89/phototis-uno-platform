@@ -36,9 +36,9 @@ namespace Phototis
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.Loaded += MainPage_Loaded;
+            Loaded += MainPage_Loaded;
 
             navigationHelper = new NavigationHelper(
             navigationView: NavView,

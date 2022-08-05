@@ -59,19 +59,19 @@ namespace Phototis
 
         public WorkspacePage()
         {
-            this.InitializeComponent();
-            this.Loaded += WorkspacePage_Loaded;
-            this.Unloaded += WorkspacePage_Unloaded;
+            InitializeComponent();
+            Loaded += WorkspacePage_Loaded;
+            Unloaded += WorkspacePage_Unloaded;
         }
 
-        private async void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
+        private void WorkspacePage_Loaded(object sender, RoutedEventArgs e)
         {
             NumberBoxWidth.Value = Window.Current.Bounds.Width - 10;
             NumberBoxHeight.Value = Window.Current.Bounds.Height - 10;
 
             SizeChanged += WorkspacePage_SizeChanged;
 
-            await Task.Delay(200);
+            //await Task.Delay(200);
 
             App.SetIsBusy(false);
         }
@@ -131,7 +131,7 @@ namespace Phototis
                     OpacitySlider.Value = selectedPhotoElementInWorkspace.ImageOpacity;
 
                     // set image source for the selected image                    
-                    var photo = this.Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
+                    var photo = Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
 
                     SelectedPicture.ProfilePicture = null;
                     SelectedPicture.ProfilePicture = photo?.Source;
@@ -237,6 +237,10 @@ namespace Phototis
             {
                 Workspace.Opacity = 0.3;
 
+                ZoomSlider.Value = 550 * GetScalingFactor();
+                SelectedPhotoElementInWorkspaceHolder.Height = double.NaN;
+                SelectedPhotoElementInWorkspaceHolder.Width = double.NaN;
+                SelectedPhotoElementInWorkspaceHolder.Source = null;
                 SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
                 SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
                 SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Visible;
@@ -267,7 +271,7 @@ namespace Phototis
         {
             ContentDialog dialog = new ContentDialog
             {
-                XamlRoot = this.XamlRoot,
+                XamlRoot = XamlRoot,
                 Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = title,
                 PrimaryButtonText = okButtonText,
@@ -286,6 +290,20 @@ namespace Phototis
         #region Events
 
         #region Workspace
+
+        private async void WorkSpaceSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var content = this.Resources["WorkspaceSizePanel"] as WrapPanel;
+
+                var result = await ShowContentDialog("Set workspace size...", content);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         private void NumberBoxWidth_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -522,8 +540,10 @@ namespace Phototis
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageScaleX = e.NewValue;
-            SelectedPhotoElementInWorkspaceHolder.ImageScaleY = e.NewValue;
+            //SelectedPhotoElementInWorkspaceHolder.ImageScaleX = e.NewValue;
+            //SelectedPhotoElementInWorkspaceHolder.ImageScaleY = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Height = e.NewValue;
+            SelectedPhotoElementInWorkspaceHolder.Width = e.NewValue;
         }
 
         #endregion
@@ -696,6 +716,11 @@ namespace Phototis
 
         private async void ImageImportButton_Click(object sender, RoutedEventArgs e)
         {
+            bool isInFullScreen = App.IsFullScreenToggled;
+
+            if (isInFullScreen)
+                App.EnterFullScreen(false);
+
             App.SetIsBusy(true, "Importing files...");
 
             var fileOpenPicker = new FileOpenPicker
@@ -720,7 +745,7 @@ namespace Phototis
                 // At least one file was picked, we can use them
                 foreach (var file in pickedFiles)
                 {
-                    if (!this.Photos.Any(x => x.Name == file.Name))
+                    if (!Photos.Any(x => x.Name == file.Name))
                     {
                         var stream = await file.OpenStreamForReadAsync();
                         stream.Seek(0, SeekOrigin.Begin);
@@ -741,7 +766,7 @@ namespace Phototis
                             Source = bitmapImage
                         };
 
-                        this.Photos.Add(photo);
+                        Photos.Add(photo);
                     }
                 }
             }
@@ -751,7 +776,10 @@ namespace Phototis
             }
 
             ImageGallery.ItemsSource = null;
-            ImageGallery.ItemsSource = this.Photos;
+            ImageGallery.ItemsSource = Photos;
+
+            if (isInFullScreen)
+                App.EnterFullScreen(true);
 
             App.SetIsBusy(false);
         }
@@ -807,7 +835,7 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                AddPhotoElementToWorkspace(this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
+                AddPhotoElementToWorkspace(Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
             }
         }
 
