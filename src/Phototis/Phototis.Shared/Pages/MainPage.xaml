@@ -34,14 +34,14 @@
                 </StackPanel>
             </NavigationView.PaneFooter>
 
-            <ScrollViewer>
-                <Frame
-                    x:Name="ContentFrame"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    IsTabStop="True"
-                    NavigationFailed="ContentFrame_NavigationFailed" />
-            </ScrollViewer>
+            <!--<ScrollViewer>-->
+            <Frame
+                x:Name="ContentFrame"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsTabStop="True"
+                NavigationFailed="ContentFrame_NavigationFailed" />
+            <!--</ScrollViewer>-->
 
         </NavigationView>
 
