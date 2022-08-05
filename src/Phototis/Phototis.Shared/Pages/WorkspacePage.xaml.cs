@@ -274,6 +274,24 @@ namespace Phototis
             ImageEditToggle.IsChecked = false;
         }
 
+        private async Task<ContentDialogResult> ShowContentDialog(string title, object content, string okButtonText = "Ok", string cancelButtonText = "Cancel")
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                Title = title,
+                PrimaryButtonText = okButtonText,
+                CloseButtonText = cancelButtonText,
+                DefaultButton = ContentDialogButton.Primary,
+                Content = content,
+            };
+
+            var result = await dialog.ShowAsync();
+
+            return result;
+        }
+
         #endregion
 
         #region Events
@@ -318,18 +336,7 @@ namespace Phototis
 
         private async void WorkSpaceClearButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog dialog = new ContentDialog
-            {
-                XamlRoot = this.XamlRoot,
-                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                Title = "Clear workspace...",
-                PrimaryButtonText = "Ok",
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary,
-                Content = "Current workspace will be cleared.",
-            };
-
-            var result = await dialog.ShowAsync();
+            var result = await ShowContentDialog(title: "Clear workspace...", content: "Current workspace will be cleared.");  //await dialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -824,16 +831,6 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                ContentDialog dialog = new ContentDialog
-                {
-                    XamlRoot = this.XamlRoot,
-                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                    Title = "Remove image...",
-                    PrimaryButtonText = "Ok",
-                    CloseButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary
-                };
-
                 var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
                 content.Children.Add(new TextBlock()
                 {
@@ -848,9 +845,7 @@ namespace Phototis
                     Text = "will be removed from current workspace.",
                 });
 
-                dialog.Content = content;
-
-                var result = await dialog.ShowAsync();
+                var result = await ShowContentDialog(title: "Remove image...", content: content); //await dialog.ShowAsync();
 
                 if (result == ContentDialogResult.Primary)
                 {
