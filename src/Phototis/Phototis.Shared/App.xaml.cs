@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using System;
 using Uno.Foundation;
 using Windows.ApplicationModel;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using static Phototis.Constants;
 
@@ -41,6 +42,7 @@ namespace Phototis
             UnhandledException += App_UnhandledException;
 
             Uno.UI.FeatureConfiguration.Page.IsPoolingEnabled = true;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
         private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

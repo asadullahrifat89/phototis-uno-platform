@@ -54,8 +54,6 @@ namespace Phototis
             goBackPageRoutes: new List<(Type IfGoingBackTo, Type RouteTo)>());
 
             DataContext = this;
-
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
