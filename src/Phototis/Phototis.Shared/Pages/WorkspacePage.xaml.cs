@@ -154,7 +154,7 @@ namespace Phototis
 
         private double GetScalingFactor()
         {
-            return windowWidth < 400 ? 0.7 : windowWidth < 800 ? 0.8 : windowWidth < 1000 ? 0.9 : 1;
+            return windowWidth < 400 ? 0.6 : windowWidth < 600 ? 0.7 : windowWidth < 800 ? 0.8 : windowWidth < 1000 ? 0.9 : 1;
         }
 
         public void DragStart(UIElement uielement)
@@ -238,13 +238,13 @@ namespace Phototis
                 Workspace.Opacity = 0.3;
 
                 ZoomSlider.Value = 550 * GetScalingFactor();
-                SelectedPhotoElementInWorkspaceHolder.Height = double.NaN;
-                SelectedPhotoElementInWorkspaceHolder.Width = double.NaN;
-                SelectedPhotoElementInWorkspaceHolder.Source = null;
-                SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInWorkspaceHolder);
-                SelectedPhotoElementInWorkspaceHolder.Opacity = 1;
-                SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Visible;
-                ImageGalleryToggleButton.Visibility = Visibility.Collapsed;
+
+                SelectedPhotoElementInEditingContext.Height = double.NaN;
+                SelectedPhotoElementInEditingContext.Width = double.NaN;
+
+                SelectedPhotoElementInWorkspace.Clone(SelectedPhotoElementInEditingContext);
+                SelectedPhotoElementInEditingContext.Opacity = 1;
+
                 SelectedPicture.Visibility = Visibility.Collapsed;
 
                 if (ImageSettingsToggle.IsChecked.Value)
@@ -255,15 +255,13 @@ namespace Phototis
         private void UnsetPhotoElementEditingContext()
         {
             Workspace.Opacity = 1;
-
-            SelectedPhotoElementInWorkspaceHolder.Visibility = Visibility.Collapsed;
-            ImageGalleryToggleButton.Visibility = Visibility.Visible;
+            //ImageGalleryToggleButton.Visibility = Visibility.Visible;
             SelectedPicture.Visibility = Visibility.Visible;
         }
 
         private void CommitPhotoElementEditingContext()
         {
-            SelectedPhotoElementInWorkspaceHolder.Clone(SelectedPhotoElementInWorkspace);
+            SelectedPhotoElementInEditingContext.Clone(SelectedPhotoElementInWorkspace);
             ImageEditToggle.IsChecked = false;
         }
 
@@ -489,42 +487,42 @@ namespace Phototis
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageGrayscale = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageGrayscale = e.NewValue;
         }
 
         private void ContrastSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageContrast = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageContrast = e.NewValue;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageBrightness = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageBrightness = e.NewValue;
         }
 
         private void SaturationSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageSaturation = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageSaturation = e.NewValue;
         }
 
         private void SepiaSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageSepia = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageSepia = e.NewValue;
         }
 
         private void InvertSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageInvert = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageInvert = e.NewValue;
         }
 
         private void HueRotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageHue = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageHue = e.NewValue;
         }
 
         private void BlurSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SelectedPhotoElementInWorkspaceHolder.ImageBlur = e.NewValue;
+            SelectedPhotoElementInEditingContext.ImageBlur = e.NewValue;
         }
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -540,10 +538,10 @@ namespace Phototis
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            //SelectedPhotoElementInWorkspaceHolder.ImageScaleX = e.NewValue;
-            //SelectedPhotoElementInWorkspaceHolder.ImageScaleY = e.NewValue;
-            SelectedPhotoElementInWorkspaceHolder.Height = e.NewValue;
-            SelectedPhotoElementInWorkspaceHolder.Width = e.NewValue;
+            //SelectedPhotoElementInEditingContext.ImageScaleX = e.NewValue;
+            //SelectedPhotoElementInEditingContext.ImageScaleY = e.NewValue;
+            SelectedPhotoElementInEditingContext.Height = e.NewValue;
+            SelectedPhotoElementInEditingContext.Width = e.NewValue;
         }
 
         #endregion
@@ -762,7 +760,7 @@ namespace Phototis
                         Photo photo = new Photo()
                         {
                             Name = file.Name,
-                            DataUrl = base64String,
+                            DataUrl = await GetDataUrl(file),
                             Source = bitmapImage
                         };
 
@@ -782,6 +780,20 @@ namespace Phototis
                 App.EnterFullScreen(true);
 
             App.SetIsBusy(false);
+        }
+
+        private async Task<string> GetDataUrl(StorageFile file)
+        {
+            var stream = await file.OpenStreamForReadAsync();
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+            var base64String = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+
+            return base64String;
         }
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -831,6 +843,21 @@ namespace Phototis
 
         #region Image
 
+        private void ImageEditToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            SetPhotoElementEditingContext();
+        }
+
+        private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            UnsetPhotoElementEditingContext();
+        }
+
+        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            CommitPhotoElementEditingContext();
+        }
+
         private void ImageCopyButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPhotoElementInWorkspace is not null)
@@ -839,23 +866,18 @@ namespace Phototis
             }
         }
 
-        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
-        {
-            CommitPhotoElementEditingContext();
-        }
-
         private void ImageUndoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPhotoElementInWorkspaceHolder is not null && !SelectedPhotoElementInWorkspaceHolder.Source.IsNullOrBlank())
-                SelectedPhotoElementInWorkspaceHolder.Reset();
+            if (SelectedPhotoElementInEditingContext is not null && !SelectedPhotoElementInEditingContext.Source.IsNullOrBlank())
+                SelectedPhotoElementInEditingContext.Reset();
         }
 
         private void ImageExportButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (SelectedPhotoElementInWorkspaceHolder is not null)
-                    SelectedPhotoElementInWorkspaceHolder.Export();
+                if (SelectedPhotoElementInEditingContext is not null)
+                    SelectedPhotoElementInEditingContext.Export();
             }
             catch (Exception)
             {
@@ -907,16 +929,6 @@ namespace Phototis
             {
                 Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
             }
-        }
-
-        private void ImageEditToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            SetPhotoElementEditingContext();
-        }
-
-        private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            UnsetPhotoElementEditingContext();
         }
 
         private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
