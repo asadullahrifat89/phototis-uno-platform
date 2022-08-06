@@ -233,8 +233,8 @@ namespace Phototis
 
         public void Export()
         {
-            var id = htmlImageElement.Id;
-            var src = htmlImageElement.GetHtmlAttribute("src");
+            var id = Id;
+            var src = Source;
             var filter = htmlImageElement.GetCssFilter();
             var function = $"exportImage('{id}','{filter}','{src}')";
 
