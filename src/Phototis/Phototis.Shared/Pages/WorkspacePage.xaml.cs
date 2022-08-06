@@ -74,7 +74,7 @@ namespace Phototis
 
             //await Task.Delay(200);
 
-            App.SetIsBusy(false);
+            SetIsBusy(false);
         }
 
         private void WorkspacePage_Unloaded(object sender, RoutedEventArgs e)
@@ -314,6 +314,12 @@ namespace Phototis
             var result = await dialog.ShowAsync();
 
             return result;
+        }
+
+        public void SetIsBusy(bool isBusy, string message = null)
+        {
+            BusyIndicatorText.Text = isBusy ? message : null;
+            App.SetIsBusy(isBusy);
         }
 
         #endregion
@@ -745,7 +751,7 @@ namespace Phototis
             if (isInFullScreen)
                 App.EnterFullScreen(false);
 
-            App.SetIsBusy(true, "Importing files...");
+            SetIsBusy(true, "Importing files...");
 
             var fileOpenPicker = new FileOpenPicker
             {
@@ -764,7 +770,7 @@ namespace Phototis
 
             if (pickedFiles.Count > 0)
             {
-                App.SetIsBusy(true, "Processing files...");
+                SetIsBusy(true, "Processing files...");
 
                 // At least one file was picked, we can use them
                 foreach (var file in pickedFiles)
@@ -798,7 +804,7 @@ namespace Phototis
             if (isInFullScreen)
                 App.EnterFullScreen(true);
 
-            App.SetIsBusy(false);
+            SetIsBusy(false);
         }
 
         private async Task<(string DataUrl, MemoryStream MemoryStream)> GetImageData(StorageFile file)

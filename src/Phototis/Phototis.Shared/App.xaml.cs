@@ -186,9 +186,13 @@ namespace Phototis
 
         #region Methods
 
-        public static void SetIsBusy(bool isBusy, string message = null)
+        public static void SetIsBusy(bool isBusy)
         {
             //_mainPage.SetIsBusy(isBusy, message);
+
+            var rootFrame = _window.Content as Frame;
+            rootFrame.IsEnabled = !isBusy;
+            rootFrame.Opacity = isBusy ? 0.6 : 1;
         }
 
         public static void EnterFullScreen(bool value)
