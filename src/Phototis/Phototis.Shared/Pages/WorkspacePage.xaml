@@ -77,7 +77,10 @@
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Auto"
             Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
-            <local:PhotoElement Name="SelectedPhotoElementInEditingContext" Margin="50,80,50,200" />
+            <Border
+                Name="SelectedPhotoElementInEditingContext"
+                Margin="50,80,50,200"
+                Background="Transparent" />
         </ScrollViewer>
 
         <!--  Size control & fullscreen  -->
@@ -163,7 +166,7 @@
                 </Grid.RowDefinitions>
 
                 <!--  selected picture circle  -->
-                <PersonPicture
+                <Border
                     Name="SelectedPicture"
                     Grid.Row="0"
                     Width="50"
