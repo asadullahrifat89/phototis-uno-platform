@@ -7,7 +7,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using static Phototis.Constants;
 
 namespace Phototis
 {
@@ -99,7 +98,6 @@ namespace Phototis
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 rootFrame.IsNavigationStackEnabled = true;
-                rootFrame.Navigating += OnNavigating;
 
                 if (args.UWPLaunchActivatedEventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -132,14 +130,9 @@ namespace Phototis
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             var rootFrame = _window.Content as Frame;
-            
+
             if (rootFrame.CanGoBack)
                 rootFrame.GoBack();
-        }
-
-        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
-        {
-
         }
 
         /// <summary>
