@@ -254,8 +254,9 @@ namespace Phototis
 
                 ZoomSlider.Value = 550 * GetScalingFactor();
 
-                //SelectedPhotoElementInEditingContext.Height = double.NaN;
-                //SelectedPhotoElementInEditingContext.Width = double.NaN;             
+                // set height and width for the image container
+                SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
+                SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
 
                 PhotoElement photoElement;
 
@@ -560,7 +561,7 @@ namespace Phototis
         }
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {            
+        {
             SelectedPhotoElementInEditingContext.Height = e.NewValue;
             SelectedPhotoElementInEditingContext.Width = e.NewValue;
         }
