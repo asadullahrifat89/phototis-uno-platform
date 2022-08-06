@@ -34,13 +34,11 @@ namespace Phototis
     {
         #region Fields
 
-        //private List<Photo> Photos = new List<Photo>();
-
         private double windowWidth, windowHeight;
 
-        private Photo selectedPhotoInGallery;
+        private ImageFile selectedPhotoInGallery;
 
-        private List<Photo> selectedPhotosInGallery;
+        private List<ImageFile> selectedPhotosInGallery;
 
         bool _isPointerCaptured;
         double _pointerX;
@@ -98,8 +96,8 @@ namespace Phototis
 
         #region Properties
 
-        private List<Photo> photos = new List<Photo>();
-        public List<Photo> Photos
+        private List<ImageFile> photos = new List<ImageFile>();
+        public List<ImageFile> Photos
         {
             get { return photos; }
             set
@@ -131,10 +129,10 @@ namespace Phototis
                     OpacitySlider.Value = selectedPhotoElementInWorkspace.ImageOpacity;
 
                     // set image source for the selected image                    
-                    var photo = Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
+                    var imageFile = Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
 
                     SelectedPicture.ProfilePicture = null;
-                    SelectedPicture.ProfilePicture = photo?.Source;
+                    SelectedPicture.ProfilePicture = imageFile?.Source;
                     SelectedPicture.Visibility = Visibility.Visible;
                     ImageToolsDrawer.Visibility = Visibility.Visible;
 
@@ -210,17 +208,17 @@ namespace Phototis
             uielement.Opacity = 1;
         }
 
-        private void AddPhotoElementToWorkspace(Photo photo)
+        private void AddPhotoElementToWorkspace(ImageFile imageFile)
         {
             var scalingFactor = GetScalingFactor();
 
             PhotoElement photoElement = new PhotoElement()
             {
-                Id = photo.Id,
+                Id = imageFile.Id,
                 Width = 400 * scalingFactor,
                 Height = 400 * scalingFactor,
             };
-            photoElement.Source = photo.DataUrl;
+            photoElement.Source = imageFile.DataUrl;
 
             Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200 * scalingFactor);
             Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200 * scalingFactor);
@@ -380,14 +378,9 @@ namespace Phototis
                         {
                             if (selectedPhotosInGallery is not null && selectedPhotosInGallery.Any())
                             {
-                                //foreach (var photo in selectedPhotosInGallery)
-                                //{
-                                //    AddPhotoElementToWorkspace(photo);
-                                //}
-
-                                if (Parallel.ForEach(selectedPhotosInGallery, (photo) =>
+                                if (Parallel.ForEach(selectedPhotosInGallery, (imageFile) =>
                                 {
-                                    AddPhotoElementToWorkspace(photo);
+                                    AddPhotoElementToWorkspace(imageFile);
                                 }).IsCompleted)
                                 {
                                     ImageGallery.SelectedItems.Clear();
@@ -747,17 +740,17 @@ namespace Phototis
                     {
                         var data = await GetImageData(file);
 
-                        BitmapImage bitmapImage = new BitmapImage();
+                        var bitmapImage = new BitmapImage();
                         bitmapImage.SetSource(data.MemoryStream);
 
-                        Photo photo = new Photo()
+                        ImageFile imageFile = new ImageFile()
                         {
                             Name = file.Name,
                             DataUrl = data.DataUrl,
                             Source = bitmapImage
                         };
 
-                        Photos.Add(photo);
+                        Photos.Add(imageFile);
                     }
                 }
             }
@@ -794,10 +787,10 @@ namespace Phototis
             switch (ImageGallery.SelectionMode)
             {
                 case ListViewSelectionMode.Single:
-                    selectedPhotoInGallery = ImageGallery.SelectedItem as Photo;
+                    selectedPhotoInGallery = ImageGallery.SelectedItem as ImageFile;
                     break;
                 case ListViewSelectionMode.Multiple:
-                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<Photo>().ToList();
+                    selectedPhotosInGallery = ImageGallery.SelectedItems.OfType<ImageFile>().ToList();
                     break;
                 default:
                     break;

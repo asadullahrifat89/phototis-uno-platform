@@ -15,7 +15,7 @@ namespace Phototis
     {
         #region Fields
 
-        private HtmlImageElement htmlImageElement;
+        private ImageElement htmlImageElement;
 
         private CompositeTransform compositeTransform;
 
@@ -28,7 +28,7 @@ namespace Phototis
             RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
             compositeTransform = new CompositeTransform() { ScaleX = 1, ScaleY = 1 };
             RenderTransform = compositeTransform;
-            htmlImageElement = new HtmlImageElement();
+            htmlImageElement = new ImageElement();
             Child = htmlImageElement;
         }
 
