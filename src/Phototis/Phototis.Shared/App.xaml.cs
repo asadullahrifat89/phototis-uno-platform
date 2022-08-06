@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
-using Uno.Foundation;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using static Phototis.Constants;
@@ -16,9 +18,10 @@ namespace Phototis
     {
         #region Fields
 
-        private Window _window;
+        private static Window _window;
+        private SystemNavigationManager _systemNavigationManager;
 
-        private static MainPage _mainPage;
+        //private static MainPage _mainPage;
 
         #endregion
 
@@ -42,7 +45,8 @@ namespace Phototis
             UnhandledException += App_UnhandledException;
 
             Uno.UI.FeatureConfiguration.Page.IsPoolingEnabled = true;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+            _systemNavigationManager = SystemNavigationManager.GetForCurrentView();
         }
 
         private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -70,21 +74,98 @@ namespace Phototis
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            _window = Window.Current;
-            _mainPage = _window.Content as MainPage;
+            #region MainPage
+            //_window = Window.Current;
+            //_mainPage = _window.Content as MainPage;
 
-            if (_mainPage == null)
+            //if (_mainPage == null)
+            //{
+            //    _mainPage = new MainPage();
+            //    _window.Content = _mainPage;
+            //}
+
+            //if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+            //{
+            //    _window.Activate();
+            //} 
+            #endregion
+
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
             {
-                _mainPage = new MainPage();
-                _window.Content = _mainPage;
+                // this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
+
+#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
+            _window = new Window();
+            _window.Activate();
+#else
+            _window = Microsoft.UI.Xaml.Window.Current;
+#endif
+
+            var rootFrame = _window.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+                rootFrame.IsNavigationStackEnabled = true;
+                rootFrame.Navigating += OnNavigating;
+
+                if (args.UWPLaunchActivatedEventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    // TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                _window.Content = rootFrame;
             }
 
+#if !(NET6_0_OR_GREATER && WINDOWS)
             if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+#endif
             {
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(LoginPage), args.Arguments);
+                }
+                // Ensure the current window is active
                 _window.Activate();
             }
+
+            _systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            _systemNavigationManager.BackRequested += OnBackRequested;
+        }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            var rootFrame = _window.Content as Frame;
+            rootFrame.GoBack();
+        }
+
+        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when Navigation to a certain page fails
+        /// </summary>
+        /// <param name="sender">The Frame which failed navigation</param>
+        /// <param name="e">Details about the navigation failure</param>
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new InvalidOperationException($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
         }
 
         /// <summary>
@@ -107,7 +188,7 @@ namespace Phototis
 
         public static void SetIsBusy(bool isBusy, string message = null)
         {
-            _mainPage.SetIsBusy(isBusy, message);
+            //_mainPage.SetIsBusy(isBusy, message);
         }
 
         public static void EnterFullScreen(bool value)
@@ -131,12 +212,15 @@ namespace Phototis
 
         public static void SetAccount()
         {
-            _mainPage.SetAccount();
+            //_mainPage.SetAccount();
         }
 
         public static void NavigateToPage(Type page, object parameter = null)
         {
-            _mainPage.Navigate(page, parameter);
+            //_mainPage.Navigate(page, parameter);
+
+            var rootFrame = _window.Content as Frame;
+            rootFrame.Navigate(page, parameter);
         }
 
         /// <summary>
