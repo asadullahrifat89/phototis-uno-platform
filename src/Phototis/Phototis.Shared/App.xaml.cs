@@ -21,8 +21,6 @@ namespace Phototis
         private static Window _window;
         private SystemNavigationManager _systemNavigationManager;
 
-        //private static MainPage _mainPage;
-
         #endregion
 
         #region Ctor
@@ -76,22 +74,6 @@ namespace Phototis
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            #region MainPage
-            //_window = Window.Current;
-            //_mainPage = _window.Content as MainPage;
-
-            //if (_mainPage == null)
-            //{
-            //    _mainPage = new MainPage();
-            //    _window.Content = _mainPage;
-            //}
-
-            //if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
-            //{
-            //    _window.Activate();
-            //} 
-            #endregion
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -150,7 +132,9 @@ namespace Phototis
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             var rootFrame = _window.Content as Frame;
-            rootFrame.GoBack();
+
+            if (rootFrame.CanGoBack)
+                rootFrame.GoBack();
         }
 
         private void OnNavigating(object sender, NavigatingCancelEventArgs e)
@@ -221,8 +205,6 @@ namespace Phototis
 
         public static void NavigateToPage(Type page, object parameter = null)
         {
-            //_mainPage.Navigate(page, parameter);
-
             var rootFrame = _window.Content as Frame;
             rootFrame.Navigate(page, parameter);
         }
