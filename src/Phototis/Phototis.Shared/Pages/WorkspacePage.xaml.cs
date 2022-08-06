@@ -99,13 +99,13 @@ namespace Phototis
 
         #region Properties
 
-        private List<ImageFile> photos = new List<ImageFile>();
-        public List<ImageFile> Photos
+        private List<ImageFile> imageFiles = new List<ImageFile>();
+        public List<ImageFile> ImageFiles
         {
-            get { return photos; }
+            get { return imageFiles; }
             set
             {
-                photos = value;
+                imageFiles = value;
             }
         }
 
@@ -120,20 +120,6 @@ namespace Phototis
 
                 if (selectedPhotoElementInWorkspace is not null)
                 {
-                    GrayScaleSlider.Value = selectedPhotoElementInWorkspace.ImageGrayscale;
-                    ContrastSlider.Value = selectedPhotoElementInWorkspace.ImageContrast;
-                    BrightnessSlider.Value = selectedPhotoElementInWorkspace.ImageBrightness;
-                    SaturationSlider.Value = selectedPhotoElementInWorkspace.ImageSaturation;
-                    SepiaSlider.Value = selectedPhotoElementInWorkspace.ImageSepia;
-                    InvertSlider.Value = selectedPhotoElementInWorkspace.ImageInvert;
-                    HueRotateSlider.Value = selectedPhotoElementInWorkspace.ImageHue;
-                    BlurSlider.Value = selectedPhotoElementInWorkspace.ImageBlur;
-                    SizeSlider.Value = selectedPhotoElementInWorkspace.Width;
-                    OpacitySlider.Value = selectedPhotoElementInWorkspace.ImageOpacity;
-
-                    // set image source for the selected image                    
-                    var imageFile = Photos.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
-
                     PersonPicture personPicture;
 
                     // cache images to improve performance
@@ -143,8 +129,11 @@ namespace Phototis
                     }
                     else
                     {
+                        // set image source for the selected image                    
+                        var imageFile = ImageFiles.FirstOrDefault(x => x.Id == selectedPhotoElementInWorkspace.Id);
+
                         personPicture = new PersonPicture();
-                        personPicture.ProfilePicture = imageFile?.Source;
+                        personPicture.ProfilePicture = imageFile.Source;
                         personPicturesCache.Add(selectedPhotoElementInWorkspace.Id, personPicture);
                     }
 
@@ -272,11 +261,26 @@ namespace Phototis
                     photoElementsCache.Add(photoElement.Id, photoElement);
                 }
 
+                // set the photo element in editing context
                 SelectedPhotoElementInEditingContext.Opacity = 1;
                 SelectedPhotoElementInEditingContext.Child = photoElement;
 
+                // set the slider values
+                GrayScaleSlider.Value = SelectedPhotoElementInWorkspace.ImageGrayscale;
+                ContrastSlider.Value = SelectedPhotoElementInWorkspace.ImageContrast;
+                BrightnessSlider.Value = SelectedPhotoElementInWorkspace.ImageBrightness;
+                SaturationSlider.Value = SelectedPhotoElementInWorkspace.ImageSaturation;
+                SepiaSlider.Value = SelectedPhotoElementInWorkspace.ImageSepia;
+                InvertSlider.Value = SelectedPhotoElementInWorkspace.ImageInvert;
+                HueRotateSlider.Value = SelectedPhotoElementInWorkspace.ImageHue;
+                BlurSlider.Value = SelectedPhotoElementInWorkspace.ImageBlur;
+                SizeSlider.Value = SelectedPhotoElementInWorkspace.Width;
+                OpacitySlider.Value = SelectedPhotoElementInWorkspace.ImageOpacity;
+
+                // Hide the cirle picture
                 SelectedPicture.Visibility = Visibility.Collapsed;
 
+                // hide the image settings
                 if (ImageSettingsToggle.IsChecked.Value)
                     ImageSettingsToggle.IsChecked = false;
             }
@@ -765,7 +769,7 @@ namespace Phototis
                 // At least one file was picked, we can use them
                 foreach (var file in pickedFiles)
                 {
-                    if (!Photos.Any(x => x.Name == file.Name))
+                    if (!ImageFiles.Any(x => x.Name == file.Name))
                     {
                         var data = await GetImageData(file);
 
@@ -779,7 +783,7 @@ namespace Phototis
                             Source = bitmapImage
                         };
 
-                        Photos.Add(imageFile);
+                        ImageFiles.Add(imageFile);
                     }
                 }
             }
@@ -789,7 +793,7 @@ namespace Phototis
             }
 
             ImageGallery.ItemsSource = null;
-            ImageGallery.ItemsSource = Photos;
+            ImageGallery.ItemsSource = ImageFiles;
 
             if (isInFullScreen)
                 App.EnterFullScreen(true);
@@ -877,7 +881,7 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                AddPhotoElementToWorkspace(Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
+                AddPhotoElementToWorkspace(ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
             }
         }
 
@@ -907,7 +911,7 @@ namespace Phototis
                 //var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
                 //content.Children.Add(new TextBlock()
                 //{
-                //    Text = this.Photos.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
+                //    Text = this.ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
                 //    TextAlignment = TextAlignment.Left,
                 //    TextTrimming = TextTrimming.CharacterEllipsis,
                 //    FontWeight = FontWeights.SemiBold,

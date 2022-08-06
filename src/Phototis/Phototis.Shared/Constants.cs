@@ -41,8 +41,8 @@ namespace Phototis
 
         public static void Clone(this PhotoElement source, PhotoElement target)
         {
-            target.Source = source.Source;
             target.Id = source.Id;
+            target.Source = source.Source;
             target.ImageGrayscale = source.ImageGrayscale;
             target.ImageContrast = source.ImageContrast;
             target.ImageBrightness = source.ImageBrightness;
