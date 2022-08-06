@@ -132,7 +132,7 @@ namespace Phototis
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             var rootFrame = _window.Content as Frame;
-
+            
             if (rootFrame.CanGoBack)
                 rootFrame.GoBack();
         }
