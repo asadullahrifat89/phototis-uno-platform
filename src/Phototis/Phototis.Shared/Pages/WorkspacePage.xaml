@@ -71,15 +71,16 @@
 
         <!--  Selected photo element in edit mode  -->
         <ScrollViewer
+            Name="SelectedPhotoElementInEditingContextScroller"
             HorizontalScrollBarVisibility="Auto"
             HorizontalScrollMode="Auto"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Auto"
-            Visibility="{x:Bind Path=SelectedPhotoElementInWorkspaceHolder.Visibility, Mode=OneWay}">
-            <local:PhotoElement
-                Name="SelectedPhotoElementInWorkspaceHolder"
+            Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+            <Border
+                Name="SelectedPhotoElementInEditingContext"
                 Margin="50,80,50,200"
-                Visibility="Collapsed" />
+                Background="Transparent" />
         </ScrollViewer>
 
         <!--  Size control & fullscreen  -->
@@ -165,7 +166,7 @@
                 </Grid.RowDefinitions>
 
                 <!--  selected picture circle  -->
-                <PersonPicture
+                <Border
                     Name="SelectedPicture"
                     Grid.Row="0"
                     Width="50"
@@ -580,7 +581,8 @@
                 Grid.Row="1"
                 Margin="5,0,5,5"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom">
+                VerticalAlignment="Bottom"
+                Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -611,6 +613,7 @@
                     Orientation="Horizontal"
                     Visibility="{x:Bind Path=ImageGalleryToggleButton.IsChecked, Mode=OneWay}">
 
+                    <!--  Import  -->
                     <Button
                         Name="ImageImportButton"
                         Width="50"
@@ -671,6 +674,10 @@
                                     Width="80"
                                     Height="80"
                                     ProfilePicture="{Binding Path=Source, Mode=OneWay}" />
+                                <!--<local:PhotoElement
+                                    Width="80"
+                                    Height="80"
+                                    Source="{Binding Path=DataUrl, Mode=OneWay}" />-->
                                 <TextBlock
                                     Width="80"
                                     Margin="5"

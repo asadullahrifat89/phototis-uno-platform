@@ -21,18 +21,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\WorkSpace.cs" />
-    <Compile Include="..\Phototis.Shared\Internals\HtmlImageElement.cs" />
+    <Compile Include="..\Phototis.Shared\Internals\ImageElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PhotoElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Photo.cs" />
+    <Compile Include="..\Phototis.Shared\Models\ImageFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ProjectsPage.xaml.cs">
-      <DependentUpon>ProjectsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\WorkspacePage.xaml.cs">
       <DependentUpon>WorkspacePage.xaml</DependentUpon>
@@ -44,10 +41,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\ProjectsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -72,7 +65,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </_Globbled_Page>
-    <Page Include="@(_Globbled_Page)" />
     <_Globbed_Compile Include="$(MSBuildThisFileDirectory)**/*.xaml.cs" Exclude="@(Compile)">
       <DependentUpon>%(Filename)</DependentUpon>
     </_Globbed_Compile>

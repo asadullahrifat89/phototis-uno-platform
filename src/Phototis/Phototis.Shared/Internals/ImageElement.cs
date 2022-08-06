@@ -11,13 +11,14 @@ using Uno.UI.Runtime.WebAssembly;
 namespace Phototis
 {
     [HtmlElement("img")]
-    public sealed class HtmlImageElement : FrameworkElement
+    public sealed class ImageElement : FrameworkElement
     {
         #region Ctor
 
-        public HtmlImageElement()
+        public ImageElement()
         {
             this.SetHtmlAttribute("draggable", "false");
+            this.SetHtmlAttribute("loading", "lazy");
             this.SetCssStyle("object-fit", "contain");            
         }
 
@@ -154,7 +155,7 @@ namespace Phototis
 
         #region Dependency Properties
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(HtmlImageElement), new PropertyMetadata(default(string), OnSourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(ImageElement), new PropertyMetadata(default(string), OnSourceChanged));
 
         public string Source
         {
@@ -164,7 +165,7 @@ namespace Phototis
 
         private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            if (dependencyObject is HtmlImageElement image)
+            if (dependencyObject is ImageElement image)
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);

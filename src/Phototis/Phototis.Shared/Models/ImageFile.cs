@@ -4,9 +4,9 @@ using Windows.Storage;
 
 namespace Phototis
 {
-    public class Photo
+    public class ImageFile
     {
-        public Photo()
+        public ImageFile()
         {
             Id = Guid.NewGuid().ToString().Split('-')[0];
         }

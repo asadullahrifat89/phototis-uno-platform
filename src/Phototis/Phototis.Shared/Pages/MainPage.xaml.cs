@@ -46,7 +46,7 @@ namespace Phototis
             pageMap: new Dictionary<string, Type>()
             {
                 {"LoginPage", typeof(LoginPage)},
-                {"ProjectsPage", typeof(ProjectsPage)},
+                //{"ProjectsPage", typeof(ProjectsPage)},
                 {"WorkspacePage", typeof(WorkspacePage)}
             },
             goBackNotAllowedToPages: new List<Type>() { },
