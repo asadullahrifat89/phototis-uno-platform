@@ -80,6 +80,8 @@
             <Border
                 Name="SelectedPhotoElementInEditingContext"
                 Margin="50,80,50,200"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Background="Transparent" />
         </ScrollViewer>
 

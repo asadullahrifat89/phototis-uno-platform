@@ -254,8 +254,8 @@ namespace Phototis
 
                 ZoomSlider.Value = 550 * GetScalingFactor();
 
-                SelectedPhotoElementInEditingContext.Height = double.NaN;
-                SelectedPhotoElementInEditingContext.Width = double.NaN;
+                //SelectedPhotoElementInEditingContext.Height = double.NaN;
+                //SelectedPhotoElementInEditingContext.Width = double.NaN;             
 
                 PhotoElement photoElement;
 
@@ -266,7 +266,7 @@ namespace Phototis
                 }
                 else
                 {
-                    photoElement = new PhotoElement();
+                    photoElement = new PhotoElement() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
                     SelectedPhotoElementInWorkspace.Clone(photoElement);
                     photoElementsCache.Add(photoElement.Id, photoElement);
                 }
@@ -560,9 +560,7 @@ namespace Phototis
         }
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            //SelectedPhotoElementInEditingContext.ImageScaleX = e.NewValue;
-            //SelectedPhotoElementInEditingContext.ImageScaleY = e.NewValue;
+        {            
             SelectedPhotoElementInEditingContext.Height = e.NewValue;
             SelectedPhotoElementInEditingContext.Width = e.NewValue;
         }
