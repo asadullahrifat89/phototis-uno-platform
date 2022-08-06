@@ -39,6 +39,8 @@ namespace Phototis
             Suspending += OnSuspending;
 #endif
             UnhandledException += App_UnhandledException;
+
+            Uno.UI.FeatureConfiguration.Page.IsPoolingEnabled = true;
         }
 
         private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
