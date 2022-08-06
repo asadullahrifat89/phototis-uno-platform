@@ -671,6 +671,10 @@
                                     Width="80"
                                     Height="80"
                                     ProfilePicture="{Binding Path=Source, Mode=OneWay}" />
+                                <!--<local:PhotoElement
+                                    Width="80"
+                                    Height="80"
+                                    Source="{Binding Path=DataUrl, Mode=OneWay}" />-->
                                 <TextBlock
                                     Width="80"
                                     Margin="5"

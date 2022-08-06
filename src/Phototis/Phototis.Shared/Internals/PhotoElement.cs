@@ -189,25 +189,45 @@ namespace Phototis
             }
         }
 
-        private string source;
+        //private string source;
 
-        public string Source
-        {
-            get { return source; }
-            set
-            {
-                source = value;
+        //public string Source
+        //{
+        //    get { return source; }
+        //    set
+        //    {
+        //        source = value;
 
-                if (htmlImageElement is not null)
-                {
-                    htmlImageElement.Id = Id;
-                    htmlImageElement.Source = source;
-                }
-            }
-        }
+        //        if (htmlImageElement is not null)
+        //        {
+        //            htmlImageElement.Id = Id;
+        //            htmlImageElement.Source = source;
+        //        }
+        //    }
+        //}
 
 
         #endregion
+
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
+
+        public string Source
+        {
+            get => (string)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
+        private static void OnSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            if (dependencyObject is PhotoElement image)
+            {
+                if (image.htmlImageElement is not null)
+                {
+                    image.htmlImageElement.Id = image.Id;
+                    image.htmlImageElement.Source = image.Source;
+                }
+            }
+        }
 
         #region Methods
 

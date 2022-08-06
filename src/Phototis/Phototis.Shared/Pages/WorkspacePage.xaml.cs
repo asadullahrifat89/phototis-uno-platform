@@ -745,22 +745,15 @@ namespace Phototis
                 {
                     if (!Photos.Any(x => x.Name == file.Name))
                     {
-                        var stream = await file.OpenStreamForReadAsync();
-                        stream.Seek(0, SeekOrigin.Begin);
-
-                        var ms = new MemoryStream();
-                        await stream.CopyToAsync(ms);
-
-                        ms.Seek(0, SeekOrigin.Begin);
-                        var base64String = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                        var data = await GetImageData(file);
 
                         BitmapImage bitmapImage = new BitmapImage();
-                        bitmapImage.SetSource(ms);
+                        bitmapImage.SetSource(data.MemoryStream);
 
                         Photo photo = new Photo()
                         {
                             Name = file.Name,
-                            DataUrl = await GetDataUrl(file),
+                            DataUrl = data.DataUrl,
                             Source = bitmapImage
                         };
 
@@ -782,7 +775,7 @@ namespace Phototis
             App.SetIsBusy(false);
         }
 
-        private async Task<string> GetDataUrl(StorageFile file)
+        private async Task<(string DataUrl, MemoryStream MemoryStream)> GetImageData(StorageFile file)
         {
             var stream = await file.OpenStreamForReadAsync();
             stream.Seek(0, SeekOrigin.Begin);
@@ -793,7 +786,7 @@ namespace Phototis
             ms.Seek(0, SeekOrigin.Begin);
             var base64String = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
 
-            return base64String;
+            return (base64String, ms);
         }
 
         private void ImageGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
