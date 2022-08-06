@@ -695,6 +695,13 @@
 
         </Grid>
 
+        <TextBlock
+            Name="BusyIndicatorText"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="25"
+            FontWeight="SemiBold" />
+
     </Grid>
 
 </Page>

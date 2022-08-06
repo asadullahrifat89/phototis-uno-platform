@@ -81,7 +81,7 @@ namespace Phototis
 
         private void Login()
         {
-            App.SetIsBusy(true, "Preparing studio...");
+            //App.SetIsBusy(true, "Preparing studio...");
 
             //await Task.Delay(200);
 
