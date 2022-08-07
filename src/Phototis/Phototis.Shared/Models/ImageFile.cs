@@ -27,6 +27,11 @@ namespace Phototis
         public string DataUrl { get; set; }
 
         /// <summary>
+        /// Extension of the image.
+        /// </summary>
+        public string Extension { get; set; }
+
+        /// <summary>
         /// Source for XAML Image control.
         /// </summary>
         public BitmapImage Source { get; set; }

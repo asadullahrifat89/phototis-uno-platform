@@ -143,7 +143,7 @@ namespace Phototis
                     if (!ImageGalleryToggleButton.IsChecked.Value)
                     {
                         SelectedPicture.Visibility = Visibility.Visible;
-                        ImageToolsDrawer.Visibility = Visibility.Visible; 
+                        ImageToolsDrawer.Visibility = Visibility.Visible;
                     }
                 }
                 else
@@ -157,6 +157,32 @@ namespace Phototis
         #endregion
 
         #region Methods
+
+        private void AddPhotoElementToWorkspace(ImageFile imageFile)
+        {
+            var scalingFactor = GetScalingFactor();
+
+            PhotoElement photoElement = new PhotoElement()
+            {
+                Id = imageFile.Id,
+                Width = 400 * scalingFactor,
+                Height = 400 * scalingFactor,
+                Extenstion = imageFile.Extension,
+            };
+            photoElement.Source = imageFile.DataUrl;
+
+            var lastElement = Workspace.Children.OfType<PhotoElement>().LastOrDefault();
+            double zIndex = lastElement is not null ? Canvas.GetZIndex(lastElement) : 0;
+
+            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200 * scalingFactor);
+            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200 * scalingFactor);
+            Canvas.SetZIndex(photoElement, zIndex++);
+
+            photoElement.PointerPressed += PhotoElement_PointerPressed;
+            photoElement.PointerReleased += PhotoElement_PointerReleased;
+
+            Workspace.Children.Add(photoElement);
+        }
 
         private double GetScalingFactor()
         {
@@ -214,31 +240,6 @@ namespace Phototis
             _isPointerCaptured = false;
             uielement.ReleasePointerCapture(currentPointer);
             uielement.Opacity = 1;
-        }
-
-        private void AddPhotoElementToWorkspace(ImageFile imageFile)
-        {
-            var scalingFactor = GetScalingFactor();
-
-            PhotoElement photoElement = new PhotoElement()
-            {
-                Id = imageFile.Id,
-                Width = 400 * scalingFactor,
-                Height = 400 * scalingFactor,
-            };
-            photoElement.Source = imageFile.DataUrl;
-
-            var lastElement = Workspace.Children.OfType<PhotoElement>().LastOrDefault();
-            double zIndex = lastElement is not null ? Canvas.GetZIndex(lastElement) : 0;
-
-            Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200 * scalingFactor);
-            Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200 * scalingFactor);
-            Canvas.SetZIndex(photoElement, zIndex++);
-
-            photoElement.PointerPressed += PhotoElement_PointerPressed;
-            photoElement.PointerReleased += PhotoElement_PointerReleased;
-
-            Workspace.Children.Add(photoElement);
         }
 
         private async Task<ContentDialogResult> ShowContentDialog(string title, object content, string okButtonText = "Ok", string cancelButtonText = "Cancel")
@@ -352,7 +353,7 @@ namespace Phototis
                         {
                             if (selectedPhotoInGallery is not null)
                             {
-                                AddPhotoElementToWorkspace(selectedPhotoInGallery);
+                                AddPhotoElementToWorkspace(selectedPhotoInGallery); // single drop
 
                                 ImageGallery.SelectedItem = null;
                                 selectedPhotoInGallery = null;
@@ -365,7 +366,8 @@ namespace Phototis
                             {
                                 if (Parallel.ForEach(selectedPhotosInGallery, (imageFile) =>
                                 {
-                                    AddPhotoElementToWorkspace(imageFile);
+                                    AddPhotoElementToWorkspace(imageFile); // multiple drop
+
                                 }).IsCompleted)
                                 {
                                     ImageGallery.SelectedItems.Clear();
@@ -644,7 +646,6 @@ namespace Phototis
             fileOpenPicker.FileTypeFilter.Add(".bmp");
             fileOpenPicker.FileTypeFilter.Add(".webp");
             fileOpenPicker.FileTypeFilter.Add(".gif");
-            fileOpenPicker.FileTypeFilter.Add(".arw");
 
             var pickedFiles = await fileOpenPicker.PickMultipleFilesAsync();
 
@@ -666,7 +667,8 @@ namespace Phototis
                         {
                             Name = file.Name,
                             DataUrl = data.DataUrl,
-                            Source = bitmapImage
+                            Source = bitmapImage,
+                            Extension = file.Name.Split('.').LastOrDefault()
                         };
 
                         ImageFiles.Add(imageFile);
@@ -789,6 +791,7 @@ namespace Phototis
                 BlurSlider.Value = SelectedPhotoElementInWorkspace.ImageBlur;
                 SizeSlider.Value = SelectedPhotoElementInWorkspace.Width;
                 OpacitySlider.Value = SelectedPhotoElementInWorkspace.ImageOpacity;
+                RotateSlider.Value = SelectedPhotoElementInWorkspace.ImageRotation;
 
                 // Hide the cirle picture
                 SelectedPicture.Visibility = Visibility.Collapsed;
@@ -815,7 +818,7 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                AddPhotoElementToWorkspace(ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id));
+                AddPhotoElementToWorkspace(ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)); // copy
             }
         }
 
