@@ -226,6 +226,7 @@ namespace Phototis
 
             Canvas.SetLeft(photoElement, currentPointerPoint.Position.X - 200 * scalingFactor);
             Canvas.SetTop(photoElement, currentPointerPoint.Position.Y - 200 * scalingFactor);
+            Canvas.SetZIndex(photoElement, Workspace.Children.Count);
 
             photoElement.PointerPressed += PhotoElement_PointerPressed;
             photoElement.PointerReleased += PhotoElement_PointerReleased;

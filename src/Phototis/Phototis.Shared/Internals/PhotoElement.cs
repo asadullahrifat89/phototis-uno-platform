@@ -209,6 +209,8 @@ namespace Phototis
 
         #endregion
 
+        #region Dependency Properties
+
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
 
         public string Source
@@ -227,7 +229,9 @@ namespace Phototis
                     image.htmlImageElement.Source = image.Source;
                 }
             }
-        }
+        } 
+
+        #endregion
 
         #region Methods
 
