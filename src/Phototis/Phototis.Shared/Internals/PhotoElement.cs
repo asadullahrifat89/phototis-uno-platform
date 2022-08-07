@@ -189,25 +189,23 @@ namespace Phototis
             }
         }
 
-        //private string source;
+        private double rotation = 0;
 
-        //public string Source
-        //{
-        //    get { return source; }
-        //    set
-        //    {
-        //        source = value;
+        public double ImageRotation
+        {
+            get { return rotation; }
+            set
+            {
+                rotation = value;
 
-        //        if (htmlImageElement is not null)
-        //        {
-        //            htmlImageElement.Id = Id;
-        //            htmlImageElement.Source = source;
-        //        }
-        //    }
-        //}
-
+                if (htmlImageElement is not null)
+                    htmlImageElement.Rotation = rotation;
+            }
+        }
 
         #endregion
+
+        #region Dependency Properties
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(string), typeof(PhotoElement), new PropertyMetadata(default(string), OnSourceChanged));
 
@@ -229,6 +227,8 @@ namespace Phototis
             }
         }
 
+        #endregion
+
         #region Methods
 
         public void Export()
@@ -236,7 +236,8 @@ namespace Phototis
             var id = Id;
             var src = Source;
             var filter = htmlImageElement.GetCssFilter();
-            var function = $"exportImage('{id}','{filter}','{src}')";
+            var rotation = htmlImageElement.Rotation;
+            var function = $"exportImage('{id}','{filter}',{rotation},'{src}')";
 
             WebAssemblyRuntime.InvokeJS(function);
         }

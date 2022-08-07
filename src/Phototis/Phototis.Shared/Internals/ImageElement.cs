@@ -51,7 +51,7 @@ namespace Phototis
             set
             {
                 _Grayscale = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Phototis
             set
             {
                 _Contrast = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -75,7 +75,7 @@ namespace Phototis
             set
             {
                 _Brightness = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -87,7 +87,7 @@ namespace Phototis
             set
             {
                 _Saturation = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -99,7 +99,7 @@ namespace Phototis
             set
             {
                 _Sepia = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -111,7 +111,7 @@ namespace Phototis
             set
             {
                 _Invert = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -123,7 +123,7 @@ namespace Phototis
             set
             {
                 _Hue = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -135,7 +135,7 @@ namespace Phototis
             set
             {
                 _Blur = value;
-                SetFilter();
+                SetProperties();
             }
         }
 
@@ -147,7 +147,19 @@ namespace Phototis
             set
             {
                 _Opacity = value;
-                SetFilter();
+                SetProperties();
+            }
+        }
+
+        private double _Rotation = 0;
+
+        public new double Rotation
+        {
+            get { return _Rotation; }
+            set
+            {
+                _Rotation = value;
+                SetProperties();
             }
         }
 
@@ -169,38 +181,21 @@ namespace Phototis
             {
                 var encodedSource = WebAssemblyRuntime.EscapeJs("" + args.NewValue);
                 image.SetHtmlAttribute("src", encodedSource);
-                image.SetFilter();
+                image.SetProperties();
             }
         }
 
         #endregion
 
         #region Methods
-
-        public void SetDefaults()
-        {
-            _Grayscale = 0;
-            _Contrast = 100;
-            _Brightness = 100;
-            _Saturation = 100;
-            _Sepia = 0;
-            _Invert = 0;
-            _Hue = 0;
-            _Blur = 0;
-            _Opacity = 1;
-
-            SetFilter();
-        }
-
         public string GetCssFilter()
         {
             return $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px)";
         }
-
-        public void SetFilter()
+      
+        public void SetProperties()
         {
-            this.SetCssStyle("filter", GetCssFilter() + $" drop-shadow(0 0 0.75rem crimson)");
-            this.SetCssStyle("opacity", $"{_Opacity}");
+            this.SetCssStyle(("filter", GetCssFilter() + $" drop-shadow(0 0 0.75rem crimson)"),("opacity", $"{_Opacity}"),("transform", $"rotate({_Rotation}deg)"));
         }
 
         #endregion

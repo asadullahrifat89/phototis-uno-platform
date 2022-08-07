@@ -252,7 +252,7 @@
                         Click="ImageExportButton_Click"
                         CornerRadius="100"
                         ToolTipService.ToolTip="Export"
-                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                        Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
                         <SymbolIcon Symbol="SaveLocal" />
                     </Button>
 
@@ -302,6 +302,7 @@
                         VerticalScrollMode="Disabled"
                         Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
                         <StackPanel Margin="5" Orientation="Horizontal">
+                            <!--  Forward  -->
                             <Button
                                 Name="ImageBringForwardButton"
                                 Margin="5"
@@ -310,6 +311,7 @@
                                 Click="ImageBringForwardButton_Click"
                                 Content="Forward"
                                 CornerRadius="50" />
+                            <!--  Backward  -->
                             <Button
                                 Name="ImageSendBackButton"
                                 Margin="5"
@@ -318,12 +320,14 @@
                                 Click="ImageSendBackButton_Click"
                                 Content="Backward"
                                 CornerRadius="50" />
+                            <!--  Size  -->
                             <ToggleButton
                                 Name="SizeToggleButton"
                                 Margin="5"
                                 Checked="SizeToggleButton_Checked"
                                 Content="Size"
                                 CornerRadius="50" />
+                            <!--  Opacity  -->
                             <ToggleButton
                                 Name="OpacityToggleButton"
                                 Margin="5"
@@ -342,7 +346,10 @@
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
                         Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
-                        <StackPanel Margin="5" Orientation="Horizontal">
+                        <StackPanel
+                            Name="EditToolsToggleButtonsPanel"
+                            Margin="5"
+                            Orientation="Horizontal">
                             <ToggleButton
                                 Name="BrightnessToggleButton"
                                 Margin="5"
@@ -390,6 +397,12 @@
                                 Margin="5"
                                 Checked="BlurToggleButton_Checked"
                                 Content="Blur"
+                                CornerRadius="50" />
+                            <ToggleButton
+                                Name="RotateToggleButton"
+                                Margin="5"
+                                Checked="RotateToggleButton_Checked"
+                                Content="Rotate"
                                 CornerRadius="50" />
                             <ToggleButton
                                 Name="ZoomToggleButton"
@@ -519,6 +532,24 @@
                             </Slider.Header>
                         </Slider>
                         <Slider
+                            Name="RotateSlider"
+                            LargeChange="90"
+                            Maximum="360"
+                            Minimum="0"
+                            SmallChange="90"
+                            StepFrequency="90"
+                            TickFrequency="90"
+                            ValueChanged="RotateSlider_ValueChanged"
+                            Visibility="{x:Bind Path=RotateToggleButton.IsChecked, Mode=OneWay}"
+                            Value="0">
+                            <Slider.Header>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Path=RotateSlider.Value.ToString(), Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </Slider.Header>
+                        </Slider>
+                        <Slider
                             Name="ZoomSlider"
                             Maximum="4000"
                             Minimum="10"
@@ -557,6 +588,7 @@
                             Minimum="0.1"
                             SmallChange="0.1"
                             StepFrequency="0.1"
+                            TickFrequency="0.1"
                             ValueChanged="OpacitySlider_ValueChanged"
                             Visibility="{x:Bind Path=OpacityToggleButton.IsChecked, Mode=OneWay}"
                             Value="1">
