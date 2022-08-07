@@ -4,7 +4,7 @@
     displayName: "Phototis"
 }
 
-function exportImage(id, filter, rotation, src) {
+function exportImage(id, filter, angle, src) {
 
     var image = new Image();
     image.style = "object-fit:contain";
@@ -20,7 +20,7 @@ function exportImage(id, filter, rotation, src) {
         canvas.width = this.width;
 
         // flip height and width according to rotation
-        if (rotation == 90 || rotation == 270) {
+        if (angle == 90 || angle == 270) {
             canvas.height = this.width;
             canvas.width = this.height;
         }
@@ -29,19 +29,47 @@ function exportImage(id, filter, rotation, src) {
 
         ctx.filter = filter;
 
-        if (rotation > 0) {
+        if (angle > 0) {
 
-            // Translate to the center point of our image 
-            ctx.translate(image.width * 0.5, image.height * 0.5);
+            if (angle == 90 || angle == 270) {
 
-            // Perform the rotation  
-            ctx.rotate(DegToRad(rotation));
+                // translate to center-canvas 
+                // the origin [0,0] is now center-canvas
+                ctx.translate(canvas.width / 2, canvas.height / 2);
 
-            // Translate back to the top left of our image  
-            ctx.translate(-image.width * 0.5, -image.height * 0.5);
+                // roate the canvas by angle
+
+                ctx.rotate(DegToRad(angle));
+
+                // draw the signature
+                // since images draw from top-left offset the draw by 1/2 width & height
+
+                ctx.drawImage(image, -image.width / 2, -image.height / 2);
+
+                // un-rotate the canvas by -90% (== -Math.PI/2)
+
+                ctx.rotate(-DegToRad(angle));
+
+                // un-translate the canvas back to origin==top-left canvas
+                ctx.translate(-canvas.width / 2, -canvas.height / 2);
+            }
+            else {
+
+                // Translate to the center point of our image 
+                ctx.translate(image.width * 0.5, image.height * 0.5);
+
+                // Perform the rotation  
+                ctx.rotate(DegToRad(angle));
+
+                // Translate back to the top left of our image  
+                ctx.translate(-image.width * 0.5, -image.height * 0.5);
+
+                drawImageProp(ctx, image, 0, 0, this.width, this.height);
+            }
         }
-
-        drawImageProp(ctx, image, 0, 0, this.width, this.height);
+        else {
+            drawImageProp(ctx, image, 0, 0, this.width, this.height);
+        }
 
         var dataUrl = canvas.toDataURL("image/jpg");
 
