@@ -809,7 +809,7 @@ namespace Phototis
             {
                 Workspace.Opacity = 0.3;
 
-                ZoomSlider.Value = 550 * GetScalingFactor();
+                //ZoomSlider.Value = 550 * GetScalingFactor();
 
                 // set height and width for the image container
                 SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
@@ -913,38 +913,20 @@ namespace Phototis
         {
             if (SelectedPhotoElementInWorkspace is not null)
             {
-                //var content = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Left };
-                //content.Children.Add(new TextBlock()
-                //{
-                //    Text = this.ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)?.Name,
-                //    TextAlignment = TextAlignment.Left,
-                //    TextTrimming = TextTrimming.CharacterEllipsis,
-                //    FontWeight = FontWeights.SemiBold,
-                //    MaxWidth = 300,
-                //});
-                //content.Children.Add(new TextBlock()
-                //{
-                //    Text = "will be removed from current workspace.",
-                //});
 
-                //var result = await ShowContentDialog(title: "Remove image...", content: content); //await dialog.ShowAsync();
-
-                //if (result == ContentDialogResult.Primary)
-                //{
                 Workspace.Children.Remove(SelectedPhotoElementInWorkspace);
                 SelectedPhotoElementInWorkspace = null;
-                //}
             }
         }
 
         private void ImageSettingsToggle_Checked(object sender, RoutedEventArgs e)
         {
-
+            //SettingsTools.Visibility = Visibility.Visible;
         }
 
         private void ImageSettingsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-
+            //SettingsTools.Visibility = Visibility.Collapsed;
         }
 
         private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
