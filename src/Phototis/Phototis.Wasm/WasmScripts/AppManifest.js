@@ -12,39 +12,48 @@ function exportImage(id, filter, rotation, src) {
     var canvas = document.createElement("canvas");
 
     canvas.style = "object-fit:contain";
-    var ctx = canvas.getContext('2d');
+
 
     image.onload = function () {
 
-        if (rotation == 90 || rotation == 270) {
-            canvas.height = this.width;
-            canvas.width = this.height;
-        }
-        else {
+        // flip height and width according to rotation
+        //if (rotation == 90 || rotation == 270) {
+        //    canvas.height = this.width;
+        //    canvas.width = this.height;
+        //}
+        //else {
             canvas.height = this.height;
             canvas.width = this.width;
+        //}
+
+        image.width = this.width;
+        image.height = this.height;
+
+        var ctx = canvas.getContext('2d');
+
+        if (rotation > 0) {
+
+            // Translate to the center point of our image 
+            ctx.translate(image.width * 0.5, image.height * 0.5);
+
+            // Perform the rotation  
+            ctx.rotate(DegToRad(rotation));
+
+            // Translate back to the top left of our image  
+            ctx.translate(-image.width * 0.5, -image.height * 0.5);
         }
 
-        ctx.filter = filter;
+        ctx.filter = filter;       
 
-        // Translate to the center point of our image 
-        ctx.translate(this.width * 0.5, this.height * 0.5);
+        drawImageProp(ctx, image, 0, 0, canvas.width, canvas.height);
 
-        // Perform the rotation  
-        ctx.rotate(DegToRad(rotation));
-
-        // Translate back to the top left of our image  
-        ctx.translate(-this.width * 0.5, -this.height * 0.5);
-
-        drawImageProp(ctx, image, 0, 0, this.width, this.height);
-
-        var dataUrl = canvas.toDataURL("image/png");
+        var dataUrl = canvas.toDataURL("image/jpg");
 
         // Create a link and set the URL using
         const link = document.createElement("a");
         link.style.display = "none";
         link.href = dataUrl;
-        link.download = id + ".png";
+        link.download = id + ".jpg";
 
         // It needs to be added to the DOM so it can be clicked
         document.body.appendChild(link);
