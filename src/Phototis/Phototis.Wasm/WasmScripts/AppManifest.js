@@ -4,7 +4,7 @@
     displayName: "Phototis"
 }
 
-function exportImage(id, filter, src) {
+function exportImage(id, filter, rotation, src) {
 
     var image = new Image();
     image.style = "object-fit:contain";
@@ -16,10 +16,26 @@ function exportImage(id, filter, src) {
 
     image.onload = function () {
 
-        canvas.height = this.height;
-        canvas.width = this.width;
+        if (rotation == 90 || rotation == 270) {
+            canvas.height = this.width;
+            canvas.width = this.height;
+        }
+        else {
+            canvas.height = this.height;
+            canvas.width = this.width;
+        }
 
         ctx.filter = filter;
+
+        // Translate to the center point of our image 
+        ctx.translate(this.width * 0.5, this.height * 0.5);
+
+        // Perform the rotation  
+        ctx.rotate(DegToRad(rotation));
+
+        // Translate back to the top left of our image  
+        ctx.translate(-this.width * 0.5, -this.height * 0.5);
+
         drawImageProp(ctx, image, 0, 0, this.width, this.height);
 
         var dataUrl = canvas.toDataURL("image/png");
@@ -43,6 +59,11 @@ function exportImage(id, filter, src) {
     }
 
     image.src = src;
+}
+
+function DegToRad(d) {
+    // Converts degrees to radians  
+    return d * 0.01745;
 }
 
 function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {

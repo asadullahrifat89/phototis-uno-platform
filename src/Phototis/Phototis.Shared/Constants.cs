@@ -52,6 +52,7 @@ namespace Phototis
             target.ImageHue = source.ImageHue;
             target.ImageBlur = source.ImageBlur;
             target.ImageOpacity = source.ImageOpacity;
+            target.ImageRotation = source.ImageRotation;
         }
     }
 }

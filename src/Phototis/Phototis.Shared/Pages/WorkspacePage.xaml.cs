@@ -139,8 +139,12 @@ namespace Phototis
 
                     SelectedPicture.Child = personPicture;
 
-                    SelectedPicture.Visibility = Visibility.Visible;
-                    ImageToolsDrawer.Visibility = Visibility.Visible;
+                    // if image galler is not open then show editing tools
+                    if (!ImageGalleryToggleButton.IsChecked.Value)
+                    {
+                        SelectedPicture.Visibility = Visibility.Visible;
+                        ImageToolsDrawer.Visibility = Visibility.Visible; 
+                    }
                 }
                 else
                 {
@@ -324,6 +328,7 @@ namespace Phototis
             if (result == ContentDialogResult.Primary)
             {
                 Workspace.Children.Clear();
+                SelectedPhotoElementInWorkspace = null;
             }
         }
 
@@ -419,7 +424,7 @@ namespace Phototis
         private void PhotoElement_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             // if image gallery is open or a image is being edited then do not start dragging
-            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()) && !ImageEditToggle.IsChecked.Value)
+            if (/*!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()) && */!ImageEditToggle.IsChecked.Value)
             {
 #if DEBUG
                 Console.WriteLine("PhotoElement_PointerPressed");
@@ -437,7 +442,7 @@ namespace Phototis
         private void PhotoElement_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             // if image gallery is open then do not start dragging
-            if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
+            //if (!ImageGalleryToggleButton.IsChecked.Value && (selectedPhotoInGallery is null || selectedPhotosInGallery is null || !selectedPhotosInGallery.Any()))
             {
 #if DEBUG
                 Console.WriteLine("PhotoElement_PointerReleased");
@@ -450,13 +455,95 @@ namespace Phototis
             }
         }
 
-        #endregion 
+        #endregion
 
         #endregion
 
         #region Filters
 
+        #region Toggles
+
+        #region Edit
+
+        private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void ZoomToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void RotateToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        #endregion
+
+        #region Settings
+
+        private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        #endregion
+
+        private void UnCheckAllToggleButtonsExcept(ToggleButton senderToggleButton)
+        {
+            foreach (ToggleButton toggleButton in EditToolsToggleButtonsPanel.Children.OfType<ToggleButton>().Where(x => x.Name != senderToggleButton.Name))
+            {
+                toggleButton.IsChecked = false;
+            }
+        }
+
+        #endregion
+
         #region Sliders
+
+        #region Edit
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -498,6 +585,21 @@ namespace Phototis
             (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageBlur = e.NewValue;
         }
 
+        private void RotateSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageRotation = e.NewValue;
+        }
+
+        private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            SelectedPhotoElementInEditingContext.Height = e.NewValue;
+            SelectedPhotoElementInEditingContext.Width = e.NewValue;
+        }
+
+        #endregion
+
+        #region Settings
+
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             SelectedPhotoElementInWorkspace.ImageOpacity = e.NewValue;
@@ -509,168 +611,7 @@ namespace Phototis
             SelectedPhotoElementInWorkspace.Height = e.NewValue;
         }
 
-        private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            SelectedPhotoElementInEditingContext.Height = e.NewValue;
-            SelectedPhotoElementInEditingContext.Width = e.NewValue;
-        }
-
         #endregion
-
-        #region Toggles
-
-        private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            SizeToggleButton.IsChecked = false;
-            ZoomToggleButton.IsChecked = false;
-        }
-
-        private void ZoomToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            GrayscaleToggleButton.IsChecked = false;
-            ContrastToggleButton.IsChecked = false;
-            BrightnessToggleButton.IsChecked = false;
-            SaturationToggleButton.IsChecked = false;
-            SepiaToggleButton.IsChecked = false;
-            InvertToggleButton.IsChecked = false;
-            HueToggleButton.IsChecked = false;
-            BlurToggleButton.IsChecked = false;
-            OpacityToggleButton.IsChecked = false;
-        }
 
         #endregion
 
@@ -888,8 +829,9 @@ namespace Phototis
             InvertSlider.Value = 0;
             HueRotateSlider.Value = 0;
             BlurSlider.Value = 0;
-            OpacitySlider.Value = 1;
+            RotateSlider.Value = 0;
 
+            OpacitySlider.Value = 1;
             ZoomSlider.Value = 550 * GetScalingFactor();
 
             // set height and width for the image container

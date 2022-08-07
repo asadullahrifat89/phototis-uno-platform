@@ -189,23 +189,19 @@ namespace Phototis
             }
         }
 
-        //private string source;
+        private double rotation = 0;
 
-        //public string Source
-        //{
-        //    get { return source; }
-        //    set
-        //    {
-        //        source = value;
+        public double ImageRotation
+        {
+            get { return rotation; }
+            set
+            {
+                rotation = value;
 
-        //        if (htmlImageElement is not null)
-        //        {
-        //            htmlImageElement.Id = Id;
-        //            htmlImageElement.Source = source;
-        //        }
-        //    }
-        //}
-
+                if (htmlImageElement is not null)
+                    htmlImageElement.Rotation = rotation;
+            }
+        }
 
         #endregion
 
@@ -229,7 +225,7 @@ namespace Phototis
                     image.htmlImageElement.Source = image.Source;
                 }
             }
-        } 
+        }
 
         #endregion
 
@@ -240,7 +236,8 @@ namespace Phototis
             var id = Id;
             var src = Source;
             var filter = htmlImageElement.GetCssFilter();
-            var function = $"exportImage('{id}','{filter}','{src}')";
+            var rotation = htmlImageElement.Rotation;
+            var function = $"exportImage('{id}','{filter}',{rotation},'{src}')";
 
             WebAssemblyRuntime.InvokeJS(function);
         }
