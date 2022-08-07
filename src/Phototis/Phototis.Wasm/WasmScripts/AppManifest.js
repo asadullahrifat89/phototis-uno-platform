@@ -22,14 +22,16 @@ function exportImage(id, filter, rotation, src) {
         //    canvas.width = this.height;
         //}
         //else {
-            canvas.height = this.height;
-            canvas.width = this.width;
+        canvas.height = this.height;
+        canvas.width = this.width;
         //}
 
-        image.width = this.width;
-        image.height = this.height;
+        //image.width = this.width;
+        //image.height = this.height;
 
         var ctx = canvas.getContext('2d');
+
+        ctx.filter = filter;
 
         if (rotation > 0) {
 
@@ -43,9 +45,7 @@ function exportImage(id, filter, rotation, src) {
             ctx.translate(-image.width * 0.5, -image.height * 0.5);
         }
 
-        ctx.filter = filter;       
-
-        drawImageProp(ctx, image, 0, 0, canvas.width, canvas.height);
+        drawImageProp(ctx, image, 0, 0, this.width, this.height);
 
         var dataUrl = canvas.toDataURL("image/jpg");
 
@@ -73,6 +73,20 @@ function exportImage(id, filter, rotation, src) {
 function DegToRad(d) {
     // Converts degrees to radians  
     return d * 0.01745;
+}
+
+// ctx is canvas 2D context
+// angle is rotation in radians
+// image is the image to draw
+function drawToFitRotated(ctx, angle, image) {
+    var dist = Math.sqrt(Math.pow(ctx.canvas.width / 2, 2) + Math.pow(ctx.canvas.height / 2, 2));
+    var imgDist = Math.min(image.width, image.height) / 2;
+    var minScale = dist / imgDist;
+    var dx = Math.cos(angle) * minScale;
+    var dy = Math.sin(angle) * minScale;
+    ctx.setTransform(dx, dy, -dy, dx, ctx.canvas.width / 2, ctx.canvas.height / 2);
+    ctx.drawImage(image, -image.width / 2, - image.height / 2);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
