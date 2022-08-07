@@ -401,13 +401,12 @@
                 </Grid>
 
                 <!--  Sliders  -->
-                <Grid Grid.Row="3">
+                <Grid
+                    Grid.Row="3"
+                    Width="300"
+                    HorizontalAlignment="Center">
                     <!--  Edit sliders  -->
-                    <Grid
-                        Grid.Row="2"
-                        MaxWidth="500"
-                        Margin="5,0"
-                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                    <Grid Margin="5,0" Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <Slider
                             Name="GrayScaleSlider"
                             Maximum="200"
@@ -537,11 +536,7 @@
                     </Grid>
 
                     <!--  Settings sliders  -->
-                    <Grid
-                        Grid.Row="2"
-                        MaxWidth="500"
-                        Margin="5,0"
-                        Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
+                    <Grid Margin="5,0" Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
                         <Slider
                             Name="SizeSlider"
                             Maximum="2000"

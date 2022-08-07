@@ -141,8 +141,6 @@ namespace Phototis
 
                     SelectedPicture.Visibility = Visibility.Visible;
                     ImageToolsDrawer.Visibility = Visibility.Visible;
-
-                    SetPhotoElementEditingContext();
                 }
                 else
                 {
@@ -233,69 +231,6 @@ namespace Phototis
             photoElement.PointerReleased += PhotoElement_PointerReleased;
 
             Workspace.Children.Add(photoElement);
-        }
-
-        private void SetPhotoElementEditingContext()
-        {
-            if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
-            {
-                Workspace.Opacity = 0.3;
-
-                ZoomSlider.Value = 550 * GetScalingFactor();
-
-                // set height and width for the image container
-                SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
-                SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
-
-                PhotoElement photoElement;
-
-                // cache the images for performance improvement
-                if (photoElementsCache.ContainsKey(SelectedPhotoElementInWorkspace.Id))
-                {
-                    photoElement = photoElementsCache[SelectedPhotoElementInWorkspace.Id];
-                }
-                else
-                {
-                    photoElement = new PhotoElement() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
-                    SelectedPhotoElementInWorkspace.Clone(photoElement);
-                    photoElementsCache.Add(photoElement.Id, photoElement);
-                }
-
-                // set the photo element in editing context
-                SelectedPhotoElementInEditingContext.Opacity = 1;
-                SelectedPhotoElementInEditingContext.Child = photoElement;
-
-                // set the slider values
-                GrayScaleSlider.Value = SelectedPhotoElementInWorkspace.ImageGrayscale;
-                ContrastSlider.Value = SelectedPhotoElementInWorkspace.ImageContrast;
-                BrightnessSlider.Value = SelectedPhotoElementInWorkspace.ImageBrightness;
-                SaturationSlider.Value = SelectedPhotoElementInWorkspace.ImageSaturation;
-                SepiaSlider.Value = SelectedPhotoElementInWorkspace.ImageSepia;
-                InvertSlider.Value = SelectedPhotoElementInWorkspace.ImageInvert;
-                HueRotateSlider.Value = SelectedPhotoElementInWorkspace.ImageHue;
-                BlurSlider.Value = SelectedPhotoElementInWorkspace.ImageBlur;
-                SizeSlider.Value = SelectedPhotoElementInWorkspace.Width;
-                OpacitySlider.Value = SelectedPhotoElementInWorkspace.ImageOpacity;
-
-                // Hide the cirle picture
-                SelectedPicture.Visibility = Visibility.Collapsed;
-
-                // hide the image settings
-                if (ImageSettingsToggle.IsChecked.Value)
-                    ImageSettingsToggle.IsChecked = false;
-            }
-        }
-
-        private void UnsetPhotoElementEditingContext()
-        {
-            Workspace.Opacity = 1;
-            SelectedPicture.Visibility = Visibility.Visible;
-        }
-
-        private void CommitPhotoElementEditingContext()
-        {
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).Clone(SelectedPhotoElementInWorkspace);
-            ImageEditToggle.IsChecked = false;
         }
 
         private async Task<ContentDialogResult> ShowContentDialog(string title, object content, string okButtonText = "Ok", string cancelButtonText = "Cancel")
@@ -870,17 +805,65 @@ namespace Phototis
 
         private void ImageEditToggle_Checked(object sender, RoutedEventArgs e)
         {
-            SetPhotoElementEditingContext();
+            if (SelectedPhotoElementInWorkspace is not null && ImageEditToggle.IsChecked.Value)
+            {
+                Workspace.Opacity = 0.3;
+
+                ZoomSlider.Value = 550 * GetScalingFactor();
+
+                // set height and width for the image container
+                SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
+                SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
+
+                PhotoElement photoElement;
+
+                // cache the images for performance improvement
+                if (photoElementsCache.ContainsKey(SelectedPhotoElementInWorkspace.Id))
+                {
+                    photoElement = photoElementsCache[SelectedPhotoElementInWorkspace.Id];
+                }
+                else
+                {
+                    photoElement = new PhotoElement() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
+                    SelectedPhotoElementInWorkspace.Clone(photoElement);
+                    photoElementsCache.Add(photoElement.Id, photoElement);
+                }
+
+                // set the photo element in editing context
+                SelectedPhotoElementInEditingContext.Opacity = 1;
+                SelectedPhotoElementInEditingContext.Child = photoElement;
+
+                // set the slider values
+                GrayScaleSlider.Value = SelectedPhotoElementInWorkspace.ImageGrayscale;
+                ContrastSlider.Value = SelectedPhotoElementInWorkspace.ImageContrast;
+                BrightnessSlider.Value = SelectedPhotoElementInWorkspace.ImageBrightness;
+                SaturationSlider.Value = SelectedPhotoElementInWorkspace.ImageSaturation;
+                SepiaSlider.Value = SelectedPhotoElementInWorkspace.ImageSepia;
+                InvertSlider.Value = SelectedPhotoElementInWorkspace.ImageInvert;
+                HueRotateSlider.Value = SelectedPhotoElementInWorkspace.ImageHue;
+                BlurSlider.Value = SelectedPhotoElementInWorkspace.ImageBlur;
+                SizeSlider.Value = SelectedPhotoElementInWorkspace.Width;
+                OpacitySlider.Value = SelectedPhotoElementInWorkspace.ImageOpacity;
+
+                // Hide the cirle picture
+                SelectedPicture.Visibility = Visibility.Collapsed;
+
+                // hide the image settings
+                if (ImageSettingsToggle.IsChecked.Value)
+                    ImageSettingsToggle.IsChecked = false;
+            }
         }
 
         private void ImageEditToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            UnsetPhotoElementEditingContext();
+            Workspace.Opacity = 1;
+            SelectedPicture.Visibility = Visibility.Visible;
         }
 
         private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
         {
-            CommitPhotoElementEditingContext();
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).Clone(SelectedPhotoElementInWorkspace);
+            ImageEditToggle.IsChecked = false;
         }
 
         private void ImageCopyButton_Click(object sender, RoutedEventArgs e)
@@ -893,8 +876,24 @@ namespace Phototis
 
         private void ImageUndoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPhotoElementInEditingContext is not null && !(SelectedPhotoElementInEditingContext.Child as PhotoElement).Source.IsNullOrBlank())
-                (SelectedPhotoElementInEditingContext.Child as PhotoElement).Reset();
+            GrayScaleSlider.Value = 0;
+            ContrastSlider.Value = 100;
+            BrightnessSlider.Value = 100;
+            SaturationSlider.Value = 100;
+            SepiaSlider.Value = 0;
+            InvertSlider.Value = 0;
+            HueRotateSlider.Value = 0;
+            BlurSlider.Value = 0;
+            OpacitySlider.Value = 1;
+
+            ZoomSlider.Value = 550 * GetScalingFactor();
+
+            // set height and width for the image container
+            SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
+            SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
+
+            //if (SelectedPhotoElementInEditingContext is not null && !(SelectedPhotoElementInEditingContext.Child as PhotoElement).Source.IsNullOrBlank())
+            //    (SelectedPhotoElementInEditingContext.Child as PhotoElement).Reset();
         }
 
         private void ImageExportButton_Click(object sender, RoutedEventArgs e)
