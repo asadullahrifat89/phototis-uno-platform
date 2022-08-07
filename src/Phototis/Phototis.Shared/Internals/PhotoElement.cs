@@ -227,6 +227,8 @@ namespace Phototis
             }
         }
 
+        public string Extenstion { get; set; }
+
         #endregion
 
         #region Methods
@@ -237,7 +239,9 @@ namespace Phototis
             var src = Source;
             var filter = htmlImageElement.GetCssFilter();
             var rotation = htmlImageElement.Rotation;
-            var function = $"exportImage('{id}','{filter}',{rotation},'{src}')";
+            var extension = Extenstion;
+
+            var function = $"exportImage('{id}','{filter}',{rotation},'{src}','{extension}')";
 
             WebAssemblyRuntime.InvokeJS(function);
         }

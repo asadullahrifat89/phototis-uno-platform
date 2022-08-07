@@ -4,7 +4,7 @@
     displayName: "Phototis"
 }
 
-function exportImage(id, filter, angle, src) {
+function exportImage(id, filter, angle, src, extension) {
 
     var image = new Image();
     image.style = "object-fit:contain";
@@ -65,13 +65,15 @@ function exportImage(id, filter, angle, src) {
             drawImageProp(ctx, image, 0, 0, this.width, this.height);
         }
 
-        var dataUrl = canvas.toDataURL("image/jpg");
+        var type = "image/" + extension;
+
+        var dataUrl = canvas.toDataURL(type);
 
         // Create a link and set the URL using
         const link = document.createElement("a");
         link.style.display = "none";
         link.href = dataUrl;
-        link.download = id + ".jpg";
+        link.download = id + "." + extension;
 
         // It needs to be added to the DOM so it can be clicked
         document.body.appendChild(link);
