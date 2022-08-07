@@ -16,18 +16,14 @@ function exportImage(id, filter, rotation, src) {
 
     image.onload = function () {
 
-        // flip height and width according to rotation
-        //if (rotation == 90 || rotation == 270) {
-        //    canvas.height = this.width;
-        //    canvas.width = this.height;
-        //}
-        //else {
         canvas.height = this.height;
         canvas.width = this.width;
-        //}
 
-        //image.width = this.width;
-        //image.height = this.height;
+        // flip height and width according to rotation
+        if (rotation == 90 || rotation == 270) {
+            canvas.height = this.width;
+            canvas.width = this.height;
+        }
 
         var ctx = canvas.getContext('2d');
 
