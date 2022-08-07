@@ -284,7 +284,7 @@
                         ToolTipService.ToolTip="Settings"
                         Unchecked="ImageSettingsToggle_Unchecked"
                         Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
-                        <SymbolIcon Symbol="Setting" />
+                        <SymbolIcon Symbol="Repair" />
                     </ToggleButton>
 
                 </StackPanel>
@@ -292,6 +292,7 @@
                 <!--  Slider toggles  -->
                 <Grid Grid.Row="2">
 
+                    <!--  Settings toggles  -->
                     <ScrollViewer
                         Name="SettingsTools"
                         Grid.Row="1"
@@ -302,20 +303,20 @@
                         Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
                         <StackPanel Margin="5" Orientation="Horizontal">
                             <Button
-                                Name="ImageSendBackButton"
-                                Margin="5"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Click="ImageSendBackButton_Click"
-                                Content="Backward"
-                                CornerRadius="50" />
-                            <Button
                                 Name="ImageBringForwardButton"
                                 Margin="5"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Click="ImageBringForwardButton_Click"
                                 Content="Forward"
+                                CornerRadius="50" />
+                            <Button
+                                Name="ImageSendBackButton"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Click="ImageSendBackButton_Click"
+                                Content="Backward"
                                 CornerRadius="50" />
                             <ToggleButton
                                 Name="SizeToggleButton"
@@ -332,6 +333,7 @@
                         </StackPanel>
                     </ScrollViewer>
 
+                    <!--  Edit toggles  -->
                     <ScrollViewer
                         Name="EditTools"
                         Grid.Row="1"
@@ -401,13 +403,9 @@
                 </Grid>
 
                 <!--  Sliders  -->
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="3" Width="300">
                     <!--  Edit sliders  -->
-                    <Grid
-                        Grid.Row="2"
-                        MaxWidth="500"
-                        Margin="5,0"
-                        Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
+                    <Grid Margin="5,0" Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
                         <Slider
                             Name="GrayScaleSlider"
                             Maximum="200"
@@ -537,11 +535,7 @@
                     </Grid>
 
                     <!--  Settings sliders  -->
-                    <Grid
-                        Grid.Row="2"
-                        MaxWidth="500"
-                        Margin="5,0"
-                        Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
+                    <Grid Margin="5,0" Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
                         <Slider
                             Name="SizeSlider"
                             Maximum="2000"
