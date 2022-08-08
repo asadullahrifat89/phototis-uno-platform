@@ -60,4 +60,7 @@
 		<Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />
+	<ItemGroup>
+	  <_Globbed_Compile Remove="..\Phototis.Shared\Internals\ImgElement.cs" />
+	</ItemGroup>
 </Project>

@@ -15,9 +15,7 @@ namespace Phototis
     {
         #region Fields
 
-        private ImageElement htmlImageElement;
-
-        private CompositeTransform compositeTransform;
+        private ImgElement ImgElement;
 
         #endregion
 
@@ -26,10 +24,8 @@ namespace Phototis
         public PhotoElement()
         {
             RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-            compositeTransform = new CompositeTransform() { ScaleX = 1, ScaleY = 1 };
-            RenderTransform = compositeTransform;
-            htmlImageElement = new ImageElement();
-            Child = htmlImageElement;
+            ImgElement = new ImgElement();
+            Child = ImgElement;
         }
 
         #endregion
@@ -37,31 +33,6 @@ namespace Phototis
         #region Properties
 
         public string Id { get; set; }
-
-
-        private double scaleX;
-
-        public double ImageScaleX
-        {
-            get { return scaleX; }
-            set
-            {
-                scaleX = value;
-                compositeTransform.ScaleX = scaleX;
-            }
-        }
-
-        private double scaleY;
-
-        public double ImageScaleY
-        {
-            get { return scaleY; }
-            set
-            {
-                scaleY = value;
-                compositeTransform.ScaleY = scaleY;
-            }
-        }
 
         private double grayscale = 0;
 
@@ -72,8 +43,8 @@ namespace Phototis
             {
                 grayscale = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Grayscale = grayscale;
+                if (ImgElement is not null)
+                    ImgElement.Grayscale = grayscale;
             }
         }
 
@@ -86,8 +57,8 @@ namespace Phototis
             {
                 contrast = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Contrast = contrast;
+                if (ImgElement is not null)
+                    ImgElement.Contrast = contrast;
             }
         }
 
@@ -100,8 +71,8 @@ namespace Phototis
             {
                 brightness = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Brightness = brightness;
+                if (ImgElement is not null)
+                    ImgElement.Brightness = brightness;
             }
         }
 
@@ -114,8 +85,8 @@ namespace Phototis
             {
                 saturation = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Saturation = saturation;
+                if (ImgElement is not null)
+                    ImgElement.Saturation = saturation;
             }
         }
 
@@ -128,8 +99,8 @@ namespace Phototis
             {
                 sepia = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Sepia = sepia;
+                if (ImgElement is not null)
+                    ImgElement.Sepia = sepia;
             }
         }
 
@@ -142,8 +113,8 @@ namespace Phototis
             {
                 invert = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Invert = invert;
+                if (ImgElement is not null)
+                    ImgElement.Invert = invert;
             }
         }
 
@@ -156,8 +127,8 @@ namespace Phototis
             {
                 hue = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Hue = hue;
+                if (ImgElement is not null)
+                    ImgElement.Hue = hue;
             }
         }
 
@@ -170,8 +141,8 @@ namespace Phototis
             {
                 blur = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Blur = blur;
+                if (ImgElement is not null)
+                    ImgElement.Blur = blur;
             }
         }
 
@@ -184,8 +155,8 @@ namespace Phototis
             {
                 opacity = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Opacity = opacity;
+                if (ImgElement is not null)
+                    ImgElement.Opacity = opacity;
             }
         }
 
@@ -198,8 +169,8 @@ namespace Phototis
             {
                 rotation = value;
 
-                if (htmlImageElement is not null)
-                    htmlImageElement.Rotation = rotation;
+                if (ImgElement is not null)
+                    ImgElement.Rotation = rotation;
             }
         }
 
@@ -219,10 +190,10 @@ namespace Phototis
         {
             if (dependencyObject is PhotoElement image)
             {
-                if (image.htmlImageElement is not null)
+                if (image.ImgElement is not null)
                 {
-                    image.htmlImageElement.Id = image.Id;
-                    image.htmlImageElement.Source = image.Source;
+                    image.ImgElement.Id = image.Id;
+                    image.ImgElement.Source = image.Source;
                 }
             }
         }
@@ -237,8 +208,8 @@ namespace Phototis
         {
             var id = Id;
             var src = Source;
-            var filter = htmlImageElement.GetCssFilter();
-            var rotation = htmlImageElement.Rotation;
+            var filter = ImgElement.GetCssFilter();
+            var rotation = ImgElement.Rotation;
             var extension = Extenstion;
 
             var function = $"exportImage('{id}','{filter}',{rotation},'{src}','{extension}')";
@@ -257,8 +228,6 @@ namespace Phototis
             ImageHue = 0;
             ImageBlur = 0;
             ImageOpacity = 1;
-            ImageScaleX = 1;
-            ImageScaleY = 1;
         }
 
         #endregion
