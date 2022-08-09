@@ -851,6 +851,9 @@ namespace Phototis
             SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
             SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
 
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = 1;
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = 1;
+
             //if (SelectedPhotoElementInEditingContext is not null && !(SelectedPhotoElementInEditingContext.Child as PhotoElement).Source.IsNullOrBlank())
             //    (SelectedPhotoElementInEditingContext.Child as PhotoElement).Reset();
         }

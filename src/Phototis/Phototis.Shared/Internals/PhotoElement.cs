@@ -249,10 +249,12 @@ namespace Phototis
             var id = Id;
             var src = Source;
             var filter = ImgElement.GetCssFilter();
-            var rotation = ImgElement.Rotation;
+            var angle = ImgElement.Rotation;
             var extension = Extenstion;
+            var scaleX = ImageScaleX;
+            var scaleY = ImageScaleY;
 
-            var function = $"exportImage('{id}','{filter}',{rotation},'{src}','{extension}')";
+            var function = $"exportImage('{id}','{filter}',{angle},{scaleX},{scaleY},'{src}','{extension}')";
 
             WebAssemblyRuntime.InvokeJS(function);
         }

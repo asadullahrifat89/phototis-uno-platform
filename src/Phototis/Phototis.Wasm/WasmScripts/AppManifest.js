@@ -4,7 +4,7 @@
     displayName: "Phototis"
 }
 
-function exportImage(id, filter, angle, src, extension) {
+function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
 
     var image = new Image();
     image.style = "object-fit:contain";
@@ -28,6 +28,18 @@ function exportImage(id, filter, angle, src, extension) {
         var ctx = canvas.getContext('2d');
 
         ctx.filter = filter;
+
+        ctx.scale(scaleX, scaleY); // Set scale to flip the image
+
+        var posX = 0;
+        var posY = 0;
+
+        if (scaleX == -1) {
+            posX = image.width * -1; // Set x position to -100% if flip horizontal 
+        }
+        if (scaleY == -1) {
+            posY = image.height * -1; // Set y position to -100% if flip vertical
+        }
 
         if (angle > 0) {
             if (angle == 90 || angle == 270) {
@@ -58,11 +70,11 @@ function exportImage(id, filter, angle, src, extension) {
                 // Translate back to the top left of our image  
                 ctx.translate(-image.width * 0.5, -image.height * 0.5);
 
-                drawImageProp(ctx, image, 0, 0, this.width, this.height);
+                drawImageProp(ctx, image, posX, posY, this.width, this.height);
             }
         }
         else {
-            drawImageProp(ctx, image, 0, 0, this.width, this.height);
+            drawImageProp(ctx, image, posX, posY, this.width, this.height);
         }
 
         var type = "image/" + extension;
