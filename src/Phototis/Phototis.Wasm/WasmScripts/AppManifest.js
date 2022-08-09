@@ -84,8 +84,6 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
                 // since images draw from top-left offset the draw by 1/2 width & height
                 ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
-                //drawImageProp(ctx, image, posX, posY, this.width, this.height);
-
                 // Translate back to the top left of our image  
                 ctx.translate(-image.width / 2, -image.height / 2);
             }
