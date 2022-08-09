@@ -15,31 +15,38 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
 
     image.onload = function () {
 
-        // flip height and width according to rotation angle
-        if (angle == 90 || angle == 270) {
-            canvas.height = this.width;
-            canvas.width = this.height;
-        }
-        else {
-            canvas.height = this.height;
-            canvas.width = this.width;
-        }
-
-        var ctx = canvas.getContext('2d');
-
-        ctx.filter = filter;
-
-        ctx.scale(scaleX, scaleY); // Set scale to flip the image
-
         var posX = 0;
         var posY = 0;
 
-        if (scaleX == -1) {
-            posX = image.width * -1; // Set x position to -100% if flip horizontal 
+        var ctx = canvas.getContext('2d');
+
+        // flip height and width according to rotation angle
+        if (angle == 90 || angle == 270) {
+
+            canvas.width = this.height;
+            canvas.height = this.width;
+
+            if (scaleX == -1) {
+                posX = this.height * -1; // Set x position to -100% if flip horizontal 
+            }
+            if (scaleY == -1) {
+                posY = this.width * -1; // Set y position to -100% if flip vertical
+            }
         }
-        if (scaleY == -1) {
-            posY = image.height * -1; // Set y position to -100% if flip vertical
+        else {
+
+            canvas.width = this.width;
+            canvas.height = this.height;
+
+            if (scaleX == -1) {
+                posX = this.width * -1; // Set x position to -100% if flip horizontal 
+            }
+            if (scaleY == -1) {
+                posY = this.height * -1; // Set y position to -100% if flip vertical
+            }
         }
+
+        ctx.filter = filter;
 
         if (angle > 0) {
             if (angle == 90 || angle == 270) {
@@ -50,12 +57,14 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
                 // roate the canvas by angle
                 ctx.rotate(DegToRad(angle));
 
+                ctx.scale(scaleX, scaleY); // Set scale to flip the image
+
                 // draw the image
                 // since images draw from top-left offset the draw by 1/2 width & height
                 ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
                 // un-rotate the canvas by -angle
-                ctx.rotate(-DegToRad(angle));
+                ctx.rotate(-DegToRad(angle));               
 
                 // un-translate the canvas back to origin==top-left canvas
                 ctx.translate(-canvas.width / 2, -canvas.height / 2);
@@ -67,13 +76,16 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
                 // Perform the rotation  
                 ctx.rotate(DegToRad(angle));
 
+                ctx.scale(scaleX, scaleY); // Set scale to flip the image
+
                 // Translate back to the top left of our image  
                 ctx.translate(-image.width * 0.5, -image.height * 0.5);
-
+               
                 drawImageProp(ctx, image, posX, posY, this.width, this.height);
             }
         }
         else {
+            ctx.scale(scaleX, scaleY); // Set scale to flip the image
             drawImageProp(ctx, image, posX, posY, this.width, this.height);
         }
 

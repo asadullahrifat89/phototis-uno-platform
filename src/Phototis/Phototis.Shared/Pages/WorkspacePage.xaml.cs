@@ -818,20 +818,6 @@ namespace Phototis
             SelectedPicture.Visibility = Visibility.Visible;
         }
 
-        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
-        {
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).Clone(SelectedPhotoElementInWorkspace);
-            ImageEditToggle.IsChecked = false;
-        }
-
-        private void ImageCopyButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedPhotoElementInWorkspace is not null)
-            {
-                AddPhotoElementToWorkspace(ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)); // copy
-            }
-        }
-
         private void ImageUndoButton_Click(object sender, RoutedEventArgs e)
         {
             GrayScaleSlider.Value = 0;
@@ -845,17 +831,29 @@ namespace Phototis
             RotateSlider.Value = 0;
 
             OpacitySlider.Value = 1;
+
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = 1;
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = 1;
+
             ZoomSlider.Value = 550 * GetScalingFactor();
 
             // set height and width for the image container
             SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
             SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
+        }
 
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = 1;
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = 1;
+        private void ImageCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).Clone(SelectedPhotoElementInWorkspace);
+            ImageEditToggle.IsChecked = false;
+        }
 
-            //if (SelectedPhotoElementInEditingContext is not null && !(SelectedPhotoElementInEditingContext.Child as PhotoElement).Source.IsNullOrBlank())
-            //    (SelectedPhotoElementInEditingContext.Child as PhotoElement).Reset();
+        private void ImageCopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElementInWorkspace is not null)
+            {
+                AddPhotoElementToWorkspace(ImageFiles.FirstOrDefault(x => x.Id == SelectedPhotoElementInWorkspace.Id)); // copy
+            }
         }
 
         private void ImageExportButton_Click(object sender, RoutedEventArgs e)
