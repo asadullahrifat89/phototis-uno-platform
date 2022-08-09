@@ -469,52 +469,52 @@ namespace Phototis
 
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void ContrastToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void BrightnessToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void SaturationToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void SepiaToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void InvertToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void HueToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void BlurToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void ZoomToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void RotateToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
         }
 
         private void FlipHToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -543,19 +543,19 @@ namespace Phototis
 
         private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
         }
 
         private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
         }
 
         #endregion
 
-        private void UnCheckAllToggleButtonsExcept(ToggleButton senderToggleButton)
+        private void UnCheckAllToggleButtonsExcept(ToggleButton senderToggleButton, StackPanel buttonsPanel)
         {
-            foreach (ToggleButton toggleButton in EditToolsToggleButtonsPanel.Children.OfType<ToggleButton>().Where(x => x.Name != senderToggleButton.Name))
+            foreach (ToggleButton toggleButton in buttonsPanel.Children.OfType<ToggleButton>().Where(x => x.Name != senderToggleButton.Name))
             {
                 toggleButton.IsChecked = false;
             }
