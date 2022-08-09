@@ -517,14 +517,24 @@ namespace Phototis
             UnCheckAllToggleButtonsExcept(sender as ToggleButton);
         }
 
-        private void FlipHButton_Click(object sender, RoutedEventArgs e)
+        private void FlipHToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX * -1;
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = -1;
         }
 
-        private void FlipVButton_Click(object sender, RoutedEventArgs e)
+        private void FlipVToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY * -1;
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = -1;
+        }
+
+        private void FlipHToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = 1;
+        }
+
+        private void FlipVToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = 1;
         }
 
         #endregion
@@ -766,8 +776,6 @@ namespace Phototis
             {
                 Workspace.Opacity = 0.3;
 
-                //ZoomSlider.Value = 550 * GetScalingFactor();
-
                 // set height and width for the image container
                 SelectedPhotoElementInEditingContext.Height = windowHeight - 270;
                 SelectedPhotoElementInEditingContext.Width = windowWidth - 100;
@@ -803,6 +811,9 @@ namespace Phototis
                 OpacitySlider.Value = SelectedPhotoElementInWorkspace.ImageOpacity;
                 RotateSlider.Value = SelectedPhotoElementInWorkspace.ImageRotation;
 
+                FlipHToggleButton.IsChecked = SelectedPhotoElementInWorkspace.ImageScaleX < 0;
+                FlipVToggleButton.IsChecked = SelectedPhotoElementInWorkspace.ImageScaleY < 0;
+
                 // Hide the cirle picture
                 SelectedPicture.Visibility = Visibility.Collapsed;
 
@@ -832,8 +843,8 @@ namespace Phototis
 
             OpacitySlider.Value = 1;
 
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = 1;
-            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = 1;
+            FlipHToggleButton.IsChecked = false;
+            FlipVToggleButton.IsChecked = false;
 
             ZoomSlider.Value = 550 * GetScalingFactor();
 
