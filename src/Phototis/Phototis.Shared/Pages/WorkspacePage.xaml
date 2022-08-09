@@ -253,7 +253,7 @@
                         CornerRadius="100"
                         ToolTipService.ToolTip="Export"
                         Visibility="{x:Bind Path=!ImageEditToggle.IsChecked, Mode=OneWay}">
-                        <SymbolIcon Symbol="SaveLocal" />
+                        <SymbolIcon Symbol="Download" />
                     </Button>
 
                     <!--  Delete image  -->

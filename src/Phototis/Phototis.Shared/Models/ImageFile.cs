@@ -12,12 +12,12 @@ namespace Phototis
         }
 
         /// <summary>
-        /// Unique id of the photo.
+        /// Unique id of the image.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// File name of the photo.
+        /// File name of image.
         /// </summary>
         public string Name { get; set; }
 
