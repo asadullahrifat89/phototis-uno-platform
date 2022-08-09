@@ -5,9 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Phototis.Shared", "Phototis\Phototis.Shared\Phototis.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{AFFB4D2A-642B-4F15-AC90-8CED856C1B65}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phototis.Wasm", "Phototis\Phototis.Wasm\Phototis.Wasm.csproj", "{9267BBBA-1BB6-4786-B860-3D33A1A1B45E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phototis.Wasm", "Phototis\Phototis.Wasm\Phototis.Wasm.csproj", "{9267BBBA-1BB6-4786-B860-3D33A1A1B45E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,9 +20,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9267BBBA-1BB6-4786-B860-3D33A1A1B45E} = {AFFB4D2A-642B-4F15-AC90-8CED856C1B65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B23885FA-B601-419E-BF4C-DAFE82E18BCB}
