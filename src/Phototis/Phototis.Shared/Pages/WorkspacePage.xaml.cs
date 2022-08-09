@@ -461,7 +461,7 @@ namespace Phototis
 
         #endregion
 
-        #region Filters
+        #region Edit
 
         #region Toggles
 
@@ -515,6 +515,16 @@ namespace Phototis
         private void RotateToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             UnCheckAllToggleButtonsExcept(sender as ToggleButton);
+        }
+
+        private void FlipHButton_Click(object sender, RoutedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX = (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleX * -1;
+        }
+
+        private void FlipVButton_Click(object sender, RoutedEventArgs e)
+        {
+            (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY = (SelectedPhotoElementInEditingContext.Child as PhotoElement).ImageScaleY * -1;
         }
 
         #endregion

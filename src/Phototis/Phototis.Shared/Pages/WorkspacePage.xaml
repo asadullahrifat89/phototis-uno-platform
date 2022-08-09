@@ -404,6 +404,18 @@
                                 Checked="RotateToggleButton_Checked"
                                 Content="Rotate"
                                 CornerRadius="50" />
+                            <Button
+                                Name="FlipHButton"
+                                Margin="5"
+                                Click="FlipHButton_Click"
+                                Content="Flip H"
+                                CornerRadius="50" />
+                            <Button
+                                Name="FlipVButton"
+                                Margin="5"
+                                Click="FlipVButton_Click"
+                                Content="Flip V"
+                                CornerRadius="50" />
                             <ToggleButton
                                 Name="ZoomToggleButton"
                                 Margin="5"

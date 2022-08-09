@@ -43,122 +43,146 @@ namespace Phototis
         }
 
 
-        private double _Grayscale = 0;
+        private double grayscale = 0;
 
         public double Grayscale
         {
-            get { return _Grayscale; }
+            get { return grayscale; }
             set
             {
-                _Grayscale = value;
+                grayscale = value;
                 SetProperties();
             }
         }
 
-        private double _Contrast = 100;
+        private double contrast = 100;
 
         public double Contrast
         {
-            get { return _Contrast; }
+            get { return contrast; }
             set
             {
-                _Contrast = value;
+                contrast = value;
                 SetProperties();
             }
         }
 
-        private double _Brightness = 100;
+        private double brightness = 100;
 
         public double Brightness
         {
-            get { return _Brightness; }
+            get { return brightness; }
             set
             {
-                _Brightness = value;
+                brightness = value;
                 SetProperties();
             }
         }
 
-        private double _Saturation = 100;
+        private double saturation = 100;
 
         public double Saturation
         {
-            get { return _Saturation; }
+            get { return saturation; }
             set
             {
-                _Saturation = value;
+                saturation = value;
                 SetProperties();
             }
         }
 
-        private double _Sepia = 0;
+        private double sepia = 0;
 
         public double Sepia
         {
-            get { return _Sepia; }
+            get { return sepia; }
             set
             {
-                _Sepia = value;
+                sepia = value;
                 SetProperties();
             }
         }
 
-        private double _Invert = 0;
+        private double invert = 0;
 
         public double Invert
         {
-            get { return _Invert; }
+            get { return invert; }
             set
             {
-                _Invert = value;
+                invert = value;
                 SetProperties();
             }
         }
 
-        private double _Hue = 0;
+        private double hue = 0;
 
         public double Hue
         {
-            get { return _Hue; }
+            get { return hue; }
             set
             {
-                _Hue = value;
+                hue = value;
                 SetProperties();
             }
         }
 
-        private double _Blur = 0;
+        private double blur = 0;
 
         public double Blur
         {
-            get { return _Blur; }
+            get { return blur; }
             set
             {
-                _Blur = value;
+                blur = value;
                 SetProperties();
             }
         }
 
-        private double _Opacity = 1;
+        private double opacity = 1;
 
         public new double Opacity
         {
-            get { return _Opacity; }
+            get { return opacity; }
             set
             {
-                _Opacity = value;
+                opacity = value;
                 SetProperties();
             }
         }
 
-        private double _Rotation = 0;
+        private double rotation = 0;
 
         public new double Rotation
         {
-            get { return _Rotation; }
+            get { return rotation; }
             set
             {
-                _Rotation = value;
+                rotation = value;
+                SetProperties();
+            }
+        }
+
+        private double scaleX = 1;
+
+        public double ScaleX
+        {
+            get { return scaleX; }
+            set
+            {
+                scaleX = value;
+                SetProperties();
+            }
+        }
+
+        private double scaleY = 1;
+
+        public double ScaleY
+        {
+            get { return scaleY; }
+            set
+            {
+                scaleY = value;
                 SetProperties();
             }
         }
@@ -190,12 +214,12 @@ namespace Phototis
         #region Methods
         public string GetCssFilter()
         {
-            return $"grayscale({_Grayscale}%) contrast({_Contrast}%) brightness({_Brightness}%) saturate({_Saturation}%) sepia({_Sepia}%) invert({_Invert}%) hue-rotate({_Hue}deg) blur({_Blur}px)";
+            return $"grayscale({grayscale}%) contrast({contrast}%) brightness({brightness}%) saturate({saturation}%) sepia({sepia}%) invert({invert}%) hue-rotate({hue}deg) blur({blur}px)";
         }
       
         public void SetProperties()
         {
-            this.SetCssStyle(("filter", GetCssFilter() + $" drop-shadow(0 0 0.75rem crimson)"),("opacity", $"{_Opacity}"),("transform", $"rotate({_Rotation}deg)"));
+            this.SetCssStyle(("filter", GetCssFilter() + $" drop-shadow(0 0 0.75rem crimson)"),("opacity", $"{opacity}"),("transform", $"rotate({rotation}deg) scaleX({scaleX}) scaleY({scaleY})"));
         }
 
         #endregion

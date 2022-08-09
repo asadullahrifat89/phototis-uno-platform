@@ -43,6 +43,8 @@ namespace Phototis
         {
             target.Id = source.Id;
             target.Source = source.Source;
+            target.Extenstion = source.Extenstion;
+
             target.ImageGrayscale = source.ImageGrayscale;
             target.ImageContrast = source.ImageContrast;
             target.ImageBrightness = source.ImageBrightness;
@@ -53,7 +55,8 @@ namespace Phototis
             target.ImageBlur = source.ImageBlur;
             target.ImageOpacity = source.ImageOpacity;
             target.ImageRotation = source.ImageRotation;
-            target.Extenstion = source.Extenstion;
+            target.ImageScaleX = source.ImageScaleX;
+            target.ImageScaleY = source.ImageScaleY;
         }
     }
 }

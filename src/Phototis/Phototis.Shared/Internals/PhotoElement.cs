@@ -32,7 +32,19 @@ namespace Phototis
 
         #region Properties
 
-        public string Id { get; set; }
+        private string id;
+
+        public string Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                if (ImgElement is not null)
+                    ImgElement.Id = id;
+            }
+        }
+
 
         private double grayscale = 0;
 
@@ -174,6 +186,34 @@ namespace Phototis
             }
         }
 
+        private double scaleX = 1;
+
+        public double ImageScaleX
+        {
+            get { return scaleX; }
+            set
+            {
+                scaleX = value;
+
+                if (ImgElement is not null)
+                    ImgElement.ScaleX = scaleX;
+            }
+        }
+
+        private double scaleY = 1;
+
+        public double ImageScaleY
+        {
+            get { return scaleY; }
+            set
+            {
+                scaleY = value;
+
+                if (ImgElement is not null)
+                    ImgElement.ScaleY = scaleY;
+            }
+        }
+
         #endregion
 
         #region Dependency Properties
@@ -215,19 +255,6 @@ namespace Phototis
             var function = $"exportImage('{id}','{filter}',{rotation},'{src}','{extension}')";
 
             WebAssemblyRuntime.InvokeJS(function);
-        }
-
-        public void Reset()
-        {
-            ImageGrayscale = 0;
-            ImageContrast = 100;
-            ImageBrightness = 100;
-            ImageSaturation = 100;
-            ImageSepia = 0;
-            ImageInvert = 0;
-            ImageHue = 0;
-            ImageBlur = 0;
-            ImageOpacity = 1;
         }
 
         #endregion
