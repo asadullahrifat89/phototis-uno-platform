@@ -25,30 +25,16 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
 
             canvas.width = this.height;
             canvas.height = this.width;
-
-            if (scaleX == -1) {
-                posX = this.height * -1; // Set x position to -100% if flip horizontal 
-            }
-            if (scaleY == -1) {
-                posY = this.width * -1; // Set y position to -100% if flip vertical
-            }
         }
         else {
-
             canvas.width = this.width;
             canvas.height = this.height;
-
-            if (scaleX == -1) {
-                posX = this.width * -1; // Set x position to -100% if flip horizontal 
-            }
-            if (scaleY == -1) {
-                posY = this.height * -1; // Set y position to -100% if flip vertical
-            }
         }
 
         ctx.filter = filter;
 
         if (angle > 0) {
+
             if (angle == 90 || angle == 270) {
                 // translate to center-canvas 
                 // the origin [0,0] is now center-canvas
@@ -89,8 +75,17 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
             }
         }
         else {
+
+            if (scaleX == -1) {
+                posX = this.width * -1; // Set x position to -100% if flip horizontal 
+            }
+            if (scaleY == -1) {
+                posY = this.height * -1; // Set y position to -100% if flip vertical
+            }
+
             ctx.scale(scaleX, scaleY); // Set scale to flip the image
-            drawImageProp(ctx, image, posX, posY, this.width, this.height);
+
+            ctx.drawImage(image, posX, posY, this.width, this.height);
         }
 
         var type = "image/" + extension;
@@ -121,20 +116,6 @@ function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
 function DegToRad(d) {
     // Converts degrees to radians  
     return d * 0.01745;
-}
-
-// ctx is canvas 2D context
-// angle is rotation in radians
-// image is the image to draw
-function drawToFitRotated(ctx, angle, image) {
-    var dist = Math.sqrt(Math.pow(ctx.canvas.width / 2, 2) + Math.pow(ctx.canvas.height / 2, 2));
-    var imgDist = Math.min(image.width, image.height) / 2;
-    var minScale = dist / imgDist;
-    var dx = Math.cos(angle) * minScale;
-    var dy = Math.sin(angle) * minScale;
-    ctx.setTransform(dx, dy, -dy, dx, ctx.canvas.width / 2, ctx.canvas.height / 2);
-    ctx.drawImage(image, -image.width / 2, - image.height / 2);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
