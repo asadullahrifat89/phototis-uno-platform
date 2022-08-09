@@ -109,7 +109,6 @@ namespace Phototis
             }
         }
 
-
         private PhotoElement selectedPhotoElementInWorkspace;
         public PhotoElement SelectedPhotoElementInWorkspace
         {
@@ -242,7 +241,11 @@ namespace Phototis
             uielement.Opacity = 1;
         }
 
-        private async Task<ContentDialogResult> ShowContentDialog(string title, object content, string okButtonText = "Ok", string cancelButtonText = "Cancel")
+        private async Task<ContentDialogResult> ShowContentDialog(
+            string title,
+            object content,
+            string okButtonText = "Ok",
+            string cancelButtonText = "Cancel")
         {
             ContentDialog dialog = new ContentDialog
             {
@@ -264,6 +267,14 @@ namespace Phototis
         {
             BusyIndicatorText.Text = isBusy ? message : null;
             App.SetIsBusy(isBusy);
+        }
+
+        private void UnCheckAllToggleButtonsExcept(ToggleButton senderToggleButton, StackPanel buttonsPanel)
+        {
+            foreach (ToggleButton toggleButton in buttonsPanel.Children.OfType<ToggleButton>().Where(x => x.Name != senderToggleButton.Name))
+            {
+                toggleButton.IsChecked = false;
+            }
         }
 
         #endregion
@@ -465,8 +476,6 @@ namespace Phototis
 
         #region Toggles
 
-        #region Edit
-
         private void GrayscaleToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             UnCheckAllToggleButtonsExcept(sender as ToggleButton, EditToolsToggleButtonsPanel);
@@ -539,33 +548,7 @@ namespace Phototis
 
         #endregion
 
-        #region Settings
-
-        private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
-        }
-
-        private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
-        }
-
-        #endregion
-
-        private void UnCheckAllToggleButtonsExcept(ToggleButton senderToggleButton, StackPanel buttonsPanel)
-        {
-            foreach (ToggleButton toggleButton in buttonsPanel.Children.OfType<ToggleButton>().Where(x => x.Name != senderToggleButton.Name))
-            {
-                toggleButton.IsChecked = false;
-            }
-        }
-
-        #endregion
-
-        #region Sliders
-
-        #region Edit
+        #region Sliders       
 
         private void GrayScaleSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -620,7 +603,45 @@ namespace Phototis
 
         #endregion
 
+        #endregion
+
         #region Settings
+
+        #region Buttons
+
+        private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElementInWorkspace is not null)
+            {
+                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
+            }
+        }
+
+        private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPhotoElementInWorkspace is not null)
+            {
+                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) + 1);
+            }
+        }
+
+        #endregion
+
+        #region Toggles
+
+        private void SizeToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
+        }
+
+        private void OpacityToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UnCheckAllToggleButtonsExcept(sender as ToggleButton, SettingsToolsToggleButtonsPanel);
+        }
+
+        #endregion
+
+        #region Sliders
 
         private void OpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -631,9 +652,7 @@ namespace Phototis
         {
             SelectedPhotoElementInWorkspace.Width = e.NewValue;
             SelectedPhotoElementInWorkspace.Height = e.NewValue;
-        }
-
-        #endregion
+        } 
 
         #endregion
 
@@ -898,22 +917,6 @@ namespace Phototis
         private void ImageSettingsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             //SettingsTools.Visibility = Visibility.Collapsed;
-        }
-
-        private void ImageSendBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedPhotoElementInWorkspace is not null)
-            {
-                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) - 1);
-            }
-        }
-
-        private void ImageBringForwardButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedPhotoElementInWorkspace is not null)
-            {
-                Canvas.SetZIndex(SelectedPhotoElementInWorkspace, Canvas.GetZIndex(SelectedPhotoElementInWorkspace) + 1);
-            }
         }
 
         #endregion
