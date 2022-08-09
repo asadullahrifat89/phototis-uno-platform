@@ -4,7 +4,7 @@
     displayName: "Phototis"
 }
 
-function exportImage(id, filter, angle, src, extension) {
+function exportImage(id, filter, angle, scaleX, scaleY, src, extension) {
 
     var image = new Image();
     image.style = "object-fit:contain";
@@ -15,17 +15,36 @@ function exportImage(id, filter, angle, src, extension) {
 
     image.onload = function () {
 
-        // flip height and width according to rotation angle
-        if (angle == 90 || angle == 270) {
-            canvas.height = this.width;
-            canvas.width = this.height;
-        }
-        else {
-            canvas.height = this.height;
-            canvas.width = this.width;
-        }
+        var posX = 0;
+        var posY = 0;
 
         var ctx = canvas.getContext('2d');
+
+        // flip height and width according to rotation angle
+        if (angle == 90 || angle == 270) {
+
+            canvas.width = this.height;
+            canvas.height = this.width;
+
+            if (scaleX == -1) {
+                posX = this.height * -1; // Set x position to -100% if flip horizontal 
+            }
+            if (scaleY == -1) {
+                posY = this.width * -1; // Set y position to -100% if flip vertical
+            }
+        }
+        else {
+
+            canvas.width = this.width;
+            canvas.height = this.height;
+
+            if (scaleX == -1) {
+                posX = this.width * -1; // Set x position to -100% if flip horizontal 
+            }
+            if (scaleY == -1) {
+                posY = this.height * -1; // Set y position to -100% if flip vertical
+            }
+        }
 
         ctx.filter = filter;
 
@@ -37,6 +56,9 @@ function exportImage(id, filter, angle, src, extension) {
 
                 // roate the canvas by angle
                 ctx.rotate(DegToRad(angle));
+
+                // Set scale to flip the image
+                ctx.scale(scaleX, scaleY);
 
                 // draw the image
                 // since images draw from top-left offset the draw by 1/2 width & height
@@ -50,19 +72,25 @@ function exportImage(id, filter, angle, src, extension) {
             }
             else {
                 // Translate to the center point of our image 
-                ctx.translate(image.width * 0.5, image.height * 0.5);
+                ctx.translate(image.width / 2, image.height / 2);
 
                 // Perform the rotation  
                 ctx.rotate(DegToRad(angle));
 
-                // Translate back to the top left of our image  
-                ctx.translate(-image.width * 0.5, -image.height * 0.5);
+                // Set scale to flip the image
+                ctx.scale(scaleX, scaleY);
 
-                drawImageProp(ctx, image, 0, 0, this.width, this.height);
+                // draw the image
+                // since images draw from top-left offset the draw by 1/2 width & height
+                ctx.drawImage(image, -image.width / 2, -image.height / 2);
+
+                // Translate back to the top left of our image  
+                ctx.translate(-image.width / 2, -image.height / 2);
             }
         }
         else {
-            drawImageProp(ctx, image, 0, 0, this.width, this.height);
+            ctx.scale(scaleX, scaleY); // Set scale to flip the image
+            drawImageProp(ctx, image, posX, posY, this.width, this.height);
         }
 
         var type = "image/" + extension;

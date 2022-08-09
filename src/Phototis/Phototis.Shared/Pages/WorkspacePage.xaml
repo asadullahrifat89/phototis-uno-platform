@@ -346,70 +346,88 @@
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
                         Visibility="{x:Bind Path=ImageEditToggle.IsChecked, Mode=OneWay}">
-                        <StackPanel
-                            Name="EditToolsToggleButtonsPanel"
-                            Margin="5"
-                            Orientation="Horizontal">
-                            <ToggleButton
-                                Name="BrightnessToggleButton"
-                                Margin="5"
-                                Checked="BrightnessToggleButton_Checked"
-                                Content="Brightness"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="ContrastToggleButton"
-                                Margin="5"
-                                Checked="ContrastToggleButton_Checked"
-                                Content="Contrast"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="SaturationToggleButton"
-                                Margin="5"
-                                Checked="SaturationToggleButton_Checked"
-                                Content="Saturation"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="GrayscaleToggleButton"
-                                Margin="5"
-                                Checked="GrayscaleToggleButton_Checked"
-                                Content="Grayscale"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="SepiaToggleButton"
-                                Margin="5"
-                                Checked="SepiaToggleButton_Checked"
-                                Content="Sepia"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="InvertToggleButton"
-                                Margin="5"
-                                Checked="InvertToggleButton_Checked"
-                                Content="Invert"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="HueToggleButton"
-                                Margin="5"
-                                Checked="HueToggleButton_Checked"
-                                Content="Hue"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="BlurToggleButton"
-                                Margin="5"
-                                Checked="BlurToggleButton_Checked"
-                                Content="Blur"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="RotateToggleButton"
-                                Margin="5"
-                                Checked="RotateToggleButton_Checked"
-                                Content="Rotate"
-                                CornerRadius="50" />
-                            <ToggleButton
-                                Name="ZoomToggleButton"
-                                Margin="5"
-                                Checked="ZoomToggleButton_Checked"
-                                Content="Zoom"
-                                CornerRadius="50" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel
+                                Name="EditToolsToggleButtonsPanel"
+                                Margin="5,5,0,5"
+                                Orientation="Horizontal">
+                                <ToggleButton
+                                    Name="BrightnessToggleButton"
+                                    Margin="5"
+                                    Checked="BrightnessToggleButton_Checked"
+                                    Content="Brightness"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="ContrastToggleButton"
+                                    Margin="5"
+                                    Checked="ContrastToggleButton_Checked"
+                                    Content="Contrast"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="SaturationToggleButton"
+                                    Margin="5"
+                                    Checked="SaturationToggleButton_Checked"
+                                    Content="Saturation"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="GrayscaleToggleButton"
+                                    Margin="5"
+                                    Checked="GrayscaleToggleButton_Checked"
+                                    Content="Grayscale"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="SepiaToggleButton"
+                                    Margin="5"
+                                    Checked="SepiaToggleButton_Checked"
+                                    Content="Sepia"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="InvertToggleButton"
+                                    Margin="5"
+                                    Checked="InvertToggleButton_Checked"
+                                    Content="Invert"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="HueToggleButton"
+                                    Margin="5"
+                                    Checked="HueToggleButton_Checked"
+                                    Content="Hue"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="BlurToggleButton"
+                                    Margin="5"
+                                    Checked="BlurToggleButton_Checked"
+                                    Content="Blur"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="RotateToggleButton"
+                                    Margin="5"
+                                    Checked="RotateToggleButton_Checked"
+                                    Content="Rotate"
+                                    CornerRadius="50" />
+                                <ToggleButton
+                                    Name="ZoomToggleButton"
+                                    Margin="5"
+                                    Checked="ZoomToggleButton_Checked"
+                                    Content="Zoom"
+                                    CornerRadius="50" />
+                            </StackPanel>
+                            <StackPanel Margin="0,5,5,5" Orientation="Horizontal">
+                                <ToggleButton
+                                    Name="FlipHToggleButton"
+                                    Margin="5"
+                                    Checked="FlipHToggleButton_Checked"
+                                    Content="Flip H"
+                                    CornerRadius="50"
+                                    Unchecked="FlipHToggleButton_Unchecked" />
+                                <ToggleButton
+                                    Name="FlipVToggleButton"
+                                    Margin="5"
+                                    Checked="FlipVToggleButton_Checked"
+                                    Content="Flip V"
+                                    CornerRadius="50"
+                                    Unchecked="FlipVToggleButton_Unchecked" />
+                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
 
