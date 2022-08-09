@@ -301,7 +301,10 @@
                         VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled"
                         Visibility="{x:Bind Path=ImageSettingsToggle.IsChecked, Mode=OneWay}">
-                        <StackPanel Margin="5" Orientation="Horizontal">
+                        <StackPanel
+                            Name="SettingsToolsToggleButtonsPanel"
+                            Margin="5"
+                            Orientation="Horizontal">
                             <!--  Forward  -->
                             <Button
                                 Name="ImageBringForwardButton"
@@ -412,10 +415,7 @@
                                     Content="Zoom"
                                     CornerRadius="50" />
                             </StackPanel>
-                            <StackPanel
-                                Name="SettingsToolsToggleButtonsPanel"
-                                Margin="0,5,5,5"
-                                Orientation="Horizontal">
+                            <StackPanel Margin="0,5,5,5" Orientation="Horizontal">
                                 <ToggleButton
                                     Name="FlipHToggleButton"
                                     Margin="5"
