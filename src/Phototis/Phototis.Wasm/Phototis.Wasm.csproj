@@ -3,7 +3,7 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
 		<NoWarn>NU1701</NoWarn>
-		<LangVersion>9.0</LangVersion>
+		<LangVersion>10.0</LangVersion>
 		<RunAOTCompilation>true</RunAOTCompilation>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -46,21 +46,17 @@
 		<None Include="wwwroot\web.config" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.6.22324.4" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0-preview.6.22324.4" />
-		<PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.6.22324.4" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
 		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
-		<PackageReference Include="Uno.WinUI.WebAssembly" Version="4.5.0-dev.393" />
+		<PackageReference Include="Uno.WinUI.WebAssembly" Version="4.4.13" />
 		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.4.13" Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.393" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" Version="4.0.0-dev.174" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="4.0.0-dev.174" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.4.13" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
-	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />
-	<ItemGroup>
-	  <_Globbed_Compile Remove="..\Phototis.Shared\Internals\ImgElement.cs" />
-	</ItemGroup>
+	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />	
 </Project>
