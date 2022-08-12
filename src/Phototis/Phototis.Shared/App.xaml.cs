@@ -163,45 +163,6 @@ namespace Phototis
 
         #region Methods
 
-        public static void SetIsBusy(bool isBusy)
-        {
-            //_mainPage.SetIsBusy(isBusy, message);
-
-            var rootFrame = _window.Content as Frame;
-            rootFrame.IsEnabled = !isBusy;
-            rootFrame.Opacity = isBusy ? 0.6 : 1;
-        }
-
-        public static void EnterFullScreen(bool value)
-        {
-            var view = ApplicationView.GetForCurrentView();
-
-            if (view is not null)
-            {
-                if (value)
-                {
-                    view.TryEnterFullScreenMode();
-                    IsFullScreenToggled = true;
-                }
-                else
-                {
-                    view.ExitFullScreenMode();
-                    IsFullScreenToggled = false;
-                }
-            }
-        }
-
-        public static void SetAccount()
-        {
-            //_mainPage.SetAccount();
-        }
-
-        public static void NavigateToPage(Type page, object parameter = null)
-        {
-            var rootFrame = _window.Content as Frame;
-            rootFrame.Navigate(page, parameter);
-        }
-
         /// <summary>
         /// Configures global Uno Platform logging
         /// </summary>
@@ -270,6 +231,45 @@ namespace Phototis
 #endif
 
 #endif
+        }
+
+        public static void SetIsBusy(bool isBusy)
+        {
+            //_mainPage.SetIsBusy(isBusy, message);
+
+            var rootFrame = _window.Content as Frame;
+            rootFrame.IsEnabled = !isBusy;
+            rootFrame.Opacity = isBusy ? 0.6 : 1;
+        }
+
+        public static void EnterFullScreen(bool value)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (view is not null)
+            {
+                if (value)
+                {
+                    view.TryEnterFullScreenMode();
+                    IsFullScreenToggled = true;
+                }
+                else
+                {
+                    view.ExitFullScreenMode();
+                    IsFullScreenToggled = false;
+                }
+            }
+        }
+
+        public static void SetAccount()
+        {
+            //_mainPage.SetAccount();
+        }
+
+        public static void NavigateToPage(Type page, object parameter = null)
+        {
+            var rootFrame = _window.Content as Frame;
+            rootFrame.Navigate(page, parameter);
         }
 
         #endregion
