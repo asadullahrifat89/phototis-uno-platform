@@ -22,12 +22,15 @@
     <_Globbed_Compile Remove="Internals\WorkSpace.cs" />
     <_Globbed_Compile Remove="Models\Account.cs" />
     <_Globbed_Compile Remove="Models\Photo.cs" />
+    <_Globbed_Compile Remove="Pages\GameStartPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\ProjectsPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\StagePage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <_Globbed_Content Remove="Assets\PhototisLogo.png" />
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
+    <_Globbed_Content Remove="Assets\SplashScreen.svg" />
   </ItemGroup>
   <ItemGroup>
     <_Globbled_Page Remove="Pages\LoginPage.xaml" />

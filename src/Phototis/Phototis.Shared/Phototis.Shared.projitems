@@ -21,6 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\WorkSpace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\Phototis.Shared\Internals\ImgElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PhotoElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
@@ -33,6 +36,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

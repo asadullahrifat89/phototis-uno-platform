@@ -58,5 +58,8 @@
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
-	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />	
+	<Import Project="..\Phototis.Shared\Phototis.Shared.projitems" Label="Shared" Condition="Exists('..\Phototis.Shared\Phototis.Shared.projitems')" />
+	<ItemGroup>
+	  <_Globbed_Content Remove="Assets\SplashScreen.png" />
+	</ItemGroup>	
 </Project>
