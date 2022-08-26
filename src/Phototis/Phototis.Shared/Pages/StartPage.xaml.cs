@@ -15,7 +15,6 @@ namespace Phototis
         public StartPage()
         {
             InitializeComponent();
-
             Loaded += StartPage_Loaded;
         } 
 
@@ -29,9 +28,9 @@ namespace Phototis
         }
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.EnterFullScreen(true);
+        {            
             App.NavigateToPage(typeof(WorkspacePage));
+            App.EnterFullScreen(true);
         }
 
         #endregion

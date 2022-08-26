@@ -36,7 +36,6 @@
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
 
-
             <!--  Start button  -->
             <Button
                 x:Name="GoButton"
