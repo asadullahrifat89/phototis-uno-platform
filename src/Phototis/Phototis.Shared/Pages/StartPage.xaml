@@ -47,7 +47,7 @@
                 BorderThickness="3"
                 Click="GoButton_Click"
                 Content="GO TO STUDIO"
-                CornerRadius="50"
+                CornerRadius="15"
                 FontWeight="SemiBold"
                 Foreground="White" />
 
