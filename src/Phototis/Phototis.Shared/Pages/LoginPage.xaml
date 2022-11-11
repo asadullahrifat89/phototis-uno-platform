@@ -36,7 +36,7 @@
             <TextBox
                 x:Name="UserNameBox"
                 Margin="5"
-                CornerRadius="50"
+                CornerRadius="15"
                 FontWeight="SemiBold"
                 Header="Set a username"
                 KeyDown="UserNameBox_KeyDown"
@@ -45,7 +45,7 @@
             <!--<PasswordBox
                 x:Name="PasswordBox"
                 Margin="5"
-                CornerRadius="50"
+                CornerRadius="15"
                 Header="Password"
                 KeyDown="PasswordBox_KeyDown"
                 TextChanged="PasswordBox_TextChanged" />-->
@@ -61,7 +61,7 @@
                 BorderThickness="3"
                 Click="LoginButton_Click"
                 Content="Login"
-                CornerRadius="50"
+                CornerRadius="15"
                 FontWeight="SemiBold"
                 Foreground="White"
                 IsEnabled="False" />
@@ -79,7 +79,7 @@
                 BorderThickness="0"
                 Click="RegisterButton_Click"
                 Content="No account yet?"
-                CornerRadius="50"
+                CornerRadius="15"
                 FontWeight="SemiBold" />-->
 
             <TextBlock
