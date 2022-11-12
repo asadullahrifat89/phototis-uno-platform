@@ -3,7 +3,7 @@ A cross-platform photo editing studio in WebAssembly that lets you create your o
 
 ![master](https://github.com/asadullahrifat89/Phototis-Uno-Platform/actions/workflows/main.yml/badge.svg)
 
-Check out live: https://asadullahrifat89.github.io/Phototis-Uno-Platform/
+Check out live: https://asadullahrifat89.github.io/phototis-uno-platform/
 
 # Screenshots
 
