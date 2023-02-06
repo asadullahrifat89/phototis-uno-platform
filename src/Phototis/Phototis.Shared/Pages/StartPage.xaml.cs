@@ -30,7 +30,7 @@ namespace Phototis
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {            
             App.NavigateToPage(typeof(WorkspacePage));
-            App.EnterFullScreen(true);
+            //App.EnterFullScreen(true);
         }
 
         #endregion
